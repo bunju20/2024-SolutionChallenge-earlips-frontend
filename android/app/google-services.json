@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "259044561491",
+    "project_id": "earlips",
+    "storage_bucket": "earlips.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259044561491:android:5360f1c90f6eb55b2a2ca6",
+        "android_client_info": {
+          "package_name": "org.gdsc.snowflowerthon.earlips"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8-esc9KJUtuehkAOPcoKIu5JpC3Zb4BA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,8 +8,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:nightary/main.dart';
-import 'package:nightary/main_app.dart';
+import 'package:earlips/main.dart';
+import 'package:earlips/main_app.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

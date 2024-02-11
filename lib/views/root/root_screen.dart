@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nightary/views/home/home_screen.dart';
-import 'package:nightary/views/root/custom_bottom_navigation_bar.dart';
+import 'package:earlips/views/home/home_screen.dart';
+import 'package:earlips/views/root/custom_bottom_navigation_bar.dart';
 
 import '../../viewModels/root/root_viewmodel.dart';
 import '../base/base_screen.dart';
