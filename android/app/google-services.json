@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "259044561491",
+    "project_id": "earlips",
+    "storage_bucket": "earlips.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259044561491:android:5360f1c90f6eb55b2a2ca6",
+        "android_client_info": {
+          "package_name": "org.gdsc.snowflowerthon.earlips"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259044561491-ueqp0ldb920tn51r99he30h4j61d54nj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.gdsc.snowflowerthon.earlips",
+            "certificate_hash": "876b63fd0e487c39008624aabd6e760fbcd8fc4e"
+          }
+        },
+        {
+          "client_id": "259044561491-d5ckiv1jaddvd948e6etnk5jtg9drsk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8-esc9KJUtuehkAOPcoKIu5JpC3Zb4BA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259044561491-d5ckiv1jaddvd948e6etnk5jtg9drsk3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "259044561491-v1m736ku1h8erbkqsfo7pdeqecogbvl4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.gdsc.snowflowerthon.earlips"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

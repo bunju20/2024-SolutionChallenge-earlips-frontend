@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:nightary/viewModels/root/root_viewmodel.dart';
-import 'package:nightary/views/base/base_widget.dart';
+import 'package:earlips/viewModels/root/root_viewmodel.dart';
+import 'package:earlips/views/base/base_widget.dart';
 
 class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
   const CustomBottomNavigationBar({super.key});
