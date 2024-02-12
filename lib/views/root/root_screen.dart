@@ -1,3 +1,4 @@
+import 'package:earlips/views/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:earlips/views/home/home_screen.dart';
@@ -19,7 +20,7 @@ class RootScreen extends BaseScreen<RootViewModel> {
         index: viewModel.selectedIndex,
         children: const [
           HomeScreen(),
-          HomeScreen(),
+          LoginScreen(),
         ],
       ),
     );
