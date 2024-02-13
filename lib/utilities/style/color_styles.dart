@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ColorStyles {
+class ColorSystem {
   static const Color main = Color(0xFF1DA1FA);
   static const Color sub1 = Color(0xFF5588FD);
   static const Color sub2 = Color(0xFFC1D2FF);
