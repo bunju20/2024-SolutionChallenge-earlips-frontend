@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Future<void> showLogoutDialog(BuildContext context) async {
   return showDialog<void>(
@@ -18,14 +20,16 @@ Future<void> showLogoutDialog(BuildContext context) async {
           TextButton(
             child: const Text('취소'),
             onPressed: () {
-              Navigator.of(context).pop();
+              Get.back();
             },
           ),
           TextButton(
             child: const Text('로그아웃'),
-            onPressed: () {
+            onPressed: () async {
               // 로그아웃 처리
-              Navigator.of(context).pop();
+              // FirebaseAuth.instance.signOut();
+              await FirebaseAuth.instance.signOut();
+              Get.back();
             },
           ),
         ],
