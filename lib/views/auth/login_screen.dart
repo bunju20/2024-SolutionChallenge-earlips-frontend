@@ -1,7 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:earlips/services/auth/auth_service.dart';
+import 'package:earlips/views/auth/email_login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,6 +12,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  // AuthService 인스턴스 생성
+  final AuthService _authService = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,14 +22,13 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-              child: Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // --------------------- 구글 로그인 ---------------------
               InkWell(
                 onTap: () {
-                  // tap
-                  signInWithGoogle();
+                  _authService.signInWithGoogle();
                 },
                 child: Card(
                   margin: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -47,39 +50,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-              )
+              ),
+              const SizedBox(height: 20),
+              // --------------------- 이메일 로그인 ---------------------
+              ElevatedButton(
+                onPressed: () {
+                  Get.to(() => const EmailLoginScreen());
+                },
+                child: const Text("이메일 로그인"),
+              ),
             ],
-          ))
+          )
         ],
       )),
-    );
-  }
-
-  void signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance
-        .signInWithCredential(credential)
-        .then((value) {
-      print(value.user?.displayName);
-      print(value.user?.email);
-      print(value.user?.photoURL);
-    }).onError(
-      (error, stackTrace) {
-        print(error);
-      },
     );
   }
 }

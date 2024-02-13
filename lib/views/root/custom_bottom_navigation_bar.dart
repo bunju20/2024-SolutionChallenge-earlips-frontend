@@ -22,12 +22,12 @@ class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
           onTap: viewModel.changeIndex,
 
           // 아이템의 색상
-          unselectedItemColor: ColorStyles.gray3,
-          selectedItemColor: ColorStyles.main,
+          unselectedItemColor: ColorSystem.gray3,
+          selectedItemColor: ColorSystem.main,
 
           // 탭 애니메이션 변경 (fixed: 없음)
           type: BottomNavigationBarType.fixed,
-          backgroundColor: ColorStyles.white,
+          backgroundColor: ColorSystem.white,
 
           // Bar에 보여질 요소. icon과 label로 구성.
           items: <BottomNavigationBarItem>[
@@ -37,9 +37,9 @@ class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
                   height: 24,
                   colorFilter: viewModel.selectedIndex == 0
                       ? const ColorFilter.mode(
-                          ColorStyles.main, BlendMode.srcATop)
+                          ColorSystem.main, BlendMode.srcATop)
                       : const ColorFilter.mode(
-                          ColorStyles.gray3, BlendMode.srcATop),
+                          ColorSystem.gray3, BlendMode.srcATop),
                 ),
                 label: "홈"),
             BottomNavigationBarItem(
@@ -48,9 +48,9 @@ class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
                   height: 24,
                   colorFilter: viewModel.selectedIndex == 1
                       ? const ColorFilter.mode(
-                          ColorStyles.main, BlendMode.srcATop)
+                          ColorSystem.main, BlendMode.srcATop)
                       : const ColorFilter.mode(
-                          ColorStyles.gray3, BlendMode.srcATop),
+                          ColorSystem.gray3, BlendMode.srcATop),
                 ),
                 label: "내정보"),
           ],
