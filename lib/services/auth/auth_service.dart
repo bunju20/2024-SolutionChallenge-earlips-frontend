@@ -30,7 +30,7 @@ class AuthService {
       // 에러 발생시 에러 메시지 출력
       Get.snackbar(
         "구글 로그인 실패",
-        error.toString(),
+        "구글 로그인에 실패했습니다. 다시 시도해주세요.",
         snackPosition: SnackPosition.TOP,
       );
     }
