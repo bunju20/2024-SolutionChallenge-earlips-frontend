@@ -427,5 +427,5 @@ hs_err_pid*
 **/ios/firebase_app_id_file.json
 **/ios/Runner/GoogleService-Info.plist
 **/android/app/google-services.json
-
+**/lib/firebase_options.dart
 # End of https://www.toptal.com/developers/gitignore/api/xcode,macos,androidstudio,flutter,visualstudiocode,intellij,windows,dart
