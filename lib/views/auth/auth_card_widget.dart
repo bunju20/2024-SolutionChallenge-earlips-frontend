@@ -1,3 +1,4 @@
+import 'package:earlips/utilities/style/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -31,11 +32,15 @@ class AuthCard extends StatelessWidget {
               const SizedBox(width: 20),
               SvgPicture.asset(
                 iconPath,
-                height: 30,
+                height: label == "구글 계정으로 로그인" ? 30 : 25,
                 width: 30,
               ),
               const SizedBox(width: 20),
-              Text(label, style: const TextStyle(fontSize: 16)),
+              Text(label,
+                  style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: ColorSystem.black)),
             ],
           ),
         ),
