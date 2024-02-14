@@ -1,10 +1,8 @@
-import 'package:earlips/views/auth/login_screen.dart';
 import 'package:earlips/views/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:earlips/views/home/home_screen.dart';
 import 'package:earlips/views/root/custom_bottom_navigation_bar.dart';
-
 import '../../viewModels/root/root_viewmodel.dart';
 import '../base/base_screen.dart';
 

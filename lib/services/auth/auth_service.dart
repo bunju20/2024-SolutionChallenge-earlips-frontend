@@ -3,9 +3,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+
+  // 로그인 상태 확인
+  Future<bool> isLoggedIn() async {
+    final String? uid = await _storage.read(key: 'uid');
+    return uid != null && uid.isNotEmpty;
+  }
 
   Future<void> signInWithGoogle() async {
     try {
@@ -24,6 +32,9 @@ class AuthService {
       // 구글 로그인 성공시 UserCredential 반환
       await _auth.signInWithCredential(credential);
 
+      // uid 저장
+      await _storage.write(key: 'uid', value: _auth.currentUser?.uid);
+
       // 홈화면으로 이동
       Get.offAllNamed('/');
     } catch (error) {
@@ -34,5 +45,11 @@ class AuthService {
         snackPosition: SnackPosition.TOP,
       );
     }
+  }
+
+  // 로그아웃
+  Future<void> signOut() async {
+    await _auth.signOut();
+    await _storage.delete(key: 'uid');
   }
 }
