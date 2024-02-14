@@ -21,7 +21,7 @@ class ProfileHeader extends StatelessWidget {
             user != null
                 ? Text("오늘도 이어립스 해볼까요, ${user!.email}")
                 : GestureDetector(
-                    onTap: () => Get.to(() => const LoginScreen()),
+                    onTap: () => Get.to(() => LoginScreen()),
                     child: const Text(
                       "로그인 하러가기",
                       style: TextStyle(color: Colors.blue),
