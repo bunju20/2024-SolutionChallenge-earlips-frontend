@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:permission_handler/permission_handler.dart';
@@ -11,12 +13,20 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
   bool isRecording = false;
   TextEditingController textEditingController = TextEditingController();
   stt.SpeechToText speechToText = stt.SpeechToText();
+  Timer? _timer; // 자동으로 마이크 버튼을 누르기 위한 타이머
 
   @override
   void initState() {
     super.initState();
     requestPermission();
     speechToText.initialize(onError: (val) => print('Error: $val'), onStatus: (val) => print('Status: $val'));
+  }
+
+  @override
+  void dispose() {
+    // 위젯이 dispose될 때 타이머를 취소합니다.
+    _timer?.cancel();
+    super.dispose();
   }
 
   Future<void> requestPermission() async {
@@ -29,6 +39,10 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
   void toggleRecording() {
     if (isRecording) {
       stopListening();
+      // 자동으로 마이크 버튼을 누르기 위한 타이머 시작
+      _timer = Timer(Duration(seconds: 2), () {
+        toggleRecording(); // 2초 후에 다시 시작
+      });
     } else {
       startListening();
     }
@@ -40,24 +54,20 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
       print("The user has denied the use of speech recognition or an error occurred during initialization.");
       return;
     }
-    // 음성 인식을 시작하기 전에 텍스트 필드를 초기화합니다.
-    textEditingController.text = "";
     speechToText.listen(
       onResult: (result) {
         setState(() {
-          // 인식된 결과가 최종 결과인 경우에만 텍스트를 업데이트합니다.
           if (result.finalResult) {
-            // 기존에 누적되지 않도록 이전 결과를 덮어씁니다.
-            textEditingController.text = result.recognizedWords + " ";
+            // 기존 텍스트에 이어서 새로 인식된 텍스트를 추가합니다.
+            textEditingController.text += result.recognizedWords + " ";
           }
         });
       },
-      listenFor: const Duration(minutes: 1), // 최대 1분 동안 음성 인식을 수행합니다.
-      pauseFor: const Duration(seconds: 10), // 사용자가 말을 멈춘 후 10초 동안 대기합니다.
+      listenFor: const Duration(minutes: 1),
+      pauseFor: const Duration(seconds: 10),
     );
     setState(() => isRecording = true);
   }
-
 
   void stopListening() {
     speechToText.stop();
@@ -74,6 +84,14 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
         appBar: AppBar(
           title: Text('실시간 발음 테스트'),
           centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              // 뒤로 가기 버튼을 눌렀을 때 텍스트 필드를 초기화합니다.
+              textEditingController.text = "";
+              Navigator.of(context).pop();
+            },
+          ),
         ),
         body: Stack(
           children: [
