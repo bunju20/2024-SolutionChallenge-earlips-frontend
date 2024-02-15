@@ -30,7 +30,9 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
   }
   void handleStatus(String status) {
     print('Handling Status: $status'); // 현재 처리 중인 상태 로깅
-    if(handDone) return;
+    if(handDone) {
+      return;
+    }
     if (status == 'done') {
       print("Status is 'done'. Stopping and restarting listening.");
       stopListening();
@@ -63,6 +65,7 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
       handDone = true;
       stopListening();
     } else {
+      handDone = false;
       startListening();
     }
   }
@@ -113,6 +116,7 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
               // 뒤로 가기 버튼을 눌렀을 때 텍스트 필드를 초기화합니다.
               textEditingController.text = "";
               Navigator.of(context).pop();
+              handDone = false;
             },
           ),
         ),
