@@ -10,6 +10,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:earlips/views/script/learning_session_screen.dart';
+import '../realtime/real_create_script_screen.dart';
 
 
 class HomeScreen extends BaseScreen<HomeViewModel> {
@@ -165,33 +166,47 @@ class _Middle extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(left: 20.0),
-          height: Get.height * 0.21,
-          width: Get.width * 0.43,
-          decoration: BoxDecoration(
-            color: Color(0xFFFFFFFF),
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          child: Column(children: [
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(top: 20.0,bottom: 10.0),
-              child: SvgPicture.asset('assets/images/home/three_circle.svg',
-                  width: 85, height: 85),
+        InkWell(
+          onTap: () {
+            Get.to(() => RealCreateScriptPage()); // Adjust the screen name as necessary
+          },
+          child: Container(
+            margin: EdgeInsets.only(left: 20.0),
+            height: Get.height * 0.21,
+            width: Get.width * 0.43,
+            decoration: BoxDecoration(
+              color: Color(0xFFFFFFFF),
+              borderRadius: BorderRadius.circular(30.0),
             ),
-            Text("실시간 발음테스트",
-              style: TextStyle(
-                fontFamily: 'Pretendard-Bold',
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),),
-            Text("음성 인식 및 발음 테스트",
-              style: TextStyle(
-                fontFamily: 'Pretendard-Regular',
-                fontSize: 12,
-              ),)
-          ]),
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
+                  child: SvgPicture.asset(
+                    'assets/images/home/three_circle.svg',
+                    width: 85,
+                    height: 85,
+                  ),
+                ),
+                Text(
+                  "실시간 발음테스트",
+                  style: TextStyle(
+                    fontFamily: 'Pretendard-Bold',
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "음성 인식 및 발음 테스트",
+                  style: TextStyle(
+                    fontFamily: 'Pretendard-Regular',
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
         )
       ]
     );
