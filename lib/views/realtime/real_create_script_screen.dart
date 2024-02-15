@@ -19,8 +19,27 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
   void initState() {
     super.initState();
     requestPermission();
-    speechToText.initialize(onError: (val) => print('Error: $val'), onStatus: (val) => print('Status: $val'));
+    speechToText.initialize(
+      onError: (val) => print('Error: $val'),
+      onStatus: (status) {
+        print('Status changed: $status'); // 모든 상태 변화 로깅
+        handleStatus(status); // 상태 처리를 위한 함수 호출
+      },
+    );
   }
+  void handleStatus(String status) {
+    print('Handling Status: $status'); // 현재 처리 중인 상태 로깅
+    if (status == 'done') {
+      print("Status is 'done'. Stopping and restarting listening.");
+      stopListening();
+      // 잠시 후 다시 시작하기 위해 delay를 사용
+      Future.delayed(Duration(milliseconds:100), () {
+        startListening();
+      });
+    }
+    // 필요한 경우 여기에 다른 상태에 대한 처리를 추가할 수 있습니다.
+  }
+
 
   @override
   void dispose() {
@@ -49,7 +68,11 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
   }
 
   void startListening() async {
-    bool available = await speechToText.initialize(onError: (error) => print(error), onStatus: (status) => print(status));
+    bool available = await speechToText.initialize(onError: (error) => print(error), onStatus: (status) {
+      print(status);
+      handleStatus(status);
+    });
+
     if (!available) {
       print("The user has denied the use of speech recognition or an error occurred during initialization.");
       return;
