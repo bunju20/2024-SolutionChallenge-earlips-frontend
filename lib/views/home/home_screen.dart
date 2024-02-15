@@ -9,7 +9,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 //dart.ui
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:earlips/views/home/learning_session_screen.dart';
+import 'package:earlips/views/script/learning_session_screen.dart';
 
 
 class HomeScreen extends BaseScreen<HomeViewModel> {
