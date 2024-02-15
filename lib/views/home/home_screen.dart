@@ -62,23 +62,32 @@ class _Header extends StatelessWidget {
           ),
           ),
         ),
-        Row(
-          children: [
-            SizedBox.fromSize(
-              //color
-              size: Size(4, 4), // button
-            ),
-            Container(
-              margin:  EdgeInsets.only(left: 20.0),
-              child: Text("korean - Bunju",
+        Container(
+          alignment: Alignment.centerLeft,
+          margin: EdgeInsets.only(left: 20.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min, // Row의 크기를 내용물에 맞게 조정
+            children: [
+              Container(
+                margin: EdgeInsets.only(right: 8.0), // 점과 텍스트 사이의 간격 조정
+                height: 10.0, // 점의 높이
+                width: 10.0, // 점의 너비
+                decoration: BoxDecoration(
+                  color: Colors.green, // 점의 색상을 초록색으로 설정
+                  shape: BoxShape.circle, // 원형으로 점을 만듭니다
+                ),
+              ),
+              Text(
+                "korean - Bunju",
                 style: TextStyle(
                   fontFamily: 'Pretendard-Regular',
                   fontSize: 12,
-                  //weight
-                ),),
-            ),
-          ],
-        ),
+                ),
+              ),
+            ],
+          ),
+        )
+
 
       ],
     );
@@ -182,106 +191,141 @@ class _Bottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        color: isLoggedIn ? Colors.green : Color(0xFFFFFFFF), // 로그인 상태에 따라 색상 변경
-        borderRadius: BorderRadius.circular(30.0),
-      ),
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 20.0, left: 20.0),
-            alignment: Alignment.centerLeft,
-            child: Text("진행한 학습",
-              style: TextStyle(
-                fontFamily: 'Pretendard-Bold',
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+    return Stack(
+      children: [
+        Container(
+          margin: EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+            color: Color(0xFFFFFFFF), // 기본 배경색
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 20.0, left: 20.0),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "진행한 학습",
+                  style: TextStyle(
+                    fontFamily: 'Pretendard-Bold',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              LineChartSample2(),
+            ],
+          ),
+        ),
+        if (!isLoggedIn) // 로그인 안 됐을 때만 블러 효과와 자물쇠 아이콘 표시
+          Positioned.fill(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30.0),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                child: Container(
+                  alignment: Alignment.center,
+                  color: Colors.grey.withOpacity(0.1),
+                  child: Icon(
+                    Icons.lock_outline,
+                    size: 60,
+                    color: Colors.white.withOpacity(0.6),
+                  ),
+                ),
               ),
             ),
           ),
-          LineChartSample2(),
-        ],
-      ),
+      ],
     );
   }
 }
-
 class _Circle extends StatelessWidget {
   const _Circle({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // HomeViewModel 인스턴스 접근
+    final homeViewModel = Get.find<HomeViewModel>();
+
     return Container(
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.only(left: 20.0),
       child: Stack(
-        alignment: Alignment.center, // Stack 내의 위젯들을 중앙 정렬합니다.
+        alignment: Alignment.center,
         children: [
           SvgPicture.asset(
             'assets/images/home/circle.svg',
             width: 110,
             height: 110,
           ),
-          Text(
-            '42', // 여기에 원하는 숫자를 입력합니다.
+          Obx(() => Text(
+            homeViewModel.circleNumber.toString(), // Observable 값을 사용
             style: TextStyle(
               fontFamily: 'Pretendard-Bold',
               color: Colors.white,
               fontSize: 28,
-              //weight 900
               fontWeight: FontWeight.w900,
             ),
-          ),
+          )),
         ],
       ),
     );
-
   }
 }
-
 
 class _SpeakingAbility extends StatelessWidget {
   const _SpeakingAbility({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // HomeViewModel 인스턴스 접근
+    final homeViewModel = Get.find<HomeViewModel>();
+
     return Column(
       children: [
         Container(
-          //오른쪽 정렬
-            margin: EdgeInsets.only(top: 35.0,
-            right: 25.0, left: 40.0),
-            child: Text("Speaking Ability", style: TextStyle(fontSize: 20,
+          margin: EdgeInsets.only(top: 35.0, right: 25.0, left: 40.0),
+          child: Text(
+            "Speaking Ability",
+            style: TextStyle(
+              fontSize: 20,
               fontFamily: 'Pretendard-Bold',
               fontWeight: FontWeight.bold,
-            ))),
-        Container(
-          margin: EdgeInsets.only(top: 0.0,
-              right: 25.0, left: 40.0),
-          child: Row(
-            children: [
-              Text("발음 98",
-              style: TextStyle(
-                fontFamily: 'Pretendard-Regular',
-                fontSize: 15,
-              )
-              ),
-              SizedBox(width: 30),
-              Text("높낮이 70"),
-            ],
+            ),
           ),
         ),
         Container(
+          margin: EdgeInsets.only(top: 0.0, right: 25.0, left: 40.0),
+          child: Row(
+            children: [
+              Obx(() => Text(
+                "발음 ${homeViewModel.speakingScore}",
+                style: TextStyle(
+                  fontFamily: 'Pretendard-Regular',
+                  fontSize: 15,
+                ),
+              )),
+              SizedBox(width: 30),
+              Obx(() => Text(
+                "높낮이 ${homeViewModel.pitchScore}",
+                style: TextStyle(
+                  fontFamily: 'Pretendard-Regular',
+                  fontSize: 15,
+                ),
+              )),
+            ],
+          ),
+        ),
+        Obx(() => Container(
           margin: EdgeInsets.only(top: 20.0, left: 20.0),
-          child: new LinearPercentIndicator(
+          child: LinearPercentIndicator(
             barRadius: Radius.circular(10.0),
             width: 163.0,
             lineHeight: 8.0,
-            percent: 0.9,
+            percent: homeViewModel.linialPersent.value,
             progressColor: Color(0xFF4EC040),
           ),
+        ),
         )
       ],
     );
