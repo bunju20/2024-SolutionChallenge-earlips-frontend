@@ -11,51 +11,58 @@ class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
   @override
   Widget buildView(BuildContext context) {
     return Obx(
-      () => Theme(
+          () => Theme(
         data: ThemeData(
           highlightColor: Colors.transparent,
           splashFactory: NoSplash.splashFactory,
         ),
-        child: BottomNavigationBar(
+        child: BottomAppBar(
           elevation: 0,
-          currentIndex: viewModel.selectedIndex,
-          onTap: viewModel.changeIndex,
-
-          // 아이템의 색상
-          unselectedItemColor: ColorSystem.gray3,
-          selectedItemColor: ColorSystem.main,
-
-          // 탭 애니메이션 변경 (fixed: 없음)
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: ColorSystem.white,
-
-          // Bar에 보여질 요소. icon과 label로 구성.
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/icons/house.svg',
-                  height: 24,
-                  colorFilter: viewModel.selectedIndex == 0
-                      ? const ColorFilter.mode(
-                          ColorSystem.main, BlendMode.srcATop)
-                      : const ColorFilter.mode(
-                          ColorSystem.gray3, BlendMode.srcATop),
+          padding: const EdgeInsets.all(0),
+          shape: const CircularNotchedRectangle(),
+          notchMargin: 6.0,
+          clipBehavior: Clip.antiAlias,
+          child: Container(
+            height: 65,
+            color: const Color(0xFFFFFFFF),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildBottomNavigationBarItem(
+                  index: 0,
+                  size: 60,
+                  svgPath: 'assets/icons/learning.svg',
                 ),
-                label: "홈"),
-            BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/icons/house.svg',
-                  height: 24,
-                  colorFilter: viewModel.selectedIndex == 1
-                      ? const ColorFilter.mode(
-                          ColorSystem.main, BlendMode.srcATop)
-                      : const ColorFilter.mode(
-                          ColorSystem.gray3, BlendMode.srcATop),
+
+                const SizedBox(width: 70),
+                _buildBottomNavigationBarItem(
+                  index: 1,
+                  size: 60,
+                  svgPath: 'assets/icons/mypage.svg',
                 ),
-                label: "내정보"),
-          ],
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
+
+  Widget _buildBottomNavigationBarItem({
+    required int index,
+    required double size,
+    required String svgPath,
+  }) =>
+      Expanded(
+        child: InkWell(
+          onTap: () => viewModel.changeIndex(index),
+          child: SvgPicture.asset(
+            svgPath,
+            width: size,
+            colorFilter: viewModel.selectedIndex == index
+                ? const ColorFilter.mode(Color(0xFF1FA9DC), BlendMode.srcATop)
+                : const ColorFilter.mode(Color(0xFF67686D), BlendMode.srcATop),
+          ),
+        ),
+      );
 }
