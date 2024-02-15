@@ -8,6 +8,8 @@ import 'package:earlips/views/home/widget/study_chart.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 //dart.ui
 import 'dart:ui';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class HomeScreen extends BaseScreen<HomeViewModel> {
   const HomeScreen({super.key});
@@ -16,14 +18,23 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
   Widget buildBody(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF0F4F8),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _Header(),
-            _Top(),
-            _Middle(),
-            _Bottom(),
-          ],
+      body: SafeArea(
+        child: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            final bool isLoggedIn = snapshot.hasData;
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  _Header(),
+                  _Top(),
+                  _Middle(),
+                  // 로그인 상태에 따라 _Bottom 클래스의 컨테이너 색상을 변경
+                  _Bottom(isLoggedIn: isLoggedIn),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
@@ -166,33 +177,34 @@ class _Middle extends StatelessWidget {
 }
 
 class _Bottom extends StatelessWidget {
-  const _Bottom({super.key});
+  final bool isLoggedIn;
+  const _Bottom({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        color: Color(0xFFFFFFFF),
+        color: isLoggedIn ? Colors.green : Color(0xFFFFFFFF), // 로그인 상태에 따라 색상 변경
         borderRadius: BorderRadius.circular(30.0),
       ),
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 20.0, left: 20.0),
-              alignment: Alignment.centerLeft,
-              child: Text("진행한 학습",
-
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 20.0, left: 20.0),
+            alignment: Alignment.centerLeft,
+            child: Text("진행한 학습",
               style: TextStyle(
                 fontFamily: 'Pretendard-Bold',
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-              ),),
+              ),
             ),
-            LineChartSample2(
-            ),
-          ],
-        ));
+          ),
+          LineChartSample2(),
+        ],
+      ),
+    );
   }
 }
 
@@ -250,7 +262,12 @@ class _SpeakingAbility extends StatelessWidget {
               right: 25.0, left: 40.0),
           child: Row(
             children: [
-              Text("발음 98"),
+              Text("발음 98",
+              style: TextStyle(
+                fontFamily: 'Pretendard-Regular',
+                fontSize: 15,
+              )
+              ),
               SizedBox(width: 30),
               Text("높낮이 70"),
             ],
