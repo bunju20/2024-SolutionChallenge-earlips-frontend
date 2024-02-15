@@ -13,7 +13,7 @@ class RootScreen extends BaseScreen<RootViewModel> {
   const RootScreen({super.key});
 
   @override
-  Color? get screenBackgroundColor => Color(0xFFF0F4F8);
+  Color? get screenBackgroundColor => Color(0xFFAAA4F8);
 
   @override
   Widget buildBody(BuildContext context) {
@@ -72,7 +72,7 @@ class RootScreen extends BaseScreen<RootViewModel> {
   bool get extendBodyBehindAppBar => true;
 
   @override
-  Color? get unSafeAreaColor => const Color(0xFFFFFFFF);
+  Color? get unSafeAreaColor => const Color(0xFFF0F4F8);
 
   @override
   bool get setTopOuterSafeArea => false;
