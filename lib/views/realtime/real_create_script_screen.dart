@@ -11,6 +11,7 @@ class RealCreateScriptPage extends StatefulWidget {
 
 class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
   bool isRecording = false;
+  bool handDone = false;
   TextEditingController textEditingController = TextEditingController();
   stt.SpeechToText speechToText = stt.SpeechToText();
   Timer? _timer; // 자동으로 마이크 버튼을 누르기 위한 타이머
@@ -29,6 +30,7 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
   }
   void handleStatus(String status) {
     print('Handling Status: $status'); // 현재 처리 중인 상태 로깅
+    if(handDone) return;
     if (status == 'done') {
       print("Status is 'done'. Stopping and restarting listening.");
       stopListening();
@@ -57,11 +59,9 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
 
   void toggleRecording() {
     if (isRecording) {
+      //완전히 끝내겠다고 설정하는 부분.
+      handDone = true;
       stopListening();
-      // 자동으로 마이크 버튼을 누르기 위한 타이머 시작
-      _timer = Timer(Duration(seconds: 2), () {
-        toggleRecording(); // 2초 후에 다시 시작
-      });
     } else {
       startListening();
     }
