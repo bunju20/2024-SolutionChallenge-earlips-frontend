@@ -1,16 +1,16 @@
 // email_login_viewmodel.dart
 
-
 import 'package:earlips/utilities/validators/auth_validators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:earlips/viewModels/home/home_viewmodel.dart';
 
 class EmailLoginViewModel extends GetxController {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   // Email Validator
   String? emailValidator(String? value) {
@@ -26,14 +26,18 @@ class EmailLoginViewModel extends GetxController {
   Future<void> signInWithEmailAndPassword() async {
     if (formKey.currentState!.validate()) {
       try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim(),
         );
+
+        // 로그인 성공시 uid를 저장
+        final String uid = userCredential.user!.uid;
+        await _storage.write(key: 'uid', value: uid);
+
         // 로그인 성공시 홈화면으로 이동
         Get.offAllNamed('/');
-
-
       } on FirebaseAuthException catch (_) {
         Get.snackbar('로그인 실패', "로그인에 실패했습니다. 다시 시도해주세요.",
             snackPosition: SnackPosition.TOP);
