@@ -25,7 +25,7 @@ class AuthCard extends StatelessWidget {
         ),
         elevation: 0,
         child: Padding(
-          padding: const EdgeInsets.all(15),
+          padding: EdgeInsets.all(label == '구글 계정으로 로그인' ? 15 : 17),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
