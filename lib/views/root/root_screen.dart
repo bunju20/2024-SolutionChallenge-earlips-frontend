@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:earlips/views/home/home_screen.dart';
 import 'package:earlips/views/root/custom_bottom_navigation_bar.dart';
+import '../../utilities/app_routes.dart';
 import '../../viewModels/root/root_viewmodel.dart';
 import '../base/base_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:earlips/views/study/study_main.dart';
 
 class RootScreen extends BaseScreen<RootViewModel> {
   const RootScreen({super.key});
@@ -19,7 +21,7 @@ class RootScreen extends BaseScreen<RootViewModel> {
       () => IndexedStack(
         index: viewModel.selectedIndex,
         children: const [
-          HomeScreen(),
+          StudyMain(),
           ProfileScreen(),
         ],
       ),
@@ -48,7 +50,9 @@ class RootScreen extends BaseScreen<RootViewModel> {
       ),
     ),
     child: FloatingActionButton.large(
-      onPressed: controller.onTapBed,
+      onPressed: () {
+        Get.toNamed(Routes.HOME);
+      },
       elevation: 0,
       highlightElevation: 2,
       shape: const CircleBorder(),

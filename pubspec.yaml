@@ -28,6 +28,9 @@ dependencies:
     speech_to_text: ^6.6.0
     permission_handler: ^8.0.0
     flutter_secure_storage: ^9.0.0
+    flutter_sound: ^9.2.13
+    flutter_annual_task: ^0.2.0
+    flutter_calendar_week: ^3.0.2
 
 dev_dependencies:
     flutter_test:
@@ -45,6 +48,7 @@ flutter:
         - assets/config/.env
         - assets/data/
         - assets/images/home/
+        - assets/images/study/
 #        - assets/sounds/speech_to_text_listening.m4r
 #        - assets/sounds/speech_to_text_cancel.m4r
 #        - assets/sounds/speech_to_text_stop.m4r

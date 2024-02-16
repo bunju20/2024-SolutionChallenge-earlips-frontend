@@ -14,7 +14,6 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
   bool handDone = false;
   TextEditingController textEditingController = TextEditingController();
   stt.SpeechToText speechToText = stt.SpeechToText();
-  Timer? _timer; // 자동으로 마이크 버튼을 누르기 위한 타이머
 
   @override
   void initState() {
@@ -30,6 +29,7 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
   }
   void handleStatus(String status) {
     print('Handling Status: $status'); // 현재 처리 중인 상태 로깅
+    print('handDone: $handDone');
     if(handDone) {
       return;
     }
@@ -40,17 +40,29 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
       Future.delayed(Duration(milliseconds:100), () {
         startListening();
       });
+      if (status == 'notListening') {
+        print("Status is 'notListening'. Restarting listening.");
+        startListening();
+      }
     }
     // 필요한 경우 여기에 다른 상태에 대한 처리를 추가할 수 있습니다.
   }
 
 
   @override
+  @override
   void dispose() {
-    // 위젯이 dispose될 때 타이머를 취소합니다.
-    _timer?.cancel();
+    // SpeechToText 리스닝을 멈춥니다.
+    speechToText.stop();
+
+    // SpeechToText 리소스를 정리합니다.
+    speechToText.cancel();
+    // 텍스트 컨트롤러를 정리합니다.
+    textEditingController.dispose();
+
     super.dispose();
   }
+
 
   Future<void> requestPermission() async {
     var microphoneStatus = await Permission.microphone.status;
@@ -70,7 +82,7 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
     }
   }
 
-  void startListening() async {
+  Future<void> startListening() async {
     bool available = await speechToText.initialize(onError: (error) => print(error), onStatus: (status) {
       print(status);
       handleStatus(status);
@@ -81,23 +93,36 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
       return;
     }
     speechToText.listen(
-      onResult: (result) {
+      onResult: (result)
+    {
+      if (mounted) {
         setState(() {
-          if (result.finalResult) {
-            // 기존 텍스트에 이어서 새로 인식된 텍스트를 추가합니다.
-            textEditingController.text += result.recognizedWords + " ";
-          }
-        });
+        print('onResult: ${result.finalResult}');
+        if (result.finalResult) {
+          // 기존 텍스트에 이어서 새로 인식된 텍스트를 추가합니다.
+          textEditingController.text += result.recognizedWords + " ";
+        }
+      }
+      );
+    }
       },
-      listenFor: const Duration(minutes: 1),
-      pauseFor: const Duration(seconds: 10),
+      listenFor: const Duration(minutes: 5),
+      pauseFor: const Duration(seconds: 3),
     );
-    setState(() => isRecording = true);
+    if (mounted) { setState(() => isRecording = true);}
   }
 
-  void stopListening() {
+  Future<void> stopListening() async {
+    bool available = await speechToText.initialize(onError: (error) => print(error), onStatus: (status) {
+      print(status);
+      handleStatus(status);
+    });
     speechToText.stop();
-    setState(() => isRecording = false);
+    print('멈출라고');
+    if (mounted) {
+      setState(() => isRecording = false);
+    }
+
   }
 
   @override

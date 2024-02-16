@@ -12,7 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:earlips/views/script/learning_session_screen.dart';
 import '../realtime/real_create_script_screen.dart';
 
-
 class HomeScreen extends BaseScreen<HomeViewModel> {
   const HomeScreen({super.key});
 

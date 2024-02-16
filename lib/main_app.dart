@@ -4,6 +4,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:earlips/bindings/root_binding.dart';
 import 'views/root/root_screen.dart';
+import 'utilities/app_routes.dart';
+
 
 class MainApp extends StatelessWidget {
   final String initialRoute;
@@ -34,7 +36,7 @@ class MainApp extends StatelessWidget {
         colorSchemeSeed: Colors.blue,
         scaffoldBackgroundColor: const Color(0xFFf6f6f8),
       ),
-      initialRoute: initialRoute,
+      initialRoute: Routes.HOME,
       getPages: [
         GetPage(
             name: '/', page: () => const RootScreen(), binding: RootBinding()),
