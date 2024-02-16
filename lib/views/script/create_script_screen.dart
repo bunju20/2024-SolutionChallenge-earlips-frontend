@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:earlips/viewModels/script/create_script_viewmodel.dart'; // 실제 경로에 맞게 수정해주세요.
+import 'package:earlips/viewModels/script/create_script_viewmodel.dart';
+import 'package:get/get.dart';
 
 class CreateScriptPage extends StatelessWidget {
   @override
@@ -25,45 +26,95 @@ class CreateScriptPage extends StatelessWidget {
               ),
             ],
           ),
-          body: Column(
+          body: Stack(
+            // Stack 위젯을 사용하여 Positioned를 올바르게 배치합니다.
             children: [
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: model.writedTextController, // 수정됨
-                    expands: true,
-                    maxLines: null,
-                    decoration: InputDecoration(
-                      hintText: '대본을 입력하세요...',
-                      border: OutlineInputBorder(),
+              Column(
+                // 기존의 Column 구조를 Stack 내에 배치합니다.
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: TextField(
+                        controller: model.writedTextController,
+                        expands: true,
+                        maxLines: null,
+                        decoration: InputDecoration(
+                          hintText: '대본을 입력하세요...',
+                          fillColor: Colors.white,
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        textAlignVertical: TextAlignVertical.top,
+                      ),
                     ),
                   ),
-                ),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(25, 20, 25, 100),
+                      child: Container(
+                        padding: EdgeInsets.all(20.0),
+                        width: Get.width * 0.8,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 6,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: SingleChildScrollView(
+                          child: Text(
+                            model.voicedTextController.text,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: SingleChildScrollView(
-                    child: Text(
-                      model.voicedTextController.text, // 수정됨
-                      style: TextStyle(fontSize: 16),
+              Positioned(
+                // Positioned 위젯으로 사용자 정의 FloatingActionButton을 배치합니다.
+                bottom: 20,
+                left: 0,
+                right: 0,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      color: model.isRecording ? Colors.red : Colors.blue,
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(40),
+                      onTap: model.toggleRecording,
+                      child: Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Icon(
+                          model.isRecording ? Icons.stop : Icons.mic,
+                          size: 30,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
             ],
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: model.toggleRecording,
-            child: Icon(
-              model.isRecording ? Icons.stop : Icons.mic,
-            ),
-          ),
         ),
       ),
     );
   }
 }
+
