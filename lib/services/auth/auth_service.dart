@@ -52,4 +52,25 @@ class AuthService {
     await _auth.signOut();
     await _storage.delete(key: 'uid');
   }
+
+  // 회원 탈퇴
+  Future<void> withdraw() async {
+    try {
+      // 현재 로그인된 사용자 정보 가져오기
+      final User? user = _auth.currentUser;
+
+      // 사용자 계정 삭제
+      await user?.delete();
+
+      // 로그인 정보 삭제
+      await _storage.delete(key: 'uid');
+    } catch (error) {
+      // 에러 발생시 에러 메시지 출력
+      Get.snackbar(
+        "회원 탈퇴 실패",
+        "회원 탈퇴에 실패했습니다. 다시 시도해주세요.",
+        snackPosition: SnackPosition.TOP,
+      );
+    }
+  }
 }
