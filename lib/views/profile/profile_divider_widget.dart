@@ -10,7 +10,7 @@ class ProfileDividerWidget extends StatelessWidget {
     return Container(
         // width 꽉 차게
         width: double.infinity,
-        height: 2,
+        height: 8,
         decoration: const BoxDecoration(color: Color(0xffe9e9ee)));
   }
 }

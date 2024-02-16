@@ -1,3 +1,4 @@
+import 'package:earlips/utilities/style/color_styles.dart';
 import 'package:earlips/views/auth/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +12,11 @@ class ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: ColorSystem.background,
       child: GestureDetector(
         onTap: () => user != null ? null : Get.to(() => LoginScreen()),
         child: Container(
-          color: Colors.white,
+          color: ColorSystem.background,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 62, 20, 24),
             child: Row(
