@@ -22,7 +22,7 @@ Future<void> authDialog({
       title == '로그아웃'
           ? await authService.signOut()
           : await authService.withdraw();
-      Get.back();
+      Get.offAllNamed('/');
     },
   );
 }
