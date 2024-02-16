@@ -8,98 +8,119 @@ class CreateScriptPage extends StatefulWidget {
 }
 
 class _CreateScriptPageState extends State<CreateScriptPage> {
-  bool isCompleted = false;
   bool isRecording = false;
+  bool handDone = false;
   TextEditingController textEditingController = TextEditingController();
   stt.SpeechToText speechToText = stt.SpeechToText();
-  String lastWords = ""; // 인식된 마지막 단어들을 저장할 변수
 
   @override
   void initState() {
     super.initState();
     requestPermission();
-    speechToText.initialize();
-    initializeSpeech();
+    speechToText.initialize(
+      onError: (val) => print('Error: $val'),
+      onStatus: (status) {
+        print('Status changed: $status'); // 모든 상태 변화 로깅
+        handleStatus(status); // 상태 처리를 위한 함수 호출
+      },
+    );
+  }
+  void handleStatus(String status) {
+    print('Handling Status: $status'); // 현재 처리 중인 상태 로깅
+    print('handDone: $handDone');
+    if(handDone) {
+      return;
+    }
+    if (status == 'done') {
+      print("Status is 'done'. Stopping and restarting listening.");
+      stopListening();
+      // 잠시 후 다시 시작하기 위해 delay를 사용
+      Future.delayed(Duration(milliseconds:100), () {
+        startListening();
+      });
+      if (status == 'notListening') {
+        print("Status is 'notListening'. Restarting listening.");
+        startListening();
+      }
+    }
+    // 필요한 경우 여기에 다른 상태에 대한 처리를 추가할 수 있습니다.
   }
 
-  void initializeSpeech() async {
-    bool available = await speechToText.initialize(
-        onError: (error) => print("onError: $error"),
-        onStatus: (status) => print("onStatus: $status")
-    );
-    if (!available) {
-      print("음성 인식을 사용할 수 없습니다.");
-    }
+
+  @override
+  @override
+  void dispose() {
+    // SpeechToText 리스닝을 멈춥니다.
+    speechToText.stop();
+
+    // SpeechToText 리소스를 정리합니다.
+    speechToText.cancel();
+    // 텍스트 컨트롤러를 정리합니다.
+    textEditingController.dispose();
+
+    super.dispose();
   }
+
 
   Future<void> requestPermission() async {
     var microphoneStatus = await Permission.microphone.status;
     if (!microphoneStatus.isGranted) {
-      var requested = await Permission.microphone.request();
-      if (!requested.isGranted) {
-        // 권한 거부 메시지 출력
-        print("마이크 권한이 거부되었습니다.");
-        // 사용자에게 앱 설정 페이지로 이동하여 권한을 부여하도록 안내
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text("마이크 권한 필요"),
-            content: Text("이 기능을 사용하기 위해서는 마이크 권한이 필요합니다. 앱 설정에서 마이크 권한을 부여해주세요."),
-            actions: <Widget>[
-              TextButton(
-                child: Text("설정으로 이동"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  openAppSettings(); // 앱 설정 페이지 열기
-                },
-              ),
-              TextButton(
-                child: Text("취소"),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          ),
-        );
-      }
+      await Permission.microphone.request();
     }
   }
 
   void toggleRecording() {
     if (isRecording) {
+      //완전히 끝내겠다고 설정하는 부분.
+      handDone = true;
       stopListening();
     } else {
+      handDone = false;
       startListening();
     }
   }
 
-  void startListening() async {
-    // 음성 인식이 이미 초기화되었는지 확인하고, 그렇지 않다면 초기화를 시도합니다.
-    if (!speechToText.isAvailable) {
-      bool available = await speechToText.initialize(onError: (error) => print(error), onStatus: (status) => print(status));
-      if (!available) {
-        print("The user has denied the use of speech recognition or an error occurred during initialization.");
-        return;
-      }
+  Future<void> startListening() async {
+    bool available = await speechToText.initialize(onError: (error) => print(error), onStatus: (status) {
+      print(status);
+      handleStatus(status);
+    });
+
+    if (!available) {
+      print("The user has denied the use of speech recognition or an error occurred during initialization.");
+      return;
     }
-    // 음성 인식을 시작합니다.
     speechToText.listen(
-      onResult: (result) {
-        setState(() {
-          // 인식된 결과가 최종 결과인 경우에만 텍스트를 업데이트합니다.
-          if (result.finalResult) {
-            textEditingController.text += result.recognizedWords + " ";
+      onResult: (result)
+      {
+        if (mounted) {
+          setState(() {
+            print('onResult: ${result.finalResult}');
+            if (result.finalResult) {
+              // 기존 텍스트에 이어서 새로 인식된 텍스트를 추가합니다.
+              textEditingController.text += result.recognizedWords + " ";
+            }
           }
-        });
+          );
+        }
       },
-      listenFor: const Duration(minutes: 1), // 최대 30초 동안 음성 인식을 수행합니다.
-      pauseFor: const Duration(seconds: 10), // 사용자가 말을 멈춘 후 5초 동안 대기합니다.
+      listenFor: const Duration(minutes: 5),
+      pauseFor: const Duration(seconds: 3),
     );
-    setState(() => isRecording = true);
+    if (mounted) { setState(() => isRecording = true);}
   }
 
-  void stopListening() {
+  Future<void> stopListening() async {
+    bool available = await speechToText.initialize(onError: (error) => print(error), onStatus: (status) {
+      print(status);
+      handleStatus(status);
+    });
     speechToText.stop();
-    setState(() => isRecording = false);
+    print('멈출라고');
+    if (mounted) {
+      setState(() => isRecording = false);
+    }
+
   }
 
   @override
@@ -110,15 +131,12 @@ class _CreateScriptPageState extends State<CreateScriptPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('대본 생성하기'),
+          title: Text('대본으로 학습하기'),
           centerTitle: true,
           actions: <Widget>[
-            if (!isCompleted)
               TextButton(
                 onPressed: () {
-                  setState(() {
-                    isCompleted = true;
-                  });
+                  print("완료버튼 눌렀습니다.");
                 },
                 child: Text(
                   '완료',
@@ -130,68 +148,130 @@ class _CreateScriptPageState extends State<CreateScriptPage> {
               ),
           ],
         ),
-        body: Stack(
+        body: Column(
           children: [
-            Padding(
-              padding: isCompleted ? EdgeInsets.fromLTRB(25, 20, 25, 125) : EdgeInsets.fromLTRB(25, 20, 25, 20),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 10,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  controller: textEditingController,
-                  expands: true,
-                  maxLines: null,
-                  enabled: !isCompleted,
-                  keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(
-                    hintText: '대본을 입력하세요...',
-                    fillColor: Colors.white,
-                    filled: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide.none,
+            Expanded(
+                flex: 1,
+                child: _TopPart()),
+            Expanded(
+              //2분의 1만 사용하도록 설정
+              flex: 1,
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(25, 20, 25, 100),
+                    child: TextField(
+                      controller: textEditingController,
+                      expands: true,
+                      maxLines: null,
+                      decoration: InputDecoration(
+                        hintText: '음성 인식을 통해 발음이 여기에 표시됩니다...',
+                        fillColor: Colors.white,
+                        filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      textAlignVertical: TextAlignVertical.top,
                     ),
                   ),
-                  textAlignVertical: TextAlignVertical.top,
-                ),
-              ),
-            ),
-            if (isCompleted)
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 20),
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      color: isRecording ? Colors.red : Colors.blue,
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(40),
-                      onTap: toggleRecording,
-                      child: Padding(
-                        padding: EdgeInsets.all(25),
-                        child: Icon(
-                          isRecording ? Icons.stop : Icons.mic,
-                          size: 30,
-                          color: Colors.white,
+                  Positioned(
+                    bottom: 20,
+                    left: 0,
+                    right: 0,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          color: isRecording ? Colors.red : Colors.blue,
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(40),
+                          onTap: toggleRecording,
+                          child: Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Icon(
+                              isRecording ? Icons.stop : Icons.mic,
+                              size: 30,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-            // 인식된 음성을 화면에 표시
+            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AppBar extends StatelessWidget {
+  const _AppBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text('대본 생성하기'),
+      centerTitle: true,
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            print("완료버튼 눌렀습니다.");
+          }, child: Text(
+          '완료',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+          ),
+        ),
+        ),
+      ],
+    );
+  }
+}
+
+class _TopPart extends StatelessWidget {
+  const _TopPart({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var textEditingController;
+    return Padding(
+      padding: EdgeInsets.fromLTRB(25, 20, 25, 20),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 10,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: TextField(
+          controller: textEditingController,
+          expands: true,
+          maxLines: null,
+          keyboardType: TextInputType.multiline,
+          decoration: InputDecoration(
+            hintText: '대본을 입력하세요...',
+            fillColor: Colors.white,
+            filled: true,
+            contentPadding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15.0),
+              borderSide: BorderSide.none,
+            ),
+          ),
+          textAlignVertical: TextAlignVertical.top,
         ),
       ),
     );

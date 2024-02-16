@@ -21,7 +21,7 @@ class RootScreen extends BaseScreen<RootViewModel> {
       () => IndexedStack(
         index: viewModel.selectedIndex,
         children: const [
-          StudyMain(),
+          HomeScreen(),
           ProfileScreen(),
         ],
       ),
