@@ -1,5 +1,4 @@
 import 'package:earlips/utilities/style/color_styles.dart';
-import 'package:earlips/views/auth/auth_dialog.dart';
 import 'package:earlips/views/profile/profile_divider_widget.dart';
 import 'package:earlips/views/profile/profile_header_widget.dart';
 import 'package:earlips/views/profile/profile_setting_row_btn_widget.dart';
@@ -33,13 +32,9 @@ class ProfileScreen extends StatelessWidget {
                     ProfileHeader(
                         user: snapshot.hasData ? snapshot.data : null),
                     const ProfileSettingRowBtnWidget(
-                        iconImg: 'assets/icons/icon-setting.svg',
-                        text: '시스템 언어 설정',
-                        routeLinkText: '/profile'),
-                    const ProfileSettingRowBtnWidget(
-                        iconImg: 'assets/icons/icon-setting.svg',
-                        text: '학습 언어 설정',
-                        routeLinkText: '/profile'),
+                        iconImg: 'assets/icons/icon-setting1.svg',
+                        text: '시스템 및 학습 언어 설정',
+                        routeLinkText: '/profile/language-setting'),
                     const ProfileSettingRowBtnWidget(
                         iconImg: 'assets/icons/icon-setting.svg',
                         text: '계정 관리',
@@ -53,25 +48,17 @@ class ProfileScreen extends StatelessWidget {
                 );
               } else {
                 // --------------------- 로그인 안된 상태 ---------------------
-                return const Column(
+                return Column(
                   children: [
                     ProfileHeader(),
-                    ProfileSettingRowBtnWidget(
-                        iconImg: 'assets/icons/icon-setting.svg',
-                        text: '시스템 언어 설정',
-                        routeLinkText: '/profile'),
-                    ProfileSettingRowBtnWidget(
-                        iconImg: 'assets/icons/icon-setting.svg',
-                        text: '학습 언어 설정',
-                        routeLinkText: '/profile'),
-                    ProfileSettingRowBtnWidget(
-                        iconImg: 'assets/icons/icon-setting.svg',
-                        text: '계정 관리',
-                        routeLinkText: '/profile/account'),
-                    ProfileDividerWidget(),
-                    ProfileSettingRowBoxWidget(
+                    const ProfileSettingRowBtnWidget(
+                        iconImg: 'assets/icons/icon-setting1.svg',
+                        text: '시스템 및 학습 언어 설정',
+                        routeLinkText: '/profile/language-setting'),
+                    const ProfileDividerWidget(),
+                    const ProfileSettingRowBoxWidget(
                         text: "버전 정보", routerLinkText: null),
-                    ProfileSettingRowBoxWidget(
+                    const ProfileSettingRowBoxWidget(
                         text: "문의", routerLinkText: null),
                   ],
                 );
