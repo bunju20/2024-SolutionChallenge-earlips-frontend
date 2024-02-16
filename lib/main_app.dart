@@ -1,3 +1,6 @@
+import 'package:earlips/views/profile/profile_account/profile_account_screen.dart';
+import 'package:earlips/views/profile/profile_language_setting/profile_language_setting.dart';
+import 'package:earlips/views/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -40,6 +43,13 @@ class MainApp extends StatelessWidget {
       getPages: [
         GetPage(
             name: '/', page: () => const RootScreen(), binding: RootBinding()),
+        // binding:
+        GetPage(name: '/profile', page: () => const ProfileScreen()),
+        GetPage(
+            name: '/profile/account', page: () => const ProfileAccountScreen()),
+        GetPage(
+            name: '/profile/language-setting',
+            page: () => const ProfileLanguageScreen()),
       ],
     );
   }
