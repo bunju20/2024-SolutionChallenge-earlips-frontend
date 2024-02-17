@@ -6,6 +6,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:earlips/viewModels/script/analyze_viewmodel.dart';
+import '../../utilities/app_routes.dart';
+
 
 
 class AnalyzeScreen extends StatefulWidget {
@@ -23,7 +25,7 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('실시간 발음 테스트'),
+          title: Text('발음 및 빠르기 분석'),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -61,6 +63,18 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
                 ],
               ),
             ],
+          ),
+        ),
+        floatingActionButton: Container(
+          width: Get.width,
+          alignment: Alignment.bottomCenter,
+
+          child: FloatingActionButton(
+            onPressed: () {
+              Get.toNamed(Routes.HOME);
+            },
+            child: Icon(Icons.home), // 홈 아이콘 사용
+            tooltip: '홈으로', // 롱 프레스 시 표시되는 텍스트
           ),
         ),
       ),
