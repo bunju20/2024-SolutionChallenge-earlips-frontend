@@ -39,18 +39,20 @@ class StudyMain extends BaseScreen<StudyViewModel> {
                           _Card(
                             title: "음소 교정",
                             subtitle: "옴소 교정 및 발음 테스트",
-                            imagePath: "assets/images/study/one.svg",
+                            imagePath: "assets/images/study/1.png",
                             onTap: (){
                               Get.to(() => RealCreateScriptPage());
                             },
+                            ImgSize: 85,
                           ),
                           _Card(
                             title: "단어 교정",
                             subtitle: "단어 교정 및 발음 테스트",
-                            imagePath: "assets/images/study/2.svg",
+                            imagePath: "assets/images/study/2.png",
                             onTap: (){
                               Get.to(() => RealCreateScriptPage());
                             },
+                            ImgSize: 150,
                           ),
                         ],
                       ),
@@ -59,18 +61,20 @@ class StudyMain extends BaseScreen<StudyViewModel> {
                           _Card(
                             title: "문장 교정",
                             subtitle: "문장 교정 및 발음 테스트",
-                            imagePath: "assets/images/study/one.svg",
+                            imagePath: "assets/images/study/3.png",
                             onTap: (){
                               Get.to(() => RealCreateScriptPage());
                             },
+                            ImgSize: 85,
                           ),
                           _Card(
                             title: "문단 교정",
                             subtitle: "대본 입력 및 발음 테스트",
-                            imagePath: "assets/images/study/one.svg",
+                            imagePath: "assets/images/study/4.png",
                             onTap: (){
                               Get.to(() => RealCreateScriptPage());
                             },
+                            ImgSize: 85,
                           ),
                         ],
                       ),
@@ -97,7 +101,9 @@ class _Card extends BaseWidget<StudyViewModel> {
   final String subtitle;
   final String imagePath;
   final VoidCallback onTap;
-  const _Card({super.key,required this.title, required this.subtitle, required this.imagePath, required this.onTap});
+  final double ImgSize;
+  const _Card({super.key,required this.title, required this.subtitle, required this.imagePath, required this.onTap ,
+  required this.ImgSize});
 
   @override
   Widget buildView(BuildContext context) {
@@ -118,12 +124,12 @@ class _Card extends BaseWidget<StudyViewModel> {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
-              child: SvgPicture.asset(
-                'assets/images/study/3.svg',
-                width: 85,
-                height: 85,
+              child: Image.asset(
+                imagePath,
+                width: ImgSize,
+                height: ImgSize,
               ),
-              width: 90,
+              width: ImgSize+5,
               height: 90,
             ),
             Text(title,

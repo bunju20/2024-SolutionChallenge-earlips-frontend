@@ -5,24 +5,35 @@ import 'package:get/get.dart';
 import 'package:earlips/views/base/base_widget.dart';
 import 'package:earlips/viewModels/study/study_viewmodel.dart';
 
-
-class Contribute extends BaseWidget<StudyViewModel>{
-  const Contribute({super.key});
+class Contribute extends StatefulWidget {
+  const Contribute({Key? key}) : super(key: key);
 
   @override
-  Widget buildView(BuildContext context) {
+  _ContributeState createState() => _ContributeState();
+}
+
+class _ContributeState extends State<Contribute> {
+  late CalendarWeekController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = CalendarWeekController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      // Use named colors for clarity
       color: Colors.white,
       height: Get.height * 0.2,
       child: CalendarWeek(
-        controller: CalendarWeekController(),
+        controller: _controller, // Use initialized controller
         height: 100,
         showMonth: true,
-        minDate: DateTime.now().add(Duration(days: -365)),
-        maxDate: DateTime.now().add(Duration(days: 365)),
+        minDate: DateTime.now().add(const Duration(days: -365)),
+        maxDate: DateTime.now().add(const Duration(days: 365)),
         onDatePressed: (DateTime datetime) {
-          // Handle date SELECTION
+          // Handle date selection
         },
         onDateLongPressed: (DateTime datetime) {
           // Handle long press on date
@@ -46,13 +57,13 @@ class Contribute extends BaseWidget<StudyViewModel>{
           DecorationItem(
               decorationAlignment: FractionalOffset.bottomRight,
               date: DateTime.now(),
-              decoration: Icon(
+              decoration: const Icon(
                 Icons.today,
                 color: Colors.blue,
               )),
           DecorationItem(
-              date: DateTime.now().add(Duration(days: 3)),
-              decoration: Text(
+              date: DateTime.now().add(const Duration(days: 3)),
+              decoration: const Text(
                 'Holiday',
                 style: TextStyle(
                   color: Colors.brown,
