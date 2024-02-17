@@ -1,4 +1,3 @@
-import 'package:earlips/utilities/style/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -11,7 +10,7 @@ class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
   @override
   Widget buildView(BuildContext context) {
     return Obx(
-          () => Theme(
+      () => Theme(
         data: ThemeData(
           highlightColor: Colors.transparent,
           splashFactory: NoSplash.splashFactory,
@@ -33,7 +32,6 @@ class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
                   size: 60,
                   svgPath: 'assets/icons/learning.svg',
                 ),
-
                 const SizedBox(width: 70),
                 _buildBottomNavigationBarItem(
                   index: 2,
