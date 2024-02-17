@@ -713,6 +713,10 @@ PODS:
     - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
+  - flutter_sound (9.2.13):
+    - Flutter
+    - flutter_sound_core (= 9.2.13)
+  - flutter_sound_core (9.2.13)
   - google_sign_in_ios (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -827,6 +831,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - flutter_sound (from `.symlinks/plugins/flutter_sound/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
@@ -847,6 +852,7 @@ SPEC REPOS:
     - FirebaseFirestore
     - FirebaseFirestoreInternal
     - FirebaseSharedSwift
+    - flutter_sound_core
     - GoogleSignIn
     - GoogleUtilities
     - "gRPC-C++"
@@ -874,6 +880,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  flutter_sound:
+    :path: ".symlinks/plugins/flutter_sound/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
   path_provider_foundation:
@@ -901,9 +909,11 @@ SPEC CHECKSUMS:
   FirebaseFirestore: 21be9ea244830f6cac15464550c2975c43f9dffc
   FirebaseFirestoreInternal: 7ac1e0c5b4e75aeb898dfe4b1d6d77abbac9eca3
   FirebaseSharedSwift: 19b3f709993d6fa1d84941d41c01e3c4c11eab93
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
+  flutter_sound: c60effa2a350fb977885f0db2fbc4c1ad5160900
+  flutter_sound_core: 26c10e5832e76aaacfae252d8925232281c486ae
   google_sign_in_ios: 1bfaf6607b44cd1b24c4d4bc39719870440f9ce1
   GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
@@ -922,4 +932,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 0b2c97823421f8b156b8e4753a469ac167670df8
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.14.3
