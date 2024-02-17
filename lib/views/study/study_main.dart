@@ -20,68 +20,70 @@ class StudyMain extends BaseScreen<StudyViewModel> {
               alignment: Alignment.center,
               child: Text('학습페이지')),
         ),
-        body: Column(
-          children: [
-            Container(
-              child: Container(
-                color: Color(0xFF),
-                child: Contribute(),
-                // child: ContributionWidget(),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                child: Container(
+                  color: Color(0xFF),
+                  child: Contribute(),
+                  // child: ContributionWidget(),
+                ),
               ),
-            ),
-            Container(
-
-                child: Column(
-
-                    children:[
-                      Row(
-                        children: [
-                          _Card(
-                            title: "음소 교정",
-                            subtitle: "옴소 교정 및 발음 테스트",
-                            imagePath: "assets/images/study/1.png",
-                            onTap: (){
-
-                            },
-                            ImgSize: 85,
-                          ),
-                          _Card(
-                            title: "단어 교정",
-                            subtitle: "단어 교정 및 발음 테스트",
-                            imagePath: "assets/images/study/2.png",
-                            onTap: (){
-
-                            },
-                            ImgSize: 150,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          _Card(
-                            title: "문장 교정",
-                            subtitle: "문장 교정 및 발음 테스트",
-                            imagePath: "assets/images/study/3.png",
-                            onTap: (){
-
-                            },
-                            ImgSize: 85,
-                          ),
-                          _Card(
-                            title: "문단 교정",
-                            subtitle: "대본 입력 및 발음 테스트",
-                            imagePath: "assets/images/study/4.png",
-                            onTap: (){
-
-                            },
-                            ImgSize: 85,
-                          ),
-                        ],
-                      ),
-                    ]
-                )
-            )
-          ],
+              Container(
+          
+                  child: Column(
+          
+                      children:[
+                        Row(
+                          children: [
+                            _Card(
+                              title: "음소 교정",
+                              subtitle: "옴소 교정 및 발음 테스트",
+                              imagePath: "assets/images/study/1.png",
+                              onTap: (){
+           
+                              },
+                              ImgSize: 85,
+                            ),
+                            _Card(
+                              title: "단어 교정",
+                              subtitle: "단어 교정 및 발음 테스트",
+                              imagePath: "assets/images/study/2.png",
+                              onTap: (){
+                  
+                              },
+                              ImgSize: 150,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            _Card(
+                              title: "문장 교정",
+                              subtitle: "문장 교정 및 발음 테스트",
+                              imagePath: "assets/images/study/3.png",
+                              onTap: (){
+                                
+                              },
+                              ImgSize: 85,
+                            ),
+                            _Card(
+                              title: "문단 교정",
+                              subtitle: "대본 입력 및 발음 테스트",
+                              imagePath: "assets/images/study/4.png",
+                              onTap: (){
+            
+                              },
+                              ImgSize: 85,
+                            ),
+                          ],
+                        ),
+                      ]
+                  )
+              )
+            ],
+          ),
         )
     );
   }

@@ -26,11 +26,11 @@ class _ContributeState extends State<Contribute> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: Get.width * 0.9,
       color: Colors.white,
       height: Get.height * 0.2,
       child: CalendarWeek(
         controller: _controller, // Use initialized controller
-        height: 100,
         showMonth: true,
         minDate: DateTime.now().add(const Duration(days: -365)),
         maxDate: DateTime.now().add(const Duration(days: 365)),
