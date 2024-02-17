@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:earlips/viewModels/script/analyze_viewmodel.dart';
+
 
 class AnalyzeScreen extends StatefulWidget {
   @override
@@ -24,22 +26,42 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
           title: Text('실시간 발음 테스트'),
           centerTitle: true,
         ),
-        body: Stack(
-          children: [
-            Container(
-              alignment: Alignment.center,
-              width: Get.width - 40,
-              margin: EdgeInsets.all(20.0),
-              padding: EdgeInsets.all(10.0), // 내부 여백을 추가합니다.
-              decoration: BoxDecoration(
-                color: Colors.white, // 배경색을 지정합니다.
-                borderRadius: BorderRadius.circular(15.0), // 테두리 둥글기를 지정합니다.
-                border: Border.all(color: Colors.white), // 테두리 색상을 지정합니다. 필요에 따라 변경 가능합니다.
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment.center,
+                width: Get.width - 40,
+                height: Get.height * 0.2,
+                margin: EdgeInsets.all(20.0),
+                padding: EdgeInsets.all(10.0), // 내부 여백을 추가합니다.
+                decoration: BoxDecoration(
+                  color: Colors.white, // 배경색을 지정합니다.
+                  borderRadius: BorderRadius.circular(15.0), // 테두리 둥글기를 지정합니다.
+                  border: Border.all(color: Colors.white), // 테두리 색상을 지정합니다. 필요에 따라 변경 가능합니다.
+                ),
+                child: _TopText(),
               ),
-              child: TextStylingWidget(),
-            ),
-
-          ],
+              Stack(
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    width: Get.width - 40,
+                    height: Get.height * 0.5,
+                    margin: EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(10.0), // 내부 여백을 추가합니다.
+                    decoration: BoxDecoration(
+                      color: Colors.white, // 배경색을 지정합니다.
+                      borderRadius: BorderRadius.circular(15.0), // 테두리 둥글기를 지정합니다.
+                      border: Border.all(color: Colors.white), // 테두리 색상을 지정합니다. 필요에 따라 변경 가능합니다.
+                    ),
+                    child: TextStylingWidget(),
+                  ),
+          
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -47,20 +69,7 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
 }
 
 class TextStylingWidget extends StatelessWidget {
-  final List<String> userWord = [
-    "가", "나", "다", "어쩌구", "저쩌구", "입니다", "나는", "매일", "조깅을", "합니다",
-    "플러터로", "앱", "개발을", "배우고", "있어요", "이것은", "더미", "텍스트입니다",
-    "데이터를", "시각화하는", "것은", "중요합니다"
-  ];
-  final List<String> userSenten = [
-    "가 나 다 어쩌구 저쩌구 입니다.",
-    "나는 매일 조깅을 합니다.",
-    "플러터로 앱 개발을 배우고 있어요.",
-    "이것은 더미 텍스트입니다.",
-    "데이터를 시각화하는 것은 중요합니다.",
-  ];
-  final List<int> wrongWordIndexes = [2, 14]; // "다", "앱"을 가리킴
-  final List<int> wrongFastIndexes = [1, 3]; // 두 번째와 네 번째 문장을 가리킴
+  final AnalyzeViewModel model = Get.put(AnalyzeViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +88,12 @@ class TextStylingWidget extends StatelessWidget {
     List<TextSpan> spans = [];
     int globalWordIndex = 0; // 전체 단어에 대한 인덱스를 추적합니다.
 
-    for (int i = 0; i < userSenten.length; i++) {
-      final List<String> words = userSenten[i].split(' ');
+    for (int i = 0; i < model.userSenten.length; i++) {
+      final List<String> words = model.userSenten[i].split(' ');
       List<TextSpan> wordSpans = [];
 
       for (String word in words) {
-        final bool isWrongWord = wrongWordIndexes.contains(globalWordIndex);
+        final bool isWrongWord = model.wrongWordIndexes.contains(globalWordIndex);
         wordSpans.add(TextSpan(
           text: "$word ",
           style: TextStyle(
@@ -97,12 +106,67 @@ class TextStylingWidget extends StatelessWidget {
       spans.add(TextSpan(
         children: wordSpans,
         style: TextStyle(
-          decoration: wrongFastIndexes.contains(i) ? TextDecoration.underline : TextDecoration.none,
+          decoration: model.wrongFastIndexes.contains(i) ? TextDecoration.underline : TextDecoration.none,
         ),
       ));
       spans.add(TextSpan(text: "\n")); // 문장 사이에 줄바꿈 추가
     }
 
     return spans;
+  }
+
+}
+
+class _TopText extends StatelessWidget {
+  const _TopText({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // 발음이 틀린 글씨에 대한 설명
+          RichText(
+            text: TextSpan(
+              style: TextStyle(fontSize: 16, color: Colors.black),
+              children: [
+                TextSpan(text: '발음이 틀린 글씨는 빨간색으로 표시됩니다                ex)'),
+                // 예시에 적용할 스타일
+                TextSpan(
+                  text: '강아지는 ',
+                  style: TextStyle(color: Colors.red),
+                ),
+                TextSpan(
+                  text: '뛴다',
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 20),
+          ),
+          // 문장의 빠르기에 대한 설명
+          RichText(
+            text: TextSpan(
+              style: TextStyle(fontSize: 16, color: Colors.black),
+              children: <TextSpan>[
+                TextSpan(text: '문장의 빠르기가 빠르거나 느리면 밑줄이 표시됩니다. ex)'),
+                // 예시에 적용할 스타일
+                TextSpan(
+                  text: '강아지는 ',
+                  style: TextStyle(decoration: TextDecoration.underline),
+                ),
+                TextSpan(
+                  text: '뛴다',
+                  style: TextStyle(decoration: TextDecoration.underline),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
