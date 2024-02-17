@@ -1,6 +1,3 @@
-import 'package:earlips/views/profile/profile_account/profile_account_screen.dart';
-import 'package:earlips/views/profile/profile_language_setting/profile_language_setting.dart';
-import 'package:earlips/views/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -8,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:earlips/bindings/root_binding.dart';
 import 'views/root/root_screen.dart';
 import 'utilities/app_routes.dart';
-
 
 class MainApp extends StatelessWidget {
   final String initialRoute;
@@ -32,6 +28,7 @@ class MainApp extends StatelessWidget {
       ],
       supportedLocales: const [
         Locale('ko', 'KR'),
+        Locale('en', 'US'),
       ],
       theme: ThemeData(
         useMaterial3: true,
@@ -43,13 +40,9 @@ class MainApp extends StatelessWidget {
       getPages: [
         GetPage(
             name: '/', page: () => const RootScreen(), binding: RootBinding()),
-        // binding:
-        GetPage(name: '/profile', page: () => const ProfileScreen()),
-        GetPage(
-            name: '/profile/account', page: () => const ProfileAccountScreen()),
-        GetPage(
-            name: '/profile/language-setting',
-            page: () => const ProfileLanguageScreen()),
+        Routes.routes[1],
+        Routes.routes[2],
+        Routes.routes[3],
       ],
     );
   }

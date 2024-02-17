@@ -83,7 +83,7 @@ abstract class BaseScreen<T extends GetxController> extends GetView<T> {
 
   // SafeArea의 위 부분을 설정할지 여부를 정의하는 메서드
   @protected
-  bool get setTopSafeArea => true;
+  bool get setTopSafeArea => false;
 
   // AppBar를 구성하는 메서드
   @protected

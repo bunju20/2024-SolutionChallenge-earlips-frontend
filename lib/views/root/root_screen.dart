@@ -13,7 +13,7 @@ class RootScreen extends BaseScreen<RootViewModel> {
   const RootScreen({super.key});
 
   @override
-  Color? get screenBackgroundColor => Color(0xFFAAA4F8);
+  Color? get screenBackgroundColor => const Color(0xFFAAA4F8);
 
   @override
   Widget buildBody(BuildContext context) {
@@ -36,36 +36,36 @@ class RootScreen extends BaseScreen<RootViewModel> {
 
   @override
   Widget? get buildFloatingActionButton => Container(
-    width: 70,
-    decoration: const BoxDecoration(
-      shape: BoxShape.circle,
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Color(0xFF1FA9DC),
-          Color(0xFF1FA9DC),
-          Color(0xFF1FA9DC),
-        ],
-        stops: [0, 0.5, 1],
-      ),
-    ),
-    child: FloatingActionButton.large(
-      onPressed: () {
-        viewModel.changeIndex(0); // 홈 스크린으로 이동하기 위해 selectedIndex를 0으로 설정
-      },
-      elevation: 0,
-      highlightElevation: 2,
-      shape: const CircleBorder(),
-      backgroundColor: Colors.transparent,
-      splashColor: const Color(0xFF98E3FF),
-      child: SvgPicture.asset(
-        'assets/icons/house.svg',
-        fit: BoxFit.scaleDown,
-        color: Colors.white,
-      ),
-    ),
-  );
+        width: 70,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFF1FA9DC),
+              Color(0xFF1FA9DC),
+              Color(0xFF1FA9DC),
+            ],
+            stops: [0, 0.5, 1],
+          ),
+        ),
+        child: FloatingActionButton.large(
+          onPressed: () {
+            viewModel.changeIndex(0); // 홈 스크린으로 이동하기 위해 selectedIndex를 0으로 설정
+          },
+          elevation: 0,
+          highlightElevation: 2,
+          shape: const CircleBorder(),
+          backgroundColor: Colors.transparent,
+          splashColor: const Color(0xFF98E3FF),
+          child: SvgPicture.asset(
+            'assets/icons/house.svg',
+            fit: BoxFit.scaleDown,
+            color: Colors.white,
+          ),
+        ),
+      );
 
   @override
   FloatingActionButtonLocation? get floatingActionButtonLocation =>
@@ -75,7 +75,7 @@ class RootScreen extends BaseScreen<RootViewModel> {
   bool get extendBodyBehindAppBar => true;
 
   @override
-  Color? get unSafeAreaColor => const Color(0xFFF0F4F8);
+  Color? get unSafeAreaColor => const Color(0xFFFFFFFF);
 
   @override
   bool get setTopOuterSafeArea => false;

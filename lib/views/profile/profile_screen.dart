@@ -12,9 +12,10 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: ColorSystem.white,
-        child: SafeArea(
+      body: SafeArea(
+        top: true,
+        child: Container(
+          color: ColorSystem.white,
           child: StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
