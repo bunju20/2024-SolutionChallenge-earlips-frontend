@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_sound/flutter_sound.dart';
@@ -6,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:earlips/views/script/analyze_screen.dart';
 
 class CreateScriptViewModel extends ChangeNotifier {
   bool isRecording = false;
@@ -150,6 +152,8 @@ class CreateScriptViewModel extends ChangeNotifier {
   void complete() {
     print("완료버튼 눌렀습니다.");
     sendTextAndAudio(); // 텍스트와 오디오 파일 전송
+    //스크린을 이동 analyze_screen으로 이동하는 코드
+    Get.to(() => AnalyzeScreen());
   }
 
 
