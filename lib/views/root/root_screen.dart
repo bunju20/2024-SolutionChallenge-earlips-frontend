@@ -22,6 +22,7 @@ class RootScreen extends BaseScreen<RootViewModel> {
         index: viewModel.selectedIndex,
         children: const [
           HomeScreen(),
+          StudyMain(),
           ProfileScreen(),
         ],
       ),
@@ -51,7 +52,7 @@ class RootScreen extends BaseScreen<RootViewModel> {
     ),
     child: FloatingActionButton.large(
       onPressed: () {
-        Get.toNamed(Routes.HOME);
+        viewModel.changeIndex(0); // 홈 스크린으로 이동하기 위해 selectedIndex를 0으로 설정
       },
       elevation: 0,
       highlightElevation: 2,
