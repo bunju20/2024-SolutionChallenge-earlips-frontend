@@ -31,7 +31,7 @@ class DateStudyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('대본으로 학습하기'),
+        title: Text('2024년 02월 18일'),
         centerTitle: true,
       ),
       body: ListView.separated(
@@ -53,27 +53,61 @@ class DateStudyScreen extends StatelessWidget {
                 ),
               ],
             ),
-            child: ListTile(
-              contentPadding: const EdgeInsets.all(20),
-              title: Text(
-                session.title,
-                style: const TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.only(left: 20.0, top: 16.0),
+                    child: _SmallCard(name: '대본')),
+                ListTile(
+                  contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
+                  title: Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      session.title,
+                      style: const TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    // Todo: 세부 대본 학습 페이지로 이동하도록 구현
+                  },
                 ),
-              ),
-              subtitle: Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Text(DateFormat('yyyy/MM/dd').format(session.createdDate)),
-              ),
-              onTap: () {
-                // Todo: 세부 대본 학습 페이지로 이동하도록 구현
-              },
+              ],
             ),
           );
         },
         separatorBuilder: (context, index) => const SizedBox(height: 20), // 카드들 사이의 간격 조정
       ),
+    );
+  }
+}
+
+class _SmallCard extends StatelessWidget {
+  final String name;
+  const _SmallCard({super.key,required this.name});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4.0),
+        color: Color(0xFF1FA9DC),
+      ),
+      //왼쪽에 붙게
+      alignment: Alignment.center,
+      width: 50,
+      height:20,
+      child: Text(name,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+          fontFamily: 'Pretendard-Bold',
+          fontWeight: FontWeight.bold,
+        ),
+    ),
     );
   }
 }
