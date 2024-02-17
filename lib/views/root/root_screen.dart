@@ -19,9 +19,9 @@ class RootScreen extends BaseScreen<RootViewModel> {
     return Obx(
       () => IndexedStack(
         index: viewModel.selectedIndex,
-        children: const [
+        children: [
           HomeScreen(),
-          ProfileScreen(),
+          const ProfileScreen(),
         ],
       ),
     );
