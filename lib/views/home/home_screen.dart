@@ -279,8 +279,8 @@ class _Circle extends StatelessWidget {
         children: [
           SvgPicture.asset(
             'assets/images/home/circle.svg',
-            width: 110,
-            height: 110,
+            width: 90,
+            height: 90,
           ),
           Obx(() => Text(
                 homeViewModel.circleNumber.toString(), // Observable 값을 사용
@@ -319,7 +319,7 @@ class _SpeakingAbility extends StatelessWidget {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 0.0, right: 25.0, left: 40.0),
+          margin: const EdgeInsets.only(top: 8.0, right: 25.0, left: 40.0),
           child: Row(
             children: [
               Obx(() => Text(
