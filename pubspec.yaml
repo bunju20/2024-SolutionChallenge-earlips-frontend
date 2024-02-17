@@ -33,6 +33,7 @@ dependencies:
     flutter_calendar_week: ^3.0.2
     firebase_database: ^10.4.5
     cloud_firestore: ^4.15.4
+    http: ^1.2.0
 
 dev_dependencies:
     flutter_test:
