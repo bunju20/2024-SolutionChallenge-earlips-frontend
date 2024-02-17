@@ -41,7 +41,7 @@ class StudyMain extends BaseScreen<StudyViewModel> {
                             subtitle: "옴소 교정 및 발음 테스트",
                             imagePath: "assets/images/study/1.png",
                             onTap: (){
-                              Get.to(() => RealCreateScriptPage());
+
                             },
                             ImgSize: 85,
                           ),
@@ -50,7 +50,7 @@ class StudyMain extends BaseScreen<StudyViewModel> {
                             subtitle: "단어 교정 및 발음 테스트",
                             imagePath: "assets/images/study/2.png",
                             onTap: (){
-                              Get.to(() => RealCreateScriptPage());
+
                             },
                             ImgSize: 150,
                           ),
@@ -63,7 +63,7 @@ class StudyMain extends BaseScreen<StudyViewModel> {
                             subtitle: "문장 교정 및 발음 테스트",
                             imagePath: "assets/images/study/3.png",
                             onTap: (){
-                              Get.to(() => RealCreateScriptPage());
+
                             },
                             ImgSize: 85,
                           ),
@@ -72,7 +72,7 @@ class StudyMain extends BaseScreen<StudyViewModel> {
                             subtitle: "대본 입력 및 발음 테스트",
                             imagePath: "assets/images/study/4.png",
                             onTap: (){
-                              Get.to(() => RealCreateScriptPage());
+
                             },
                             ImgSize: 85,
                           ),
@@ -152,3 +152,4 @@ class _Card extends BaseWidget<StudyViewModel> {
     );
   }
 }
+

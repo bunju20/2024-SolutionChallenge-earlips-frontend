@@ -40,7 +40,7 @@ class _ContributeState extends State<Contribute> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DateStudyScreen(date: DateTime(2024, 2, 11),),
+              builder: (context) => DateStudyScreen(date: datetime),
             ),
           );
         },
