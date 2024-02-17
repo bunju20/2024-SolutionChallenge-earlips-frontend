@@ -4,9 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:earlips/views/base/base_widget.dart';
 import 'package:earlips/viewModels/study/study_viewmodel.dart';
+import 'package:earlips/views/study/date_study_screen.dart';
 
 class Contribute extends StatefulWidget {
   const Contribute({Key? key}) : super(key: key);
+
 
   @override
   _ContributeState createState() => _ContributeState();
@@ -33,7 +35,14 @@ class _ContributeState extends State<Contribute> {
         minDate: DateTime.now().add(const Duration(days: -365)),
         maxDate: DateTime.now().add(const Duration(days: 365)),
         onDatePressed: (DateTime datetime) {
-          // Handle date selection
+          //var data = await fetchDataForDate(datetime);
+          // 새로운 화면으로 이동하며 데이터 전달
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DateStudyScreen(date: DateTime(2024, 2, 11),),
+            ),
+          );
         },
         onDateLongPressed: (DateTime datetime) {
           // Handle long press on date
