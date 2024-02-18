@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -67,6 +68,9 @@ class UserViewModel extends GetxController {
 
   RxDouble maxYValue = 0.0.obs;
   RxList<FlSpot> flSpots = <FlSpot>[].obs;
+  final DataFetcher _dataFetcher = DataFetcher();
+  RxList<Map<DateTime, int>> graphData = RxList<Map<DateTime, int>>([]);
+
 
   @override
   @override
@@ -74,6 +78,12 @@ class UserViewModel extends GetxController {
     super.onInit();
     updateMaxYValue();
     updateFlSpots();
+    fetchAndSetGraphData();
+  }
+  void fetchAndSetGraphData() async {
+    final data = await _dataFetcher.fetchGraphData();
+    graphData.value = data;
+    print(graphData);
   }
 
   void updateFlSpots() {
@@ -222,5 +232,46 @@ class UserViewModel extends GetxController {
         snackPosition: SnackPosition.TOP,
       );
     }
+  }
+}
+
+
+
+class DataFetcher {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // 현재부터 30일 전까지의 데이터를 가져와서 List<Map<DateTime, int>> 형태로 반환
+  Future<List<Map<DateTime, int>>> fetchGraphData() async {
+    List<Map<DateTime, int>> graphData = [];
+    final uid = _auth.currentUser?.uid;
+
+    if (uid != null) {
+      DateTime now = DateTime.now();
+      DateTime startDate = DateTime(now.year, now.month, now.day - 30);
+
+      for (int i = 0; i <= 30; i++) {
+        DateTime currentDate = startDate.add(Duration(days: i));
+        String formattedDate = DateFormat('yyyyMMdd').format(currentDate);
+
+        var docSnapshot = await _firestore
+            .collection('users')
+            .doc(uid)
+            .collection('records')
+            .doc(formattedDate)
+            .get();
+
+        if (docSnapshot.exists) {
+          Map<String, dynamic> data = docSnapshot.data()!;
+          int cnt = data['cnt'] ?? 0;
+          graphData.add({currentDate: cnt});
+        } else {
+          // 해당 날짜에 데이터가 없는 경우 cnt를 0으로 처리
+          graphData.add({currentDate: 0});
+        }
+      }
+    }
+
+    return graphData;
   }
 }
