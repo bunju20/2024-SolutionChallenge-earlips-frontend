@@ -1,5 +1,6 @@
 import 'package:earlips/utilities/style/color_styles.dart';
 import 'package:earlips/viewModels/user/user_viewmodel.dart';
+import 'package:earlips/views/base/default_back_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -17,8 +18,11 @@ class ProfileLanguageScreen extends StatelessWidget {
     String learningLanguage = tr('learning_language');
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: DefaultBackAppbar(
+          title: "언어 설정",
+        ),
       ),
       body: Container(
         width: double.infinity,

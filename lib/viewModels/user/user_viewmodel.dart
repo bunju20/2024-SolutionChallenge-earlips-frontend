@@ -12,6 +12,40 @@ class UserViewModel extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final storage = const FlutterSecureStorage(); // Instance for secure storage
 
+  // final List<WordCard> wordList = [
+  //   WordCard(
+  //       id: 1,
+  //       word: "강",
+  //       speaker: "가-앙",
+  //       video: "https://www.youtube.com/watch?v=OzHrIz-wMLA"),
+  //   WordCard(
+  //       id: 2,
+  //       word: "서",
+  //       speaker: "가-앙",
+  //       video: "https://www.youtube.com/watch?v=OzHrIz-wMLA"),
+  //   WordCard(
+  //       id: 3,
+  //       word: "희",
+  //       speaker: "가-앙",
+  //       video: "https://www.youtube.com/watch?v=OzHrIz-wMLA"),
+  //   WordCard(
+  //       id: 4,
+  //       word: "찬",
+  //       speaker: "차-안",
+  //       video: "https://www.youtube.com/watch?v=OzHrIz-wMLA"),
+  //   WordCard(
+  //       id: 5,
+  //       word: "캬",
+  //       speaker: "캬",
+  //       video: "https://www.youtube.com/watch?v=OzHrIz-wMLA"),
+  // ];
+
+  //   for (final word in wordList) {
+  //   await FirebaseFirestore.instance
+  //       .collection('words')
+  //       .doc(word.id.toString())
+  //       .set(word.toMap());
+  // }
   // User Profile Data
   final Rx<User?> _firebaseUser = Rx<User?>(null);
   String? get uid => _firebaseUser.value?.uid;
@@ -107,6 +141,15 @@ class UserViewModel extends GetxController {
 
   Future<void> getUserData() async {
     if (uid != null) {
+      // // users 컬렉션의 하위 컬렉션에 단어 완료 정보 삽입
+      // for (final word in wordList) {
+      //   await FirebaseFirestore.instance
+      //       .collection('users')
+      //       .doc(uid)
+      //       .collection('words')
+      //       .doc(word.id.toString())
+      //       .set(UserWord(wordId: word.id, isDone: false).toMap());
+      // }
       final doc = await _firestore.collection('users').doc(uid).get();
       userData.value = doc.data() ?? {};
       nickname.value = userData.value['nickname'] ?? '';
