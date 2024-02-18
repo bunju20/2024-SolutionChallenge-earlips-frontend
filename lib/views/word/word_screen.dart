@@ -14,7 +14,9 @@ class WordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final wordViewModel = Get.put(WordViewModel());
+    final wordViewModel = Get.put(WordViewModel(
+      type: type,
+    ));
 
     final PageController pageController =
         PageController(initialPage: wordViewModel.currentIndex.value);
@@ -43,6 +45,7 @@ class WordScreen extends StatelessWidget {
                     builder: (controller) => WordList(
                       // viewmodel
                       wordDataList: controller.wordList,
+                      type: type,
                       pageController: pageController,
                     ),
                   ),
@@ -67,20 +70,40 @@ class WordScreen extends StatelessWidget {
                 ],
               ),
             ),
-
+            const Spacer(),
+            // wordViewModel   final String video로 영상 유튜브 링크를 바로 볼 수 있게 하기
+            const Padding(
+              padding: EdgeInsets.all(20.0),
+              // child: YoutubeWordPlayer(),
+            ),
             const Spacer(),
             // wordViewModel   final String video로 영상 유튜브 링크를 바로 볼 수 있게 하기
             ElevatedButton(
-              onPressed: () {
-                Get.toNamed(
-                  '/video',
-                  arguments: wordViewModel
-                      .wordList[wordViewModel.currentIndex.value]
-                      .wordCard
-                      .video,
+              onPressed: () async {
+                await wordViewModel.markWordAsDone(wordViewModel
+                    .wordList[wordViewModel.currentIndex.value].wordCard);
+
+                // YouTubePlayer 위젯 추가
+                Get.dialog(
+                  AlertDialog(
+                    title: const Text('동영상 재생'),
+                    content: Column(
+                      children: [
+                        YoutubePlayer(
+                          controller: YoutubePlayerController(
+                            initialVideoId: wordViewModel
+                                .wordList[wordViewModel.currentIndex.value]
+                                .wordCard
+                                .video
+                                .split('v=')[1],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               },
-              child: const Text("영상 보기"),
+              child: const Text("므"),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -117,6 +140,30 @@ class WordScreen extends StatelessWidget {
             const SizedBox(height: 80),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class YoutubeWordPlayer extends StatefulWidget {
+  const YoutubeWordPlayer({super.key});
+
+  @override
+  State<YoutubeWordPlayer> createState() => _YoutubeWordPlayerState();
+}
+
+class _YoutubeWordPlayerState extends State<YoutubeWordPlayer> {
+  final wordViewModel = Get.find<WordViewModel>();
+
+  @override
+  Widget build(BuildContext context) {
+    print(
+        'video: ${wordViewModel.wordList[wordViewModel.currentIndex.value].wordCard.video}');
+    return YoutubePlayer(
+      controller: YoutubePlayerController(
+        initialVideoId: wordViewModel
+            .wordList[wordViewModel.currentIndex.value].wordCard.video
+            .split('v=')[1],
       ),
     );
   }

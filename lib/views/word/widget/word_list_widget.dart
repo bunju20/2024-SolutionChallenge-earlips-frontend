@@ -1,4 +1,3 @@
-import 'package:earlips/models/word_card_model.dart';
 import 'package:earlips/models/word_data_model.dart';
 import 'package:earlips/utilities/style/color_styles.dart';
 import 'package:earlips/viewModels/word/word_viewmodel.dart';
@@ -7,11 +6,15 @@ import 'package:get/get.dart';
 
 class WordList extends StatefulWidget {
   final List<WordData> wordDataList;
+  final int type;
 
   PageController pageController;
 
   WordList(
-      {super.key, required this.wordDataList, required this.pageController});
+      {super.key,
+      required this.wordDataList,
+      required this.pageController,
+      required this.type});
 
   @override
   _WordListState createState() => _WordListState();
@@ -38,7 +41,6 @@ class _WordListState extends State<WordList> {
           setState(() {
             wordViewModel.currentIndex.value = index;
           });
-          print('currentIndex: ${wordViewModel.currentIndex.value}');
         },
         itemBuilder: (context, index) {
           final wordData = widget.wordDataList[index];
@@ -102,8 +104,8 @@ class _WordListState extends State<WordList> {
                     tileColor: Colors.white,
                     title: Text(
                       wordData.wordCard.word,
-                      style: const TextStyle(
-                        fontSize: 24,
+                      style: TextStyle(
+                        fontSize: widget.type == 2 ? 19 : 24,
                         fontWeight: FontWeight.w600,
                         color: ColorSystem.black,
                       ),
@@ -111,8 +113,8 @@ class _WordListState extends State<WordList> {
                     ),
                     subtitle: Text(
                       wordData.wordCard.speaker,
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: TextStyle(
+                        fontSize: widget.type == 2 ? 16 : 20,
                         fontWeight: FontWeight.w600,
                         color: ColorSystem.gray4,
                       ),

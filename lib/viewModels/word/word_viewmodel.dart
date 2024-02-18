@@ -9,15 +9,17 @@ import 'package:intl/intl.dart';
 class WordViewModel extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final int type;
 
   RxList<WordData> wordList = RxList<WordData>([]);
   RxInt currentIndex = 0.obs;
 
+  WordViewModel({required this.type});
+
   @override
   void onInit() {
     super.onInit();
-    fetchWords();
-    fetchWords();
+    fetchWords(type);
     wordList.refresh();
   }
 
@@ -26,11 +28,15 @@ class WordViewModel extends GetxController {
   }
 
   // 단어 데이터 가져오기
-  Future<void> fetchWords() async {
+  Future<void> fetchWords(int type) async {
     final uid = _auth.currentUser?.uid;
     if (uid != null) {
       // 모든 단어 데이터 가져오기
-      final wordsQuery = await _firestore.collection('words').get();
+      final wordsQuery = await _firestore
+          .collection('words')
+          .where('type', isEqualTo: type)
+          .get();
+
       final allWords = wordsQuery.docs
           .map((doc) => WordCard.fromDocument(doc.data()))
           .toList();
@@ -62,8 +68,10 @@ class WordViewModel extends GetxController {
   // 단어 완료 처리
   Future<void> markWordAsDone(WordCard word) async {
     final uid = _auth.currentUser?.uid;
+    String currentDate = DateFormat('yyyy/MM/dd').format(DateTime.now());
+
     if (uid != null) {
-      // Add or update data in the user's 'words' subcollection in Firestore
+      // 유저 단어 데이터 업데이트
       await _firestore
           .collection('users')
           .doc(uid)
@@ -72,13 +80,47 @@ class WordViewModel extends GetxController {
           .set({
         'wordId': word.id,
         'isDone': true,
-        'doneDate': DateFormat('yyyy/MM/dd').format(DateTime.now()),
+        'doneDate': currentDate,
       });
 
+      // 유저 record 업데이트
+      DocumentReference recordRef = _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('records')
+          .doc(DateFormat('yyyyMMdd').format(DateTime.now()));
+
+      try {
+        await _firestore.runTransaction((transaction) async {
+          // Get the current record
+          DocumentSnapshot recordSnapshot = await transaction.get(recordRef);
+
+          if (recordSnapshot.exists) {
+            String existingDate = recordSnapshot.get('date');
+            if (existingDate == currentDate) {
+              transaction.update(recordRef, {
+                'cnt': FieldValue.increment(1),
+              });
+            }
+          } else {
+            print('different date!!!!!!!!!!!!!');
+            transaction.set(recordRef, {
+              'cnt': 1,
+              'date': currentDate,
+              'dateFormat': DateTime.now(),
+            });
+          }
+        });
+      } catch (e) {
+        print("Transaction failed: $e");
+      }
+      // 로컬에서 단어 데이터 업데이트
       final index =
           wordList.indexWhere((element) => element.wordCard.id == word.id);
+
+      // 만약 로컬에서 단어를 찾지 못했을 경우를 대비
       if (index != -1) {
-        // Handle the scenario where we don't find the card locally.
+        // 단어 데이터 업데이트
         wordList[index] = WordData(
           wordCard: word,
           userWord: UserWord(

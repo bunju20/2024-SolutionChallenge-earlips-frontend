@@ -1,3 +1,4 @@
+import 'package:earlips/views/base/default_back_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 // ViewModel import 경로는 실제 프로젝트 구조에 따라 달라질 수 있습니다.
@@ -13,14 +14,11 @@ class DateStudyScreen extends StatelessWidget {
     final sessions = viewModel.getSessions();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(DateFormat('yyyy/MM/dd').format(date),
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            )), // 동적으로 날짜를 표시
-        centerTitle: true,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: DefaultBackAppbar(
+          title: DateFormat('yyyy/MM/dd').format(date),
+        ),
       ),
       body: ListView.separated(
         padding: const EdgeInsets.fromLTRB(25, 20, 25, 20),
