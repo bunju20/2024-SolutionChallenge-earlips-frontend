@@ -8,12 +8,15 @@ import '../../viewModels/root/root_viewmodel.dart';
 import '../base/base_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:earlips/views/study/study_main.dart';
+import 'package:earlips/viewModels/user/user_viewmodel.dart';
 
 class RootScreen extends BaseScreen<RootViewModel> {
   const RootScreen({super.key});
 
+  //userviewModel
   @override
   Color? get screenBackgroundColor => const Color(0xFFAAA4F8);
+
 
   @override
   Widget buildBody(BuildContext context) {
@@ -52,7 +55,10 @@ class RootScreen extends BaseScreen<RootViewModel> {
         ),
         child: FloatingActionButton.large(
           onPressed: () {
-            viewModel.changeIndex(0); // 홈 스크린으로 이동하기 위해 selectedIndex를 0으로 설정
+            final UserViewModel userViewModel = Get.find<UserViewModel>();
+            userViewModel.fetchAndSetGraphData();
+            viewModel.changeIndex(0);
+            // 홈 스크린으로 이동하기 위해 selectedIndex를 0으로 설정
           },
           elevation: 0,
           highlightElevation: 2,

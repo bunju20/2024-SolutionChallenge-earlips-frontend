@@ -1,6 +1,9 @@
+import 'package:earlips/viewModels/user/user_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:math';
 
 class AppColors {
   static const Color contentColorCyan = Color(0xff23b6e6);
@@ -8,264 +11,132 @@ class AppColors {
   static const Color mainGridLineColor = Color(0xff37434d);
 }
 
-class ChartData {
-  static List<FlSpot> getMainDataSpots() {
-    return [
-      FlSpot(0, 3),
-      FlSpot(2.6, 2),
-      FlSpot(4.9, 5),
-      FlSpot(6.8, 3.1),
-      FlSpot(8, 4),
-      FlSpot(9.5, 3),
-      FlSpot(11, 4),
-    ];
-  }
-
-  static List<FlSpot> getAvgDataSpots() {
-    return [
-      FlSpot(0, 3.44),
-      FlSpot(2.6, 3.44),
-      FlSpot(4.9, 3.44),
-      FlSpot(6.8, 3.44),
-      FlSpot(8, 3.44),
-      FlSpot(9.5, 3.44),
-      FlSpot(11, 3.44),
-    ];
-  }
-}
-
-
-class LineChartSample2 extends StatefulWidget {
-  const LineChartSample2({super.key});
-
-  @override
-  State<LineChartSample2> createState() => _LineChartSample2State();
-}
-
-class _LineChartSample2State extends State<LineChartSample2> {
-  List<Color> gradientColors = [
+class GradientColors {
+  static List<Color> get primaryGradient => [
     AppColors.contentColorCyan,
     AppColors.contentColorBlue,
   ];
+}
 
-  bool showAvg = false;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: Get.height * 0.20,
-      child: Stack(
-        children: <Widget>[
-          AspectRatio(
-            aspectRatio: 1.70,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                right: 0,
-                left: 0,
-                top: 10,
-                bottom: 10,
-              ),
-              child: LineChart(
-                showAvg ? avgData() : mainData(),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 60,
-            height: 34,
-            child: TextButton(
-              onPressed: () {
-                setState(() {
-                  showAvg = !showAvg;
-                });
-              },
-              child: Text(
-                'avg',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
+class ChartTitleWidgets {
+  static Widget bottomTitleWidgets(double value, TitleMeta meta, DateTime startDate, DateTime endDate) {
+    final style = TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 16,
     );
-    Widget text;
-    switch (value.toInt()) {
-      case 2:
-        text = const Text('MAR', style: style);
-        break;
-      case 5:
-        text = const Text('JUN', style: style);
-        break;
-      case 8:
-        text = const Text('SEP', style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
+
+    String text;
+    if (value == 0) {
+      text = DateFormat('MMM d').format(startDate).toUpperCase();
+    } else if (value == 30) {
+      text = DateFormat('MMM d').format(endDate).toUpperCase();
+    } else {
+      return Container();
     }
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      child: text,
+      child: Text(text, style: style),
     );
   }
 
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
+  static Widget leftTitleWidgets(double value, TitleMeta meta, double maxYValue) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 15,
+      fontSize: 13,
     );
-    String text;
-    switch (value.toInt()) {
-      case 1:
-        text = '10K';
-        break;
-      case 3:
-        text = '30k';
-        break;
-      case 5:
-        text = '50k';
-        break;
-      default:
-        return Container();
+    if (value == 0 || value == maxYValue) {
+      print(maxYValue);
+      print(value);
+      return Text('${value.toInt()}', style: style, textAlign: TextAlign.left);
     }
+    return Container();
+  }
+}
 
-    return Text(text, style: style, textAlign: TextAlign.left);
+class LineChartSample2 extends StatefulWidget {
+  @override
+  _LineChartSample2State createState() => _LineChartSample2State();
+}
+
+class _LineChartSample2State extends State<LineChartSample2> {
+  final UserViewModel viewModel = Get.put(UserViewModel()); // viewModel 인스턴스화
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final startDate = DateTime.now().subtract(Duration(days: 30));
+    final endDate = DateTime.now();
+      return  Container(
+        height: Get.height * 0.20,
+        width: Get.width * 0.75,
+        child: LineChartComponent(
+          dataSpots: viewModel.flSpots,
+          gradientColors: GradientColors.primaryGradient,
+          maxYValue: viewModel.maxYValue.value, // Obx 내부에서 계산된 maxYValue를 사용
+          startDate: startDate,
+          endDate: endDate,
+        ),
+      );
+    }
+}
+
+
+class LineChartComponent extends StatelessWidget {
+  final List<FlSpot> dataSpots;
+  final List<Color> gradientColors;
+  final double maxYValue;
+  final DateTime startDate;
+  final DateTime endDate;
+
+  const LineChartComponent({
+    Key? key,
+    required this.dataSpots,
+    required this.gradientColors,
+    required this.maxYValue,
+    required this.startDate,
+    required this.endDate,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1.70,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Obx(() => LineChart(mainData()),
+        ),
+      ),
+    );
   }
 
   LineChartData mainData() {
     return LineChartData(
       gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
-        horizontalInterval: 1,
-        verticalInterval: 1,
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: AppColors.mainGridLineColor,
-            strokeWidth: 0.0,
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: AppColors.mainGridLineColor,
-            strokeWidth: 0.1,
-          );
-        },
+        // Grid 설정은 이전과 동일하게 유지
       ),
       titlesData: FlTitlesData(
-        show: true,
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
+        // 타이틀 데이터 설정, 이전과 동일하게 유지하되 startDate와 endDate를 사용
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
             interval: 1,
-            getTitlesWidget: bottomTitleWidgets,
+            getTitlesWidget: (value, meta) => ChartTitleWidgets.bottomTitleWidgets(value, meta, startDate, endDate),
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: 1,
-            getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
-          ),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: const Color(0xffffffff)),
-      ),
-      minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-          ],
-          isCurved: true,
-          gradient: LinearGradient(
-            colors: gradientColors,
-          ),
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.3))
-                  .toList(),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 
-  LineChartData avgData() {
-    return LineChartData(
-      lineTouchData: const LineTouchData(enabled: false),
-      gridData: FlGridData(
-        show: true,
-        drawHorizontalLine: true,
-        verticalInterval: 1,
-        horizontalInterval: 1,
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 0.5,
-          );
-        },
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 0.5,
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            getTitlesWidget: bottomTitleWidgets,
             interval: 1,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: leftTitleWidgets,
+            getTitlesWidget: (value, meta) => ChartTitleWidgets.leftTitleWidgets(value, meta, maxYValue),
             reservedSize: 42,
-            interval: 1,
           ),
         ),
         topTitles: const AxisTitles(
@@ -274,54 +145,36 @@ class _LineChartSample2State extends State<LineChartSample2> {
         rightTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
-      ),
-      borderData: FlBorderData(
-        show: false,
-      ),
-      minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3.44),
-            FlSpot(2.6, 3.44),
-            FlSpot(4.9, 3.44),
-            FlSpot(6.8, 3.44),
-            FlSpot(8, 3.44),
-            FlSpot(9.5, 3.44),
-            FlSpot(11, 3.44),
-          ],
-          isCurved: true,
-          gradient: LinearGradient(
-            colors: [
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-            ],
-          ),
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              colors: [
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-              ],
             ),
-          ),
-        ),
-      ],
+            borderData: FlBorderData(
+              show: true,
+              border: Border.all(color: const Color(0xffffffff)),
+            ),
+            minX: 0,
+            maxX: 30,
+            minY: 0,
+            maxY: maxYValue, // 이거에 따라서 그래프 높이가 달라짐
+            lineBarsData: [
+              LineChartBarData(
+                show: dataSpots.isNotEmpty,
+                spots: dataSpots,
+                isCurved: true,
+                gradient: LinearGradient(
+                  colors: gradientColors,
+                ),
+                barWidth: 5,
+                isStrokeCapRound: true,
+                dotData: const FlDotData(
+                  show: false,
+                ),
+                belowBarData: BarAreaData(
+                  show: true,
+                  gradient: LinearGradient(
+                    colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+                  ),
+                ),
+              ),
+            ],
     );
   }
 }

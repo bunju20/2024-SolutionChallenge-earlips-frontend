@@ -1,6 +1,10 @@
 // userViewmodel
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
@@ -55,12 +59,27 @@ class UserViewModel extends GetxController {
   // nickname
   final nickname = ''.obs;
 
+  //Score
+  final speakingScore = 10.obs;
+  final pitchScore = 10.obs;
+  final circleNumber = 10.obs;
+  final linialPersent = 0.1.obs;
+
+
+  final flSpots = <FlSpot>[].obs;
+  final DataFetcher _dataFetcher = DataFetcher();
+  RxDouble maxYValue = 0.0.obs;
+
+  @override
   @override
   void onInit() {
     super.onInit();
-    _firebaseUser.bindStream(_auth.authStateChanges());
-
-    if (uid != null) getUserData();
+    fetchAndSetGraphData();
+  }
+  void fetchAndSetGraphData() async {
+    final data = await _dataFetcher.fetchGraphData();
+    flSpots.value = data;
+    maxYValue.value = _dataFetcher.maxYValue;
   }
 
   Future<void> getUserData() async {
@@ -79,6 +98,11 @@ class UserViewModel extends GetxController {
       nickname.value = userData.value['nickname'] ?? '';
       systemLanguage.value = userData.value['systemLanguage'] ?? '한국어';
       learningLanguage.value = userData.value['learningLanguage'] ?? '한국어';
+
+      speakingScore.value = userData.value['speakingScore'] ?? 86;
+      pitchScore.value = userData.value['pitchScore'] ?? 50;
+      circleNumber.value = userData.value['circleNumber'] ?? 80;
+      linialPersent.value = userData.value['linialPersent'] ?? 0.8;
     }
   }
 
@@ -143,3 +167,54 @@ class UserViewModel extends GetxController {
     }
   }
 }
+
+
+class DataFetcher {
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  double maxYValue = 0.0;
+
+  Future<List<FlSpot>> fetchGraphData() async {
+    List<FlSpot> spots = [];
+    final uid = _auth.currentUser?.uid;
+    if (uid == null) return spots;
+    maxYValue = 0.0;
+
+    DateTime now = DateTime.now();
+    DateTime startDate = DateTime(now.year, now.month, now.day - 29);
+    DateFormat formatter = DateFormat('yyyyMMdd'); // Reuse the formatter
+
+
+    // Prepare a list of all dates to query
+    List<Future<DocumentSnapshot>> futures = List.generate(31, (i) {
+      DateTime currentDate = startDate.add(Duration(days: i));
+      String formattedDate = formatter.format(currentDate);
+      return _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('records')
+          .doc(formattedDate)
+          .get();
+    });
+
+    // Fetch all data concurrently
+    List<DocumentSnapshot> snapshots = await Future.wait(futures);
+
+    // Process the fetched data
+    for (int i = 0; i < snapshots.length; i++) {
+      if (snapshots[i].exists) {
+        Map<String, dynamic> data = snapshots[i].data() as Map<String, dynamic>;
+        double cnt = (data['cnt'] ?? 0).toDouble();
+        spots.add(FlSpot(i.toDouble(), cnt));
+        maxYValue = max(maxYValue, cnt.toDouble());
+      } else {
+        spots.add(FlSpot(i.toDouble(), 0)); // Handle missing data
+      }
+    }
+
+    return spots;
+  }
+
+}
+
