@@ -7,8 +7,7 @@ import 'package:earlips/viewModels/study/study_viewmodel.dart';
 import 'package:earlips/views/study/date_study_screen.dart';
 
 class Contribute extends StatefulWidget {
-  const Contribute({Key? key}) : super(key: key);
-
+  const Contribute({super.key});
 
   @override
   _ContributeState createState() => _ContributeState();
@@ -28,7 +27,7 @@ class _ContributeState extends State<Contribute> {
     return Container(
       width: Get.width * 0.9,
       color: Colors.white,
-      height: Get.height * 0.2,
+      height: Get.height * 0.175,
       child: CalendarWeek(
         controller: _controller, // Use initialized controller
         showMonth: true,
@@ -44,23 +43,22 @@ class _ContributeState extends State<Contribute> {
             ),
           );
         },
-        onDateLongPressed: (DateTime datetime) {
-          // Handle long press on date
-        },
-        onWeekChanged: () {
-          // Handle week change
-        },
+        onDateLongPressed: (DateTime datetime) {},
+        onWeekChanged: () {},
         monthViewBuilder: (DateTime time) => Align(
           alignment: FractionalOffset.center,
-          child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 4),
-              child: Text(
-                DateFormat.yMMMM().format(time),
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.blue, fontWeight: FontWeight.w600),
-              )),
+          child: Column(
+            children: [
+              Container(
+                  margin: const EdgeInsets.symmetric(vertical: 4),
+                  child: Text(
+                    DateFormat.yMMMM().format(time),
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        color: Colors.blue, fontWeight: FontWeight.w600),
+                  )),
+            ],
+          ),
         ),
         decorations: [
           DecorationItem(
@@ -70,15 +68,15 @@ class _ContributeState extends State<Contribute> {
                 Icons.today,
                 color: Colors.blue,
               )),
-          DecorationItem(
-              date: DateTime.now().add(const Duration(days: 3)),
-              decoration: const Text(
-                'Holiday',
-                style: TextStyle(
-                  color: Colors.brown,
-                  fontWeight: FontWeight.w600,
-                ),
-              )),
+          // DecorationItem(
+          //     date: DateTime.now().add(const Duration(days: 3)),
+          //     decoration: const Text(
+          //       'Holiday',
+          //       style: TextStyle(
+          //         color: Colors.brown,
+          //         fontWeight: FontWeight.w600,
+          //       ),
+          //     )),
         ],
       ),
     );
