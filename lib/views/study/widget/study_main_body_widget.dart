@@ -3,6 +3,7 @@ import 'package:earlips/views/study/widget/study_card_widget.dart';
 import 'package:earlips/views/word/word_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:earlips/views/paragraph/create_script_screen.dart';
 
 class StudyNainBodyWidget extends StatelessWidget {
   const StudyNainBodyWidget({super.key});
@@ -69,10 +70,7 @@ class StudyNainBodyWidget extends StatelessWidget {
               subtitle: "대본 입력 및 발음 테스트",
               imagePath: "assets/images/study/4.png",
               onTap: () {
-                Get.to(() => const WordScreen(
-                      title: "문단 교정",
-                      type: 3,
-                    ));
+                Get.to(() => CreateScriptPage());
               },
               imgSize: 85,
             ),
