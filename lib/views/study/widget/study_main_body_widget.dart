@@ -24,7 +24,10 @@ class StudyNainBodyWidget extends StatelessWidget {
               subtitle: "옴소 교정 및 발음 테스트",
               imagePath: "assets/images/study/1.png",
               onTap: () {
-                Get.to(() => const WordScreen());
+                Get.to(() => const WordScreen(
+                      title: "음소 교정",
+                      type: 0,
+                    ));
               },
               imgSize: 85,
             ),
@@ -32,7 +35,12 @@ class StudyNainBodyWidget extends StatelessWidget {
               title: "단어 교정",
               subtitle: "단어 교정 및 발음 테스트",
               imagePath: "assets/images/study/2.png",
-              onTap: () {},
+              onTap: () {
+                Get.to(() => const WordScreen(
+                      title: "단어 교정",
+                      type: 1,
+                    ));
+              },
               imgSize: 150,
             ),
           ],
@@ -48,14 +56,24 @@ class StudyNainBodyWidget extends StatelessWidget {
               title: "문장 교정",
               subtitle: "문장 교정 및 발음 테스트",
               imagePath: "assets/images/study/3.png",
-              onTap: () {},
+              onTap: () {
+                Get.to(() => const WordScreen(
+                      title: "문장 교정",
+                      type: 2,
+                    ));
+              },
               imgSize: 85,
             ),
             StudyCardWidget(
               title: "문단 교정",
               subtitle: "대본 입력 및 발음 테스트",
               imagePath: "assets/images/study/4.png",
-              onTap: () {},
+              onTap: () {
+                Get.to(() => const WordScreen(
+                      title: "문단 교정",
+                      type: 3,
+                    ));
+              },
               imgSize: 85,
             ),
           ],
