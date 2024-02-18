@@ -2,9 +2,9 @@ import 'package:earlips/utilities/style/color_styles.dart';
 import 'package:earlips/viewModels/word/word_viewmodel.dart';
 import 'package:earlips/views/word/widget/blue_back_appbar.dart';
 import 'package:earlips/views/word/widget/word_list_widget.dart';
+import 'package:earlips/views/word/widget/word_youtube_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class WordScreen extends StatelessWidget {
   final String title;
@@ -72,38 +72,14 @@ class WordScreen extends StatelessWidget {
             ),
             const Spacer(),
             // wordViewModel   final String video로 영상 유튜브 링크를 바로 볼 수 있게 하기
-            const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: YoutubeWordPlayer(),
+            GetBuilder<WordViewModel>(
+              builder: (controller) => const Padding(
+                padding: EdgeInsets.all(20.0),
+                child: YoutubeWordPlayer(),
+              ),
             ),
             const Spacer(),
             // wordViewModel   final String video로 영상 유튜브 링크를 바로 볼 수 있게 하기
-            ElevatedButton(
-              onPressed: () async {
-                await wordViewModel.markWordAsDone(wordViewModel
-                    .wordList[wordViewModel.currentIndex.value].wordCard);
-                // YouTubePlayer 위젯 추가
-                Get.dialog(
-                  AlertDialog(
-                    title: const Text('동영상 재생'),
-                    content: Column(
-                      children: [
-                        YoutubePlayer(
-                          controller: YoutubePlayerController(
-                            initialVideoId: wordViewModel
-                                .wordList[wordViewModel.currentIndex.value]
-                                .wordCard
-                                .video
-                                .split('v=')[1],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-              child: const Text("므"),
-            ),
             ElevatedButton(
               onPressed: () async {
                 await wordViewModel.markWordAsDone(wordViewModel
@@ -141,37 +117,5 @@ class WordScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class YoutubeWordPlayer extends StatefulWidget {
-  const YoutubeWordPlayer({super.key});
-
-  @override
-  State<YoutubeWordPlayer> createState() => _YoutubeWordPlayerState();
-}
-
-class _YoutubeWordPlayerState extends State<YoutubeWordPlayer> {
-  final wordViewModel = Get.find<WordViewModel>();
-
-  @override
-  Widget build(BuildContext context) {
-    return GetBuilder<WordViewModel>(builder: (controller) {
-      if (controller.wordList.isEmpty) {
-        if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator()); // 로딩 중
-        } else {
-          return const Center(child: Text('아직 단어가 없습니다.')); // 데이터 없음
-        }
-      } else {
-        return YoutubePlayer(
-          controller: YoutubePlayerController(
-            initialVideoId: controller
-                .wordList[controller.currentIndex.value].wordCard.video
-                .split('v=')[1],
-          ),
-        );
-      }
-    });
   }
 }

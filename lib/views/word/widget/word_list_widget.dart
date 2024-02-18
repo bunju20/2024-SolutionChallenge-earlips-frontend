@@ -38,9 +38,7 @@ class _WordListState extends State<WordList> {
         controller: widget.pageController,
         itemCount: widget.wordDataList.length,
         onPageChanged: (index) {
-          setState(() {
-            wordViewModel.currentIndex.value = index;
-          });
+          wordViewModel.currentIndex.value = index;
         },
         itemBuilder: (context, index) {
           final wordData = widget.wordDataList[index];
