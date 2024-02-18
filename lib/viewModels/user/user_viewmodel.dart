@@ -30,42 +30,65 @@ class UserViewModel extends GetxController {
   final circleNumber = 10.obs;
   final linialPersent = 0.1.obs;
 
-  //Graph Data (날짜,해당 날짜에 학습한 단어등등의 횟수)
-  final RxList<Map<DateTime, int>> graphData = RxList<Map<DateTime, int>>();
+
   RxDouble maxYValue = 0.0.obs;
+  RxList<FlSpot> flSpots = <FlSpot>[].obs;
 
   @override
   @override
   void onInit() {
     super.onInit();
-    generateDummyData();
     updateMaxYValue();
+    updateFlSpots();
   }
 
-  void generateDummyData() {
-    final List<Map<DateTime, int>> dummyData = [];
-    final DateTime now = DateTime.now();
-    final Random random = Random();
-
-    for (int i = 1; i < 30; i++) {
-      DateTime date = now.subtract(Duration(days: i));
-      int value = random.nextInt(10) + 1; // 1부터 10 사이의 랜덤 값을 생성
-      dummyData.add({date: value});
-    }
-
-    graphData.addAll(dummyData); // RxList에 더미 데이터 추가
-    updateMaxYValue(); // maxYValue 업데이트;
+  void updateFlSpots() {
+    flSpots.value = convertToFlSpots();
   }
+
+  //데이터
+  List<Map<DateTime, int>> dummyData = [
+    {DateTime.now().subtract(Duration(days: 29)): 3},
+    {DateTime.now().subtract(Duration(days: 28)): 7},
+    {DateTime.now().subtract(Duration(days: 27)): 5},
+    {DateTime.now().subtract(Duration(days: 26)): 2},
+    {DateTime.now().subtract(Duration(days: 25)): 8},
+    {DateTime.now().subtract(Duration(days: 24)): 4},
+    {DateTime.now().subtract(Duration(days: 23)): 6},
+    {DateTime.now().subtract(Duration(days: 22)): 9},
+    {DateTime.now().subtract(Duration(days: 21)): 1},
+    {DateTime.now().subtract(Duration(days: 20)): 10},
+    {DateTime.now().subtract(Duration(days: 19)): 3},
+    {DateTime.now().subtract(Duration(days: 18)): 7},
+    {DateTime.now().subtract(Duration(days: 17)): 5},
+    {DateTime.now().subtract(Duration(days: 16)): 2},
+    {DateTime.now().subtract(Duration(days: 15)): 8},
+    {DateTime.now().subtract(Duration(days: 14)): 4},
+    {DateTime.now().subtract(Duration(days: 13)): 6},
+    {DateTime.now().subtract(Duration(days: 12)): 9},
+    {DateTime.now().subtract(Duration(days: 11)): 1},
+    {DateTime.now().subtract(Duration(days: 10)): 0},
+    {DateTime.now().subtract(Duration(days: 9)): 4},
+    {DateTime.now().subtract(Duration(days: 8)): 7},
+    {DateTime.now().subtract(Duration(days: 7)): 5},
+    {DateTime.now().subtract(Duration(days: 6)): 2},
+    {DateTime.now().subtract(Duration(days: 5)): 8},
+    {DateTime.now().subtract(Duration(days: 4)): 4},
+    {DateTime.now().subtract(Duration(days: 3)): 6},
+    {DateTime.now().subtract(Duration(days: 2)): 9},
+    {DateTime.now().subtract(Duration(days: 1)): 10},
+    {DateTime.now(): 10},
+  ];
+
 
   void updateMaxYValue() {
-    int maxWords = graphData.fold(0, (previousValue, element) => max(previousValue, element.values.first));
-    maxYValue.value = maxWords.toDouble();
+    // int maxWords = graphData.fold(0, (previousValue, element) => max(previousValue, element.values.first));
+    // maxYValue.value = maxWords.toDouble();
   }
 
   List<FlSpot> convertToFlSpots() {
     List<FlSpot> spots = [];
-    // 데이터를 날짜 기준으로 정렬
-    var sortedData = List<Map<DateTime, int>>.from(graphData);
+    var sortedData = List<Map<DateTime, int>>.from(dummyData);
     sortedData.sort((a, b) => a.keys.first.compareTo(b.keys.first));
 
     if (sortedData.isNotEmpty) {
@@ -78,7 +101,6 @@ class UserViewModel extends GetxController {
         spots.add(FlSpot(x, value.toDouble()));
       }
     }
-    print(spots);
     return spots;
   }
 

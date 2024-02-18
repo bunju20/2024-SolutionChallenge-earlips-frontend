@@ -64,16 +64,12 @@ class _LineChartSample2State extends State<LineChartSample2> {
   @override
   void initState() {
     super.initState();
-    viewModel.generateDummyData();
-    viewModel.convertToFlSpots();
-    viewModel.updateMaxYValue(); // viewModel을 통해 maxYValue 업데이트
   }
 
   @override
   Widget build(BuildContext context) {
     final startDate = DateTime.now().subtract(Duration(days: 30));
     final endDate = DateTime.now();
-    final dataSpots = viewModel.convertToFlSpots();
 
     // Obx를 사용하여 maxYValue의 변화를 감지하고 UI를 재빌드합니다.
     return Obx(() {
@@ -82,7 +78,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
         height: Get.height * 0.20,
         width: Get.width * 0.75,
         child: LineChartComponent(
-          dataSpots: dataSpots,
+          dataSpots: viewModel.flSpots,
           gradientColors: GradientColors.primaryGradient,
           maxYValue: maxYValue, // Obx 내부에서 계산된 maxYValue를 사용
           startDate: startDate,
@@ -158,7 +154,7 @@ class LineChartComponent extends StatelessWidget {
             minX: 0,
             maxX: 30,
             minY: 0,
-            maxY: maxYValue,
+            maxY: 10, // 이거에 따라서 그래프 높이가 달라짐
             lineBarsData: [
               LineChartBarData(
                 spots: dataSpots,
