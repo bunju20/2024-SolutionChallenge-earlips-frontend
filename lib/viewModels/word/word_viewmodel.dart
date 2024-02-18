@@ -13,6 +13,8 @@ class WordViewModel extends GetxController {
 
   RxList<WordData> wordList = RxList<WordData>([]);
   RxInt currentIndex = 0.obs;
+  // loading
+  RxBool isLoading = true.obs;
 
   WordViewModel({required this.type});
 
@@ -29,6 +31,7 @@ class WordViewModel extends GetxController {
 
   // 단어 데이터 가져오기
   Future<void> fetchWords(int type) async {
+    isLoading.value = true;
     final uid = _auth.currentUser?.uid;
     if (uid != null) {
       // 모든 단어 데이터 가져오기
@@ -62,6 +65,7 @@ class WordViewModel extends GetxController {
         );
       }).toList();
       update();
+      isLoading.value = false;
     }
   }
 
