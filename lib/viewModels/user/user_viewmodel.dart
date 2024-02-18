@@ -67,10 +67,8 @@ class UserViewModel extends GetxController {
 
 
   RxDouble maxYValue = 0.0.obs;
-  RxList<FlSpot> flSpots = <FlSpot>[].obs;
+  final flSpots = <FlSpot>[].obs;
   final DataFetcher _dataFetcher = DataFetcher();
-
-
 
   @override
   @override
@@ -80,6 +78,7 @@ class UserViewModel extends GetxController {
   }
   void fetchAndSetGraphData() async {
     final data = await _dataFetcher.fetchGraphData();
+
     flSpots.value = data;
   }
 
@@ -169,6 +168,7 @@ class UserViewModel extends GetxController {
   }
 }
 
+
 class DataFetcher {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -176,33 +176,39 @@ class DataFetcher {
   Future<List<FlSpot>> fetchGraphData() async {
     List<FlSpot> spots = [];
     final uid = _auth.currentUser?.uid;
+    if (uid == null) return spots;
 
-    if (uid != null) {
-      DateTime now = DateTime.now();
-      DateTime startDate = DateTime(now.year, now.month, now.day - 29);
+    DateTime now = DateTime.now();
+    DateTime startDate = DateTime(now.year, now.month, now.day - 29);
+    DateFormat formatter = DateFormat('yyyyMMdd'); // Reuse the formatter
 
-      for (int i = 0; i < 30; i++) {
-        DateTime currentDate = startDate.add(Duration(days: i));
-        String formattedDate = DateFormat('yyyyMMdd').format(currentDate);
+    // Prepare a list of all dates to query
+    List<Future<DocumentSnapshot>> futures = List.generate(30, (i) {
+      DateTime currentDate = startDate.add(Duration(days: i));
+      String formattedDate = formatter.format(currentDate);
+      return _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('records')
+          .doc(formattedDate)
+          .get();
+    });
 
-        var docSnapshot = await _firestore
-            .collection('users')
-            .doc(uid)
-            .collection('records')
-            .doc(formattedDate)
-            .get();
+    // Fetch all data concurrently
+    List<DocumentSnapshot> snapshots = await Future.wait(futures);
 
-        if (docSnapshot.exists) {
-          Map<String, dynamic> data = docSnapshot.data()!;
-          double cnt = (data['cnt'] ?? 0).toDouble();
-          spots.add(FlSpot(i.toDouble(), cnt));
-        } else {
-          // 해당 날짜에 데이터가 없는 경우 cnt를 0으로 처리
-          spots.add(FlSpot(i.toDouble(), 0));
-        }
+    // Process the fetched data
+    for (int i = 0; i < snapshots.length; i++) {
+      if (snapshots[i].exists) {
+        Map<String, dynamic> data = snapshots[i].data() as Map<String, dynamic>;
+        double cnt = (data['cnt'] ?? 0).toDouble();
+        spots.add(FlSpot(i.toDouble(), cnt));
+      } else {
+        spots.add(FlSpot(i.toDouble(), 0)); // Handle missing data
       }
     }
-    print(spots);
+
     return spots;
   }
 }
+

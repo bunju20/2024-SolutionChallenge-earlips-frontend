@@ -70,23 +70,18 @@ class _LineChartSample2State extends State<LineChartSample2> {
   Widget build(BuildContext context) {
     final startDate = DateTime.now().subtract(Duration(days: 30));
     final endDate = DateTime.now();
-
-    // Obx를 사용하여 maxYValue의 변화를 감지하고 UI를 재빌드합니다.
-    return Obx(() {
-      final maxYValue = viewModel.maxYValue.value;
       return Container(
         height: Get.height * 0.20,
         width: Get.width * 0.75,
         child: LineChartComponent(
           dataSpots: viewModel.flSpots,
           gradientColors: GradientColors.primaryGradient,
-          maxYValue: maxYValue, // Obx 내부에서 계산된 maxYValue를 사용
+          maxYValue: 20, // Obx 내부에서 계산된 maxYValue를 사용
           startDate: startDate,
           endDate: endDate,
         ),
       );
-    });
-  }
+    }
 }
 
 
@@ -112,7 +107,7 @@ class LineChartComponent extends StatelessWidget {
       aspectRatio: 1.70,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: LineChart(mainData()),
+        child: Obx(() => LineChart(mainData())),
       ),
     );
   }
