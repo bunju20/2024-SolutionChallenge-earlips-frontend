@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -99,20 +100,32 @@ class _LineChartSample2State extends State<LineChartSample2> {
       fontSize: 16,
     );
     Widget text;
+    // 현재 날짜를 기준으로 달을 계산합니다.
+    final now = DateTime.now();
+    final previousMonth = DateTime(now.year, now.month - 1);
+    final twoMonthsAgo = DateTime(now.year, now.month - 2);
+
+    // DateFormat을 사용하여 월 이름을 얻습니다. 예: 'JAN', 'FEB', 'MAR'
+    final currentMonthName = DateFormat('MMM').format(now).toUpperCase();
+    final previousMonthName = DateFormat('MMM').format(previousMonth).toUpperCase();
+    final twoMonthsAgoName = DateFormat('MMM').format(twoMonthsAgo).toUpperCase();
+
+    // value에 따라 동적으로 달 이름을 할당합니다.
     switch (value.toInt()) {
       case 2:
-        text = const Text('MAR', style: style);
+        text = Text(twoMonthsAgoName, style: style);
         break;
       case 5:
-        text = const Text('JUN', style: style);
+        text = Text(previousMonthName, style: style);
         break;
       case 8:
-        text = const Text('SEP', style: style);
+        text = Text(currentMonthName, style: style);
         break;
       default:
-        text = const Text('', style: style);
+        text = Text('', style: style);
         break;
     }
+
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
