@@ -69,7 +69,7 @@ class UserViewModel extends GetxController {
   RxDouble maxYValue = 0.0.obs;
   RxList<FlSpot> flSpots = <FlSpot>[].obs;
   final DataFetcher _dataFetcher = DataFetcher();
-  RxList<Map<DateTime, int>> graphData = RxList<Map<DateTime, int>>([]);
+
 
 
   @override
@@ -82,8 +82,7 @@ class UserViewModel extends GetxController {
   }
   void fetchAndSetGraphData() async {
     final data = await _dataFetcher.fetchGraphData();
-    graphData.value = data;
-    print(graphData);
+    flSpots.value = data;
   }
 
   void updateFlSpots() {
@@ -235,22 +234,19 @@ class UserViewModel extends GetxController {
   }
 }
 
-
-
 class DataFetcher {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // 현재부터 30일 전까지의 데이터를 가져와서 List<Map<DateTime, int>> 형태로 반환
-  Future<List<Map<DateTime, int>>> fetchGraphData() async {
-    List<Map<DateTime, int>> graphData = [];
+  Future<List<FlSpot>> fetchGraphData() async {
+    List<FlSpot> spots = [];
     final uid = _auth.currentUser?.uid;
 
     if (uid != null) {
       DateTime now = DateTime.now();
-      DateTime startDate = DateTime(now.year, now.month, now.day - 30);
+      DateTime startDate = DateTime(now.year, now.month, now.day - 29);
 
-      for (int i = 0; i <= 30; i++) {
+      for (int i = 0; i < 30; i++) {
         DateTime currentDate = startDate.add(Duration(days: i));
         String formattedDate = DateFormat('yyyyMMdd').format(currentDate);
 
@@ -263,15 +259,15 @@ class DataFetcher {
 
         if (docSnapshot.exists) {
           Map<String, dynamic> data = docSnapshot.data()!;
-          int cnt = data['cnt'] ?? 0;
-          graphData.add({currentDate: cnt});
+          double cnt = (data['cnt'] ?? 0).toDouble();
+          spots.add(FlSpot(i.toDouble(), cnt));
         } else {
           // 해당 날짜에 데이터가 없는 경우 cnt를 0으로 처리
-          graphData.add({currentDate: 0});
+          spots.add(FlSpot(i.toDouble(), 0));
         }
       }
     }
-
-    return graphData;
+    print(spots);
+    return spots;
   }
 }
