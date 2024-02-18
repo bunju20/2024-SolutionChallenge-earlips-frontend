@@ -5,7 +5,7 @@ import 'package:earlips/viewModels/study/date_study_screen_viewmodel.dart';
 
 class DateStudyScreen extends StatelessWidget {
   final DateTime date;
-  DateStudyScreen({Key? key, required this.date}) : super(key: key);
+  const DateStudyScreen({super.key, required this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,12 @@ class DateStudyScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(DateFormat('yyyy년 MM월 dd일').format(date)), // 동적으로 날짜를 표시
+        title: Text(DateFormat('yyyy/MM/dd').format(date),
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            )), // 동적으로 날짜를 표시
         centerTitle: true,
       ),
       body: ListView.separated(
@@ -28,10 +33,10 @@ class DateStudyScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(15.0),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 1,
+                  color: Colors.grey.withOpacity(0.15),
+                  spreadRadius: 0.1,
                   blurRadius: 10,
-                  offset: Offset(0, 2),
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
@@ -39,10 +44,11 @@ class DateStudyScreen extends StatelessWidget {
               children: [
                 Container(
                     alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.only(left: 20.0, top: 16.0),
+                    margin: const EdgeInsets.only(left: 20.0, top: 16.0),
                     child: _SmallCard(name: session.type)), // 세션 유형을 표시
                 ListTile(
-                  contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
+                  contentPadding:
+                      const EdgeInsets.only(left: 20, right: 20, bottom: 30),
                   title: Container(
                     alignment: Alignment.center,
                     child: Text(
@@ -53,9 +59,7 @@ class DateStudyScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onTap: () {
-                    // TODO: 세부 대본 학습 페이지로 이동하도록 구현
-                  },
+                  onTap: () {},
                 ),
               ],
             ),
@@ -70,25 +74,24 @@ class DateStudyScreen extends StatelessWidget {
 class _SmallCard extends StatelessWidget {
   final String name;
 
-  const _SmallCard({Key? key, required this.name}) : super(key: key);
+  const _SmallCard({super.key, required this.name});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4.0),
-        color: Color(0xFF1FA9DC),
+        color: const Color(0xFF1FA9DC),
       ),
       alignment: Alignment.center,
       width: 50,
-      height: 20,
+      height: 24,
       child: Text(
         name,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 14,
-          fontFamily: 'Pretendard-Bold',
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );
