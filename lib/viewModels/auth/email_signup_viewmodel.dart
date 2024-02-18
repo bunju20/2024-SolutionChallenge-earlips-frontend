@@ -2,14 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:earlips/utilities/validators/auth_validators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 class EmailSignupViewModel extends GetxController {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   // Email Validator
   String? emailValidator(String? value) {
@@ -44,6 +42,7 @@ class EmailSignupViewModel extends GetxController {
 
         // 사용자 데이터
         final userData = {
+          'uid': userCredential.user!.uid,
           'systemLanguage': 'kr',
           'learningLanguage': 'kr',
           'nickname': extractNickname(emailController.text.trim()),
