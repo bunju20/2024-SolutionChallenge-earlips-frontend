@@ -9,15 +9,17 @@ import 'package:intl/intl.dart';
 class WordViewModel extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final int type;
 
   RxList<WordData> wordList = RxList<WordData>([]);
   RxInt currentIndex = 0.obs;
 
+  WordViewModel({required this.type});
+
   @override
   void onInit() {
     super.onInit();
-    fetchWords();
-    fetchWords();
+    fetchWords(type);
     wordList.refresh();
   }
 
@@ -26,11 +28,15 @@ class WordViewModel extends GetxController {
   }
 
   // 단어 데이터 가져오기
-  Future<void> fetchWords() async {
+  Future<void> fetchWords(int type) async {
     final uid = _auth.currentUser?.uid;
     if (uid != null) {
       // 모든 단어 데이터 가져오기
-      final wordsQuery = await _firestore.collection('words').get();
+      final wordsQuery = await _firestore
+          .collection('words')
+          .where('type', isEqualTo: type)
+          .get();
+
       final allWords = wordsQuery.docs
           .map((doc) => WordCard.fromDocument(doc.data()))
           .toList();

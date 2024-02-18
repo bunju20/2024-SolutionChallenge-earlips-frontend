@@ -3,12 +3,14 @@ class WordCard {
   final String word;
   final String speaker;
   final String video;
+  final int type;
 
   WordCard({
     required this.id,
     required this.word,
     required this.speaker,
     required this.video,
+    required this.type,
   });
 
   Map<String, dynamic> toMap() {
@@ -17,6 +19,7 @@ class WordCard {
       'word': word,
       'speaker': speaker,
       'video': video,
+      'type': type,
     };
   }
 
@@ -26,6 +29,7 @@ class WordCard {
       word: doc['word'],
       speaker: doc['speaker'],
       video: doc['video'],
+      type: doc['type'],
     );
   }
 
@@ -33,15 +37,15 @@ class WordCard {
     int? id,
     String? word,
     String? speaker,
-    bool? isDone,
-    String? doneDate,
     String? video,
+    int? type,
   }) {
     return WordCard(
       id: id ?? this.id,
       word: word ?? this.word,
       speaker: speaker ?? this.speaker,
       video: video ?? this.video,
+      type: type ?? this.type,
     );
   }
 }
