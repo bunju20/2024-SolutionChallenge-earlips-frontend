@@ -54,6 +54,7 @@ class AuthService {
 
         // 사용자 데이터
         final userData = {
+          'uid': userCredential.user!.uid,
           'systemLanguage': 'kr',
           'learningLanguage': 'kr',
           'nickname': extractNickname(googleUser!.email), // @ 앞까지만 추출
