@@ -47,8 +47,6 @@ class ChartTitleWidgets {
       fontSize: 13,
     );
     if (value == 0 || value == maxYValue) {
-      print(maxYValue);
-      print(value);
       return Text('${value.toInt()}', style: style, textAlign: TextAlign.left);
     }
     return Container();
