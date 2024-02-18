@@ -20,64 +20,70 @@ class StudyMain extends BaseScreen<StudyViewModel> {
               alignment: Alignment.center,
               child: Text('학습페이지')),
         ),
-        body: Column(
-          children: [
-            Container(
-              child: Container(
-                color: Color(0xFF),
-                child: Contribute(),
-                // child: ContributionWidget(),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                child: Container(
+                  color: Color(0xFF),
+                  child: Contribute(),
+                  // child: ContributionWidget(),
+                ),
               ),
-            ),
-            Container(
-
-                child: Column(
-
-                    children:[
-                      Row(
-                        children: [
-                          _Card(
-                            title: "음소 교정",
-                            subtitle: "옴소 교정 및 발음 테스트",
-                            imagePath: "assets/images/study/one.svg",
-                            onTap: (){
-                              Get.to(() => RealCreateScriptPage());
-                            },
-                          ),
-                          _Card(
-                            title: "단어 교정",
-                            subtitle: "단어 교정 및 발음 테스트",
-                            imagePath: "assets/images/study/2.svg",
-                            onTap: (){
-                              Get.to(() => RealCreateScriptPage());
-                            },
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          _Card(
-                            title: "문장 교정",
-                            subtitle: "문장 교정 및 발음 테스트",
-                            imagePath: "assets/images/study/one.svg",
-                            onTap: (){
-                              Get.to(() => RealCreateScriptPage());
-                            },
-                          ),
-                          _Card(
-                            title: "문단 교정",
-                            subtitle: "대본 입력 및 발음 테스트",
-                            imagePath: "assets/images/study/one.svg",
-                            onTap: (){
-                              Get.to(() => RealCreateScriptPage());
-                            },
-                          ),
-                        ],
-                      ),
-                    ]
-                )
-            )
-          ],
+              Container(
+          
+                  child: Column(
+          
+                      children:[
+                        Row(
+                          children: [
+                            _Card(
+                              title: "음소 교정",
+                              subtitle: "옴소 교정 및 발음 테스트",
+                              imagePath: "assets/images/study/1.png",
+                              onTap: (){
+           
+                              },
+                              ImgSize: 85,
+                            ),
+                            _Card(
+                              title: "단어 교정",
+                              subtitle: "단어 교정 및 발음 테스트",
+                              imagePath: "assets/images/study/2.png",
+                              onTap: (){
+                  
+                              },
+                              ImgSize: 150,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            _Card(
+                              title: "문장 교정",
+                              subtitle: "문장 교정 및 발음 테스트",
+                              imagePath: "assets/images/study/3.png",
+                              onTap: (){
+                                
+                              },
+                              ImgSize: 85,
+                            ),
+                            _Card(
+                              title: "문단 교정",
+                              subtitle: "대본 입력 및 발음 테스트",
+                              imagePath: "assets/images/study/4.png",
+                              onTap: (){
+            
+                              },
+                              ImgSize: 85,
+                            ),
+                          ],
+                        ),
+                      ]
+                  )
+              )
+            ],
+          ),
         )
     );
   }
@@ -97,7 +103,9 @@ class _Card extends BaseWidget<StudyViewModel> {
   final String subtitle;
   final String imagePath;
   final VoidCallback onTap;
-  const _Card({super.key,required this.title, required this.subtitle, required this.imagePath, required this.onTap});
+  final double ImgSize;
+  const _Card({super.key,required this.title, required this.subtitle, required this.imagePath, required this.onTap ,
+  required this.ImgSize});
 
   @override
   Widget buildView(BuildContext context) {
@@ -118,12 +126,12 @@ class _Card extends BaseWidget<StudyViewModel> {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
-              child: SvgPicture.asset(
-                'assets/images/study/3.svg',
-                width: 85,
-                height: 85,
+              child: Image.asset(
+                imagePath,
+                width: ImgSize,
+                height: ImgSize,
               ),
-              width: 90,
+              width: ImgSize+5,
               height: 90,
             ),
             Text(title,
@@ -146,3 +154,4 @@ class _Card extends BaseWidget<StudyViewModel> {
     );
   }
 }
+

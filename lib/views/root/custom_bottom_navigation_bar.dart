@@ -28,13 +28,13 @@ class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _buildBottomNavigationBarItem(
-                  index: 0,
+                  index: 1,
                   size: 60,
                   svgPath: 'assets/icons/learning.svg',
                 ),
                 const SizedBox(width: 70),
                 _buildBottomNavigationBarItem(
-                  index: 1,
+                  index: 2,
                   size: 60,
                   svgPath: 'assets/icons/mypage.svg',
                 ),

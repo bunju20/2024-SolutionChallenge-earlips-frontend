@@ -13,6 +13,7 @@ abstract class Routes {
   static const PROFILE = '/profile';
   static const PROFILE_ACCOUNT = '/profile/account';
   static const PROFILE_LANGUAGE_SETTING = '/profile/language-setting';
+  static const STUDY = '/study';
 
   static final routes = [
     GetPage(

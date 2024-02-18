@@ -4,25 +4,45 @@ import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:earlips/views/base/base_widget.dart';
 import 'package:earlips/viewModels/study/study_viewmodel.dart';
+import 'package:earlips/views/study/date_study_screen.dart';
 
+class Contribute extends StatefulWidget {
+  const Contribute({Key? key}) : super(key: key);
 
-class Contribute extends BaseWidget<StudyViewModel>{
-  const Contribute({super.key});
 
   @override
-  Widget buildView(BuildContext context) {
+  _ContributeState createState() => _ContributeState();
+}
+
+class _ContributeState extends State<Contribute> {
+  late CalendarWeekController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = CalendarWeekController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      // Use named colors for clarity
+      width: Get.width * 0.9,
       color: Colors.white,
       height: Get.height * 0.2,
       child: CalendarWeek(
-        controller: CalendarWeekController(),
-        height: 100,
+        controller: _controller, // Use initialized controller
         showMonth: true,
-        minDate: DateTime.now().add(Duration(days: -365)),
-        maxDate: DateTime.now().add(Duration(days: 365)),
+        minDate: DateTime.now().add(const Duration(days: -365)),
+        maxDate: DateTime.now().add(const Duration(days: 365)),
         onDatePressed: (DateTime datetime) {
-          // Handle date SELECTION
+          //var data = await fetchDataForDate(datetime);
+          // 새로운 화면으로 이동하며 데이터 전달
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DateStudyScreen(date: datetime),
+            ),
+          );
         },
         onDateLongPressed: (DateTime datetime) {
           // Handle long press on date
@@ -46,13 +66,13 @@ class Contribute extends BaseWidget<StudyViewModel>{
           DecorationItem(
               decorationAlignment: FractionalOffset.bottomRight,
               date: DateTime.now(),
-              decoration: Icon(
+              decoration: const Icon(
                 Icons.today,
                 color: Colors.blue,
               )),
           DecorationItem(
-              date: DateTime.now().add(Duration(days: 3)),
-              decoration: Text(
+              date: DateTime.now().add(const Duration(days: 3)),
+              decoration: const Text(
                 'Holiday',
                 style: TextStyle(
                   color: Colors.brown,
