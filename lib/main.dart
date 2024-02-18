@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:earlips/main_app.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   /* Open .env file */
@@ -12,6 +13,10 @@ void main() async {
   await initializeDateFormatting();
   await EasyLocalization.ensureInitialized();
 
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
