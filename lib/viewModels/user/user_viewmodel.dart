@@ -66,9 +66,9 @@ class UserViewModel extends GetxController {
   final linialPersent = 0.1.obs;
 
 
-  RxDouble maxYValue = 0.0.obs;
   final flSpots = <FlSpot>[].obs;
   final DataFetcher _dataFetcher = DataFetcher();
+  RxDouble maxYValue = 0.0.obs;
 
   @override
   @override
@@ -78,8 +78,8 @@ class UserViewModel extends GetxController {
   }
   void fetchAndSetGraphData() async {
     final data = await _dataFetcher.fetchGraphData();
-
     flSpots.value = data;
+    maxYValue.value = _dataFetcher.maxYValue;
   }
 
   Future<void> getUserData() async {
@@ -170,20 +170,24 @@ class UserViewModel extends GetxController {
 
 
 class DataFetcher {
+
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  double maxYValue = 0.0;
 
   Future<List<FlSpot>> fetchGraphData() async {
     List<FlSpot> spots = [];
     final uid = _auth.currentUser?.uid;
     if (uid == null) return spots;
+    maxYValue = 0.0;
 
     DateTime now = DateTime.now();
     DateTime startDate = DateTime(now.year, now.month, now.day - 29);
     DateFormat formatter = DateFormat('yyyyMMdd'); // Reuse the formatter
 
+
     // Prepare a list of all dates to query
-    List<Future<DocumentSnapshot>> futures = List.generate(30, (i) {
+    List<Future<DocumentSnapshot>> futures = List.generate(31, (i) {
       DateTime currentDate = startDate.add(Duration(days: i));
       String formattedDate = formatter.format(currentDate);
       return _firestore
@@ -203,6 +207,7 @@ class DataFetcher {
         Map<String, dynamic> data = snapshots[i].data() as Map<String, dynamic>;
         double cnt = (data['cnt'] ?? 0).toDouble();
         spots.add(FlSpot(i.toDouble(), cnt));
+        maxYValue = max(maxYValue, cnt.toDouble());
       } else {
         spots.add(FlSpot(i.toDouble(), 0)); // Handle missing data
       }
@@ -210,5 +215,6 @@ class DataFetcher {
 
     return spots;
   }
+
 }
 

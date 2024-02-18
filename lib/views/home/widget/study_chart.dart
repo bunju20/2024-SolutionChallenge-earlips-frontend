@@ -47,6 +47,8 @@ class ChartTitleWidgets {
       fontSize: 13,
     );
     if (value == 0 || value == maxYValue) {
+      print(maxYValue);
+      print(value);
       return Text('${value.toInt()}', style: style, textAlign: TextAlign.left);
     }
     return Container();
@@ -70,13 +72,13 @@ class _LineChartSample2State extends State<LineChartSample2> {
   Widget build(BuildContext context) {
     final startDate = DateTime.now().subtract(Duration(days: 30));
     final endDate = DateTime.now();
-      return Container(
+      return  Container(
         height: Get.height * 0.20,
         width: Get.width * 0.75,
         child: LineChartComponent(
           dataSpots: viewModel.flSpots,
           gradientColors: GradientColors.primaryGradient,
-          maxYValue: 20, // Obx 내부에서 계산된 maxYValue를 사용
+          maxYValue: viewModel.maxYValue.value, // Obx 내부에서 계산된 maxYValue를 사용
           startDate: startDate,
           endDate: endDate,
         ),
@@ -107,7 +109,8 @@ class LineChartComponent extends StatelessWidget {
       aspectRatio: 1.70,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Obx(() => LineChart(mainData())),
+        child: Obx(() => LineChart(mainData()),
+        ),
       ),
     );
   }
@@ -130,6 +133,7 @@ class LineChartComponent extends StatelessWidget {
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
+
             interval: 1,
             getTitlesWidget: (value, meta) => ChartTitleWidgets.leftTitleWidgets(value, meta, maxYValue),
             reservedSize: 42,
@@ -149,9 +153,10 @@ class LineChartComponent extends StatelessWidget {
             minX: 0,
             maxX: 30,
             minY: 0,
-            maxY: 10, // 이거에 따라서 그래프 높이가 달라짐
+            maxY: maxYValue, // 이거에 따라서 그래프 높이가 달라짐
             lineBarsData: [
               LineChartBarData(
+                show: dataSpots.isNotEmpty,
                 spots: dataSpots,
                 isCurved: true,
                 gradient: LinearGradient(

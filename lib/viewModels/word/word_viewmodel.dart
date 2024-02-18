@@ -68,7 +68,7 @@ class WordViewModel extends GetxController {
   // 단어 완료 처리
   Future<void> markWordAsDone(WordCard word) async {
     final uid = _auth.currentUser?.uid;
-    String currentDate = DateFormat('yyyy/MM/dd').format(DateTime.now().subtract(Duration(days: 9)));
+    String currentDate = DateFormat('yyyy/MM/dd').format(DateTime.now());
 
     if (uid != null) {
       // 유저 단어 데이터 업데이트
@@ -88,7 +88,7 @@ class WordViewModel extends GetxController {
           .collection('users')
           .doc(uid)
           .collection('records')
-          .doc(DateFormat('yyyyMMdd').format(DateTime.now().subtract(Duration(days: 9))));
+          .doc(DateFormat('yyyyMMdd').format(DateTime.now()));
 
       try {
         await _firestore.runTransaction((transaction) async {
