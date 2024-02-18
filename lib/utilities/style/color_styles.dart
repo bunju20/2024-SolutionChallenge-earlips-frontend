@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ColorSystem {
   static const Color main = Color(0xFF1DA1FA);
+  static const Color main2 = Color(0xFF1FA9DC);
   static const Color sub1 = Color(0xFF5588FD);
   static const Color sub2 = Color(0xFFC1D2FF);
   static const Color sub3 = Color(0xFFF1F5FE);
@@ -14,6 +15,8 @@ class ColorSystem {
   static const Color gray1 = Color(0xFFF5F5F9);
   static const Color white = Color(0xFFFFFFFF);
   static const Color green = Color(0xFF63DC68);
+  static const Color green2 = Color(0xFFD5E9AA);
+
   static const Color yellow = Color(0xFFFFC100);
   static const Color red = Color(0xFFFB5D5D);
   static const Color background = Color(0xFFF0F4F8);
