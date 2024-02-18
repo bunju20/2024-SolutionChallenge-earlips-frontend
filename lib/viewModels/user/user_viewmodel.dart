@@ -30,40 +30,37 @@ class UserViewModel extends GetxController {
   final linialPersent = 0.1.obs;
 
   //Graph Data (날짜,해당 날짜에 학습한 단어등등의 횟수)
-  final graphData = <Map<DateTime, int>>[].obs;
-  final maxYValue = 0.0.obs;
-
-
-  //Test용
-  // 더미 데이터 생성 및 상태 업데이트 함수
-  void generateAndUpdateFromDummyData() {
-    final List<Map<DateTime, int>> dummyData = generateDummyData();
-  }
-
-  // 더미 데이터 생성
-  List<Map<DateTime, int>> generateDummyData() {
-    final List<Map<DateTime, int>> dummyData = [];
-    final DateTime now = DateTime.now();
-    final Random random = Random();
-
-    for (int i = 30; i > 0; i--) {
-      DateTime date = DateTime(now.year, now.month, now.day - i);
-      int value = random.nextInt(10) + 1; // 1부터 10 사이의 랜덤 값
-      dummyData.add({date: value});
-    }
-
-    return dummyData;
-  }
-
-
+  final RxList<Map<DateTime, int>> graphData = RxList<Map<DateTime, int>>();
+  RxDouble maxYValue = 0.0.obs;
 
   @override
   void onInit() {
     super.onInit();
-    _firebaseUser.bindStream(_auth.authStateChanges());
-
-    if (uid != null) getUserData();
+    generateDummyData();
   }
+
+  void generateDummyData() {
+    final DateTime now = DateTime.now();
+    final Random random = Random();
+
+    final List<Map<DateTime, int>> dummyData = [];
+    for (int i = 0; i < 30; i++) {
+      DateTime date = now.subtract(Duration(days: i));
+      int wordsLearned = random.nextInt(10) + 1;
+      dummyData.add({date: wordsLearned});
+    }
+
+    // graphData 상태 업데이트
+    graphData.addAll(dummyData);
+    graphData.assignAll(dummyData);
+    updateMaxYValue();
+  }
+
+  void updateMaxYValue() {
+    int maxWords = graphData.fold(0, (previousValue, element) => max(previousValue, element.values.first));
+    maxYValue.value = maxWords.toDouble();
+  }
+
 
   Future<void> getUserData() async {
     if (uid != null) {

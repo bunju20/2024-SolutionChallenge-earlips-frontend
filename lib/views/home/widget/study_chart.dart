@@ -1,3 +1,4 @@
+import 'package:earlips/viewModels/user/user_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -91,39 +92,40 @@ class LineChartSample2 extends StatefulWidget {
 }
 
 class _LineChartSample2State extends State<LineChartSample2> {
-  final List<Color> gradientColors = GradientColors.primaryGradient;
-  bool showAvg = false;
-  late double maxYValue;
+  final UserViewModel viewModel = Get.put(UserViewModel()); // viewModel 인스턴스화
 
   @override
   void initState() {
     super.initState();
-    // 실제 데이터를 사용하는 대신, 더미 데이터를 생성합니다.
     final realData = ChartDataUtil.generateDummyData();
     final dataSpots = ChartDataUtil.convertToFlSpots(realData);
-    maxYValue = ChartDataUtil.findMaxYValue(dataSpots);
+    viewModel.updateMaxYValue(); // viewModel을 통해 maxYValue 업데이트
   }
 
   @override
   Widget build(BuildContext context) {
-    // 뷰를 빌드할 때마다 새로운 더미 데이터를 생성하는 대신, initState에서 생성된 데이터를 사용합니다.
     final startDate = DateTime.now().subtract(Duration(days: 30));
     final endDate = DateTime.now();
     final dataSpots = ChartDataUtil.convertToFlSpots(ChartDataUtil.generateDummyData());
 
-    return Container(
-      height: Get.height * 0.20,
-      width: Get.width * 0.75,
-      child: LineChartComponent(
-        dataSpots: dataSpots,
-        gradientColors: gradientColors,
-        maxYValue: maxYValue,
-        startDate: startDate,
-        endDate: endDate,
-      ),
-    );
+    // Obx를 사용하여 maxYValue의 변화를 감지하고 UI를 재빌드합니다.
+    return Obx(() {
+      final maxYValue = viewModel.maxYValue.value;
+      return Container(
+        height: Get.height * 0.20,
+        width: Get.width * 0.75,
+        child: LineChartComponent(
+          dataSpots: dataSpots,
+          gradientColors: GradientColors.primaryGradient,
+          maxYValue: maxYValue, // Obx 내부에서 계산된 maxYValue를 사용
+          startDate: startDate,
+          endDate: endDate,
+        ),
+      );
+    });
   }
 }
+
 
 class LineChartComponent extends StatelessWidget {
   final List<FlSpot> dataSpots;
@@ -147,9 +149,7 @@ class LineChartComponent extends StatelessWidget {
       aspectRatio: 1.70,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: LineChart(
-          mainData(), // mainData() 메서드를 호출하여 LineChartData를 구성합니다.
-        ),
+        child: LineChart(mainData()),
       ),
     );
   }
