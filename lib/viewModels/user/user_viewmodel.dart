@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
@@ -34,31 +35,51 @@ class UserViewModel extends GetxController {
   RxDouble maxYValue = 0.0.obs;
 
   @override
+  @override
   void onInit() {
     super.onInit();
     generateDummyData();
+    updateMaxYValue();
   }
 
   void generateDummyData() {
+    final List<Map<DateTime, int>> dummyData = [];
     final DateTime now = DateTime.now();
     final Random random = Random();
 
-    final List<Map<DateTime, int>> dummyData = [];
-    for (int i = 0; i < 30; i++) {
+    for (int i = 1; i < 30; i++) {
       DateTime date = now.subtract(Duration(days: i));
-      int wordsLearned = random.nextInt(10) + 1;
-      dummyData.add({date: wordsLearned});
+      int value = random.nextInt(10) + 1; // 1부터 10 사이의 랜덤 값을 생성
+      dummyData.add({date: value});
     }
 
-    // graphData 상태 업데이트
-    graphData.addAll(dummyData);
-    graphData.assignAll(dummyData);
-    updateMaxYValue();
+    graphData.addAll(dummyData); // RxList에 더미 데이터 추가
+    updateMaxYValue(); // maxYValue 업데이트;
   }
 
   void updateMaxYValue() {
     int maxWords = graphData.fold(0, (previousValue, element) => max(previousValue, element.values.first));
     maxYValue.value = maxWords.toDouble();
+  }
+
+  List<FlSpot> convertToFlSpots() {
+    List<FlSpot> spots = [];
+    // 데이터를 날짜 기준으로 정렬
+    var sortedData = List<Map<DateTime, int>>.from(graphData);
+    sortedData.sort((a, b) => a.keys.first.compareTo(b.keys.first));
+
+    if (sortedData.isNotEmpty) {
+      final startDate = sortedData.first.keys.first;
+
+      for (var entry in sortedData) {
+        DateTime date = entry.keys.first;
+        int value = entry.values.first;
+        double x = date.difference(startDate).inDays.toDouble();
+        spots.add(FlSpot(x, value.toDouble()));
+      }
+    }
+    print(spots);
+    return spots;
   }
 
 

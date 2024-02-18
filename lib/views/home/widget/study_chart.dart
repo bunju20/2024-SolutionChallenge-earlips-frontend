@@ -18,39 +18,6 @@ class GradientColors {
   ];
 }
 
-class ChartDataUtil {
-  static List<Map<DateTime, int>> generateDummyData() {
-    final List<Map<DateTime, int>> dummyData = [];
-    final DateTime now = DateTime.now();
-    final Random random = Random();
-
-    for (int i = 30; i > 0; i--) {
-      DateTime date = DateTime(now.year, now.month, now.day - i);
-      int value = random.nextInt(10) + 1;
-      dummyData.add({date: value});
-    }
-
-    return dummyData;
-  }
-
-  static List<FlSpot> convertToFlSpots(List<Map<DateTime, int>> dummyData) {
-    List<FlSpot> spots = [];
-    final startDate = dummyData.first.keys.first;
-
-    for (var entry in dummyData) {
-      DateTime date = entry.keys.first;
-      int value = entry.values.first;
-      double x = date.difference(startDate).inDays.toDouble();
-      spots.add(FlSpot(x, value.toDouble()));
-    }
-
-    return spots;
-  }
-
-  static double findMaxYValue(List<FlSpot> dataSpots) {
-    return dataSpots.map((spot) => spot.y).reduce(max);
-  }
-}
 
 class ChartTitleWidgets {
   static Widget bottomTitleWidgets(double value, TitleMeta meta, DateTime startDate, DateTime endDate) {
@@ -97,8 +64,8 @@ class _LineChartSample2State extends State<LineChartSample2> {
   @override
   void initState() {
     super.initState();
-    final realData = ChartDataUtil.generateDummyData();
-    final dataSpots = ChartDataUtil.convertToFlSpots(realData);
+    viewModel.generateDummyData();
+    viewModel.convertToFlSpots();
     viewModel.updateMaxYValue(); // viewModel을 통해 maxYValue 업데이트
   }
 
@@ -106,7 +73,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
   Widget build(BuildContext context) {
     final startDate = DateTime.now().subtract(Duration(days: 30));
     final endDate = DateTime.now();
-    final dataSpots = ChartDataUtil.convertToFlSpots(ChartDataUtil.generateDummyData());
+    final dataSpots = viewModel.convertToFlSpots();
 
     // Obx를 사용하여 maxYValue의 변화를 감지하고 UI를 재빌드합니다.
     return Obx(() {
