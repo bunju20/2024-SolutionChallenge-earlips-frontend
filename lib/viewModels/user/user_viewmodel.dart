@@ -76,77 +76,12 @@ class UserViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    updateMaxYValue();
-    updateFlSpots();
     fetchAndSetGraphData();
   }
   void fetchAndSetGraphData() async {
     final data = await _dataFetcher.fetchGraphData();
     flSpots.value = data;
   }
-
-  void updateFlSpots() {
-    flSpots.value = convertToFlSpots();
-  }
-
-  //데이터
-  List<Map<DateTime, int>> dummyData = [
-    {DateTime.now().subtract(Duration(days: 29)): 3},
-    {DateTime.now().subtract(Duration(days: 28)): 7},
-    {DateTime.now().subtract(Duration(days: 27)): 5},
-    {DateTime.now().subtract(Duration(days: 26)): 2},
-    {DateTime.now().subtract(Duration(days: 25)): 8},
-    {DateTime.now().subtract(Duration(days: 24)): 4},
-    {DateTime.now().subtract(Duration(days: 23)): 6},
-    {DateTime.now().subtract(Duration(days: 22)): 9},
-    {DateTime.now().subtract(Duration(days: 21)): 1},
-    {DateTime.now().subtract(Duration(days: 20)): 10},
-    {DateTime.now().subtract(Duration(days: 19)): 3},
-    {DateTime.now().subtract(Duration(days: 18)): 7},
-    {DateTime.now().subtract(Duration(days: 17)): 5},
-    {DateTime.now().subtract(Duration(days: 16)): 2},
-    {DateTime.now().subtract(Duration(days: 15)): 8},
-    {DateTime.now().subtract(Duration(days: 14)): 4},
-    {DateTime.now().subtract(Duration(days: 13)): 6},
-    {DateTime.now().subtract(Duration(days: 12)): 9},
-    {DateTime.now().subtract(Duration(days: 11)): 1},
-    {DateTime.now().subtract(Duration(days: 10)): 0},
-    {DateTime.now().subtract(Duration(days: 9)): 4},
-    {DateTime.now().subtract(Duration(days: 8)): 7},
-    {DateTime.now().subtract(Duration(days: 7)): 5},
-    {DateTime.now().subtract(Duration(days: 6)): 2},
-    {DateTime.now().subtract(Duration(days: 5)): 8},
-    {DateTime.now().subtract(Duration(days: 4)): 4},
-    {DateTime.now().subtract(Duration(days: 3)): 6},
-    {DateTime.now().subtract(Duration(days: 2)): 9},
-    {DateTime.now().subtract(Duration(days: 1)): 10},
-    {DateTime.now(): 10},
-  ];
-
-
-  void updateMaxYValue() {
-    // int maxWords = graphData.fold(0, (previousValue, element) => max(previousValue, element.values.first));
-    // maxYValue.value = maxWords.toDouble();
-  }
-
-  List<FlSpot> convertToFlSpots() {
-    List<FlSpot> spots = [];
-    var sortedData = List<Map<DateTime, int>>.from(dummyData);
-    sortedData.sort((a, b) => a.keys.first.compareTo(b.keys.first));
-
-    if (sortedData.isNotEmpty) {
-      final startDate = sortedData.first.keys.first;
-
-      for (var entry in sortedData) {
-        DateTime date = entry.keys.first;
-        int value = entry.values.first;
-        double x = date.difference(startDate).inDays.toDouble();
-        spots.add(FlSpot(x, value.toDouble()));
-      }
-    }
-    return spots;
-  }
-
 
   Future<void> getUserData() async {
     if (uid != null) {
