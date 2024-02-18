@@ -205,11 +205,11 @@ class _Bottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: Get.width * 0.95,
-      margin: const EdgeInsets.only(top: 20.0),
+      margin: const EdgeInsets.all(20.0),
       child: Stack(
         children: [
           Container(
+            alignment: Alignment.center,
             decoration: BoxDecoration(
               color: const Color(0xFFFFFFFF), // 기본 배경색
               borderRadius: BorderRadius.circular(30.0),
@@ -228,7 +228,10 @@ class _Bottom extends StatelessWidget {
                     ),
                   ),
                 ),
-                const LineChartSample2(),
+                 Container(
+                   alignment: Alignment.centerLeft,
+                    margin: const EdgeInsets.only(left: 15.0),
+                     child: LineChartSample2()),
               ],
             ),
           ),

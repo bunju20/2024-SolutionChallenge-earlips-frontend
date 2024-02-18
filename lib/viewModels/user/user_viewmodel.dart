@@ -1,4 +1,6 @@
 // userViewmodel
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -26,6 +28,34 @@ class UserViewModel extends GetxController {
   final pitchScore = 10.obs;
   final circleNumber = 10.obs;
   final linialPersent = 0.1.obs;
+
+  //Graph Data (날짜,해당 날짜에 학습한 단어등등의 횟수)
+  final graphData = <Map<DateTime, int>>[].obs;
+  final maxYValue = 0.0.obs;
+
+
+  //Test용
+  // 더미 데이터 생성 및 상태 업데이트 함수
+  void generateAndUpdateFromDummyData() {
+    final List<Map<DateTime, int>> dummyData = generateDummyData();
+  }
+
+  // 더미 데이터 생성
+  List<Map<DateTime, int>> generateDummyData() {
+    final List<Map<DateTime, int>> dummyData = [];
+    final DateTime now = DateTime.now();
+    final Random random = Random();
+
+    for (int i = 30; i > 0; i--) {
+      DateTime date = DateTime(now.year, now.month, now.day - i);
+      int value = random.nextInt(10) + 1; // 1부터 10 사이의 랜덤 값
+      dummyData.add({date: value});
+    }
+
+    return dummyData;
+  }
+
+
 
   @override
   void onInit() {

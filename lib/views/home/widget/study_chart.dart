@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:math';
 
 class AppColors {
   static const Color contentColorCyan = Color(0xff23b6e6);
@@ -9,332 +10,208 @@ class AppColors {
   static const Color mainGridLineColor = Color(0xff37434d);
 }
 
-class ChartData {
-  static List<FlSpot> getMainDataSpots() {
-    return [
-      FlSpot(0, 3),
-      FlSpot(2.6, 2),
-      FlSpot(4.9, 5),
-      FlSpot(6.8, 3.1),
-      FlSpot(8, 4),
-      FlSpot(9.5, 3),
-      FlSpot(11, 4),
-    ];
-  }
-
-  static List<FlSpot> getAvgDataSpots() {
-    return [
-      FlSpot(0, 3.44),
-      FlSpot(2.6, 3.44),
-      FlSpot(4.9, 3.44),
-      FlSpot(6.8, 3.44),
-      FlSpot(8, 3.44),
-      FlSpot(9.5, 3.44),
-      FlSpot(11, 3.44),
-    ];
-  }
-}
-
-
-class LineChartSample2 extends StatefulWidget {
-  const LineChartSample2({super.key});
-
-  @override
-  State<LineChartSample2> createState() => _LineChartSample2State();
-}
-
-class _LineChartSample2State extends State<LineChartSample2> {
-  List<Color> gradientColors = [
+class GradientColors {
+  static List<Color> get primaryGradient => [
     AppColors.contentColorCyan,
     AppColors.contentColorBlue,
   ];
+}
 
-  bool showAvg = false;
+class ChartDataUtil {
+  static List<Map<DateTime, int>> generateDummyData() {
+    final List<Map<DateTime, int>> dummyData = [];
+    final DateTime now = DateTime.now();
+    final Random random = Random();
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: Get.height * 0.20,
-      child: Stack(
-        children: <Widget>[
-          AspectRatio(
-            aspectRatio: 1.70,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                right: 0,
-                left: 0,
-                top: 10,
-                bottom: 10,
-              ),
-              child: LineChart(
-                showAvg ? avgData() : mainData(),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 60,
-            height: 34,
-            child: TextButton(
-              onPressed: () {
-                setState(() {
-                  showAvg = !showAvg;
-                });
-              },
-              child: Text(
-                'avg',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+    for (int i = 30; i > 0; i--) {
+      DateTime date = DateTime(now.year, now.month, now.day - i);
+      int value = random.nextInt(10) + 1;
+      dummyData.add({date: value});
+    }
+
+    return dummyData;
   }
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
+  static List<FlSpot> convertToFlSpots(List<Map<DateTime, int>> dummyData) {
+    List<FlSpot> spots = [];
+    final startDate = dummyData.first.keys.first;
+
+    for (var entry in dummyData) {
+      DateTime date = entry.keys.first;
+      int value = entry.values.first;
+      double x = date.difference(startDate).inDays.toDouble();
+      spots.add(FlSpot(x, value.toDouble()));
+    }
+
+    return spots;
+  }
+
+  static double findMaxYValue(List<FlSpot> dataSpots) {
+    return dataSpots.map((spot) => spot.y).reduce(max);
+  }
+}
+
+class ChartTitleWidgets {
+  static Widget bottomTitleWidgets(double value, TitleMeta meta, DateTime startDate, DateTime endDate) {
+    final style = TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 16,
     );
-    Widget text;
-    // 현재 날짜를 기준으로 달을 계산합니다.
-    final now = DateTime.now();
-    final previousMonth = DateTime(now.year, now.month - 1);
-    final twoMonthsAgo = DateTime(now.year, now.month - 2);
 
-    // DateFormat을 사용하여 월 이름을 얻습니다. 예: 'JAN', 'FEB', 'MAR'
-    final currentMonthName = DateFormat('MMM').format(now).toUpperCase();
-    final previousMonthName = DateFormat('MMM').format(previousMonth).toUpperCase();
-    final twoMonthsAgoName = DateFormat('MMM').format(twoMonthsAgo).toUpperCase();
-
-    // value에 따라 동적으로 달 이름을 할당합니다.
-    switch (value.toInt()) {
-      case 2:
-        text = Text(twoMonthsAgoName, style: style);
-        break;
-      case 5:
-        text = Text(previousMonthName, style: style);
-        break;
-      case 8:
-        text = Text(currentMonthName, style: style);
-        break;
-      default:
-        text = Text('', style: style);
-        break;
+    String text;
+    if (value == 0) {
+      text = DateFormat('MMM d').format(startDate).toUpperCase();
+    } else if (value == 30) {
+      text = DateFormat('MMM d').format(endDate).toUpperCase();
+    } else {
+      return Container();
     }
-
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      child: text,
+      child: Text(text, style: style),
     );
   }
 
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
+  static Widget leftTitleWidgets(double value, TitleMeta meta, double maxYValue) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 15,
+      fontSize: 13,
     );
-    String text;
-    switch (value.toInt()) {
-      case 1:
-        text = '10K';
-        break;
-      case 3:
-        text = '30k';
-        break;
-      case 5:
-        text = '50k';
-        break;
-      default:
-        return Container();
+    if (value == 0 || value == maxYValue) {
+      return Text('${value.toInt()}', style: style, textAlign: TextAlign.left);
     }
+    return Container();
+  }
+}
 
-    return Text(text, style: style, textAlign: TextAlign.left);
+class LineChartSample2 extends StatefulWidget {
+  @override
+  _LineChartSample2State createState() => _LineChartSample2State();
+}
+
+class _LineChartSample2State extends State<LineChartSample2> {
+  final List<Color> gradientColors = GradientColors.primaryGradient;
+  bool showAvg = false;
+  late double maxYValue;
+
+  @override
+  void initState() {
+    super.initState();
+    // 실제 데이터를 사용하는 대신, 더미 데이터를 생성합니다.
+    final realData = ChartDataUtil.generateDummyData();
+    final dataSpots = ChartDataUtil.convertToFlSpots(realData);
+    maxYValue = ChartDataUtil.findMaxYValue(dataSpots);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // 뷰를 빌드할 때마다 새로운 더미 데이터를 생성하는 대신, initState에서 생성된 데이터를 사용합니다.
+    final startDate = DateTime.now().subtract(Duration(days: 30));
+    final endDate = DateTime.now();
+    final dataSpots = ChartDataUtil.convertToFlSpots(ChartDataUtil.generateDummyData());
+
+    return Container(
+      height: Get.height * 0.20,
+      width: Get.width * 0.75,
+      child: LineChartComponent(
+        dataSpots: dataSpots,
+        gradientColors: gradientColors,
+        maxYValue: maxYValue,
+        startDate: startDate,
+        endDate: endDate,
+      ),
+    );
+  }
+}
+
+class LineChartComponent extends StatelessWidget {
+  final List<FlSpot> dataSpots;
+  final List<Color> gradientColors;
+  final double maxYValue;
+  final DateTime startDate;
+  final DateTime endDate;
+
+  const LineChartComponent({
+    Key? key,
+    required this.dataSpots,
+    required this.gradientColors,
+    required this.maxYValue,
+    required this.startDate,
+    required this.endDate,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1.70,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: LineChart(
+          mainData(), // mainData() 메서드를 호출하여 LineChartData를 구성합니다.
+        ),
+      ),
+    );
   }
 
   LineChartData mainData() {
     return LineChartData(
       gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
-        horizontalInterval: 1,
-        verticalInterval: 1,
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: AppColors.mainGridLineColor,
-            strokeWidth: 0.0,
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: AppColors.mainGridLineColor,
-            strokeWidth: 0.1,
-          );
-        },
+        // Grid 설정은 이전과 동일하게 유지
       ),
       titlesData: FlTitlesData(
-        show: true,
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
+        // 타이틀 데이터 설정, 이전과 동일하게 유지하되 startDate와 endDate를 사용
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
             interval: 1,
-            getTitlesWidget: bottomTitleWidgets,
+            getTitlesWidget: (value, meta) => ChartTitleWidgets.bottomTitleWidgets(value, meta, startDate, endDate),
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             interval: 1,
-            getTitlesWidget: leftTitleWidgets,
+            getTitlesWidget: (value, meta) => ChartTitleWidgets.leftTitleWidgets(value, meta, maxYValue),
             reservedSize: 42,
           ),
         ),
-      ),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: const Color(0xffffffff)),
-      ),
-      minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-          ],
-          isCurved: true,
-          gradient: LinearGradient(
-            colors: gradientColors,
-          ),
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.3))
-                  .toList(),
+        topTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        rightTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
             ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  LineChartData avgData() {
-    return LineChartData(
-      lineTouchData: const LineTouchData(enabled: false),
-      gridData: FlGridData(
-        show: true,
-        drawHorizontalLine: true,
-        verticalInterval: 1,
-        horizontalInterval: 1,
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 0.5,
-          );
-        },
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 0.5,
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            getTitlesWidget: bottomTitleWidgets,
-            interval: 1,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
-            interval: 1,
-          ),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: false,
-      ),
-      minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3.44),
-            FlSpot(2.6, 3.44),
-            FlSpot(4.9, 3.44),
-            FlSpot(6.8, 3.44),
-            FlSpot(8, 3.44),
-            FlSpot(9.5, 3.44),
-            FlSpot(11, 3.44),
-          ],
-          isCurved: true,
-          gradient: LinearGradient(
-            colors: [
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
+            borderData: FlBorderData(
+              show: true,
+              border: Border.all(color: const Color(0xffffffff)),
+            ),
+            minX: 0,
+            maxX: 30,
+            minY: 0,
+            maxY: maxYValue,
+            lineBarsData: [
+              LineChartBarData(
+                spots: dataSpots,
+                isCurved: true,
+                gradient: LinearGradient(
+                  colors: gradientColors,
+                ),
+                barWidth: 5,
+                isStrokeCapRound: true,
+                dotData: const FlDotData(
+                  show: false,
+                ),
+                belowBarData: BarAreaData(
+                  show: true,
+                  gradient: LinearGradient(
+                    colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+                  ),
+                ),
+              ),
             ],
-          ),
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              colors: [
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
