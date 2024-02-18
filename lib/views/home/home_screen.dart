@@ -13,6 +13,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:earlips/views/script/learning_session_screen.dart';
 import '../realtime/real_create_script_screen.dart';
 
+import 'package:earlips/viewModels/user/user_viewmodel.dart';
+
+
 class HomeScreen extends BaseScreen<HomeViewModel> {
   final User? user =
       FirebaseAuth.instance.currentUser; // FirebaseFirestore 인스턴스 생성
@@ -37,7 +40,7 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
               child: Column(
                 children: [
                   HomeHeaderWidget(isLoggedIn: isLoggedIn, vm: viewModel),
-                  _Top(isLoggedIn: isLoggedIn),
+                  _Top(isLoggedIn: isLoggedIn, vm: viewModel,),
                   const _Middle(),
                   // 로그인 상태에 따라 _Bottom 클래스의 컨테이너 색상을 변경
                   _Bottom(isLoggedIn: isLoggedIn),
@@ -53,7 +56,10 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
 
 class _Top extends StatelessWidget {
   final bool isLoggedIn;
-  const _Top({required this.isLoggedIn});
+  final UserViewModel vm;
+  const _Top({required this.isLoggedIn, required this.vm});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +75,9 @@ class _Top extends StatelessWidget {
           height: Get.height * 0.19,
           child: Stack(
             children: [
-              const Row(children: [
-                _Circle(),
-                _SpeakingAbility(),
+               Row(children: [
+                _Circle(vm : vm),
+                _SpeakingAbility(vm: vm),
               ]),
               if (!isLoggedIn) // 로그인 안 됐을 때만 블러 효과와 자물쇠 아이콘 표시
                 Positioned.fill(
@@ -251,7 +257,8 @@ class _Bottom extends StatelessWidget {
 }
 
 class _Circle extends StatelessWidget {
-  const _Circle({super.key});
+  final UserViewModel vm;
+  const _Circle({super.key,  required this.vm});
 
   @override
   Widget build(BuildContext context) {
@@ -270,7 +277,7 @@ class _Circle extends StatelessWidget {
             height: 90,
           ),
           Obx(() => Text(
-                homeViewModel.circleNumber.toString(), // Observable 값을 사용
+                '${vm.circleNumber.value}', // Observable 값을 사용
                 style: const TextStyle(
                   fontFamily: 'Pretendard-Bold',
                   color: Colors.white,
@@ -285,13 +292,11 @@ class _Circle extends StatelessWidget {
 }
 
 class _SpeakingAbility extends StatelessWidget {
-  const _SpeakingAbility({super.key});
+  final UserViewModel vm;
+  const _SpeakingAbility( {super.key, required this.vm});
 
   @override
   Widget build(BuildContext context) {
-    // HomeViewModel 인스턴스 접근
-    final homeViewModel = Get.find<HomeViewModel>();
-
     return Column(
       children: [
         Container(
@@ -310,7 +315,7 @@ class _SpeakingAbility extends StatelessWidget {
           child: Row(
             children: [
               Obx(() => Text(
-                    "발음 ${homeViewModel.speakingScore}",
+                    "발음 ${vm.speakingScore.value}",
                     style: const TextStyle(
                       fontFamily: 'Pretendard-Regular',
                       fontSize: 15,
@@ -318,7 +323,7 @@ class _SpeakingAbility extends StatelessWidget {
                   )),
               const SizedBox(width: 30),
               Obx(() => Text(
-                    "높낮이 ${homeViewModel.pitchScore}",
+                    "높낮이 ${vm.pitchScore.value}",
                     style: const TextStyle(
                       fontFamily: 'Pretendard-Regular',
                       fontSize: 15,
@@ -334,7 +339,7 @@ class _SpeakingAbility extends StatelessWidget {
               barRadius: const Radius.circular(10.0),
               width: 163.0,
               lineHeight: 8.0,
-              percent: homeViewModel.linialPersent.value,
+              percent: vm.linialPersent.value,
               progressColor: const Color(0xFF4EC040),
             ),
           ),
@@ -343,3 +348,4 @@ class _SpeakingAbility extends StatelessWidget {
     );
   }
 }
+

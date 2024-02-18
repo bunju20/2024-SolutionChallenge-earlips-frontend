@@ -21,6 +21,12 @@ class UserViewModel extends GetxController {
   // nickname
   final nickname = ''.obs;
 
+  //Score
+  final speakingScore = 10.obs;
+  final pitchScore = 10.obs;
+  final circleNumber = 10.obs;
+  final linialPersent = 0.1.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -36,6 +42,11 @@ class UserViewModel extends GetxController {
       nickname.value = userData.value['nickname'] ?? '';
       systemLanguage.value = userData.value['systemLanguage'] ?? '한국어';
       learningLanguage.value = userData.value['learningLanguage'] ?? '한국어';
+
+      speakingScore.value = userData.value['speakingScore'] ?? 86;
+      pitchScore.value = userData.value['pitchScore'] ?? 50;
+      circleNumber.value = userData.value['circleNumber'] ?? 80;
+      linialPersent.value = userData.value['linialPersent'] ?? 0.8;
     }
   }
 
