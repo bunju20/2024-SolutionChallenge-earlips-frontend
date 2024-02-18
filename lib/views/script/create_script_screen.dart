@@ -1,9 +1,12 @@
+import 'package:earlips/utilities/style/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:earlips/viewModels/script/create_script_viewmodel.dart';
 import 'package:get/get.dart';
 
 class CreateScriptPage extends StatelessWidget {
+  const CreateScriptPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<CreateScriptViewModel>(
@@ -11,12 +14,12 @@ class CreateScriptPage extends StatelessWidget {
       child: Consumer<CreateScriptViewModel>(
         builder: (context, model, child) => Scaffold(
           appBar: AppBar(
-            title: Text('대본으로 학습하기'),
+            title: const Text('대본으로 학습하기'),
             centerTitle: true,
             actions: <Widget>[
               TextButton(
                 onPressed: model.complete,
-                child: Text(
+                child: const Text(
                   '완료',
                   style: TextStyle(
                     color: Colors.black,
@@ -35,7 +38,7 @@ class CreateScriptPage extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: TextField(
                         controller: model.writedTextController,
                         expands: true,
@@ -56,9 +59,9 @@ class CreateScriptPage extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(25, 20, 25, 100),
+                      padding: const EdgeInsets.fromLTRB(25, 20, 25, 100),
                       child: Container(
-                        padding: EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.all(20.0),
                         width: Get.width * 0.8,
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -68,14 +71,14 @@ class CreateScriptPage extends StatelessWidget {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 1,
                               blurRadius: 6,
-                              offset: Offset(0, 3),
+                              offset: const Offset(0, 3),
                             ),
                           ],
                         ),
                         child: SingleChildScrollView(
                           child: Text(
                             model.voicedTextController.text,
-                            style: TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16),
                           ),
                         ),
                       ),
@@ -99,7 +102,7 @@ class CreateScriptPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(40),
                       onTap: model.toggleRecording,
                       child: Padding(
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         child: Icon(
                           model.isRecording ? Icons.stop : Icons.mic,
                           size: 30,
@@ -117,4 +120,3 @@ class CreateScriptPage extends StatelessWidget {
     );
   }
 }
-

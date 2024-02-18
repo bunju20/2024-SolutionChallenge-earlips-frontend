@@ -1,5 +1,6 @@
 import 'package:earlips/utilities/style/color_styles.dart';
 import 'package:earlips/views/auth/auth_dialog.dart';
+import 'package:earlips/views/base/default_back_appbar.dart';
 import 'package:flutter/material.dart';
 
 class ProfileAccountScreen extends StatelessWidget {
@@ -8,8 +9,11 @@ class ProfileAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('계정 관리'),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: DefaultBackAppbar(
+          title: "계정 관리",
+        ),
       ),
       body: Container(
         color: ColorSystem.white,

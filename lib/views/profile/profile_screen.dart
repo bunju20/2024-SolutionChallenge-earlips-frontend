@@ -12,15 +12,6 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: ColorSystem.background,
-      //   //뒤로가기 화살표 없애기
-      //   automaticallyImplyLeading: false,
-      //   title: Container(
-      //       alignment: Alignment.center,
-      //       child: const Text('마이 페이지',
-      //           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
-      // ),
       body: SafeArea(
         top: true,
         child: Container(
