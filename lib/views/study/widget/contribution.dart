@@ -1,3 +1,4 @@
+import 'package:earlips/utilities/style/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_week/flutter_calendar_week.dart';
 import 'package:intl/intl.dart';
@@ -33,9 +34,24 @@ class _ContributeState extends State<Contribute> {
         showMonth: true,
         minDate: DateTime.now().add(const Duration(days: -365)),
         maxDate: DateTime.now().add(const Duration(days: 365)),
+        pressedDateBackgroundColor: Colors.transparent,
+        todayDateStyle: const TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 16,
+          color: ColorSystem.white,
+        ),
+        todayBackgroundColor: ColorSystem.main,
+        pressedDateStyle: const TextStyle(
+          fontSize: 16,
+          color: ColorSystem.black,
+          fontWeight: FontWeight.w400,
+        ),
+        dateStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          color: ColorSystem.black,
+        ),
         onDatePressed: (DateTime datetime) {
-          //var data = await fetchDataForDate(datetime);
-          // 새로운 화면으로 이동하며 데이터 전달
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -50,34 +66,28 @@ class _ContributeState extends State<Contribute> {
           child: Column(
             children: [
               Container(
-                  margin: const EdgeInsets.symmetric(vertical: 4),
+                  margin: const EdgeInsets.only(bottom: 15.0),
                   child: Text(
                     DateFormat.yMMMM().format(time),
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                        color: Colors.blue, fontWeight: FontWeight.w600),
+                        fontSize: 18.0,
+                        color: ColorSystem.black,
+                        fontWeight: FontWeight.w600),
                   )),
             ],
           ),
         ),
-        decorations: [
-          DecorationItem(
-              decorationAlignment: FractionalOffset.bottomRight,
-              date: DateTime.now(),
-              decoration: const Icon(
-                Icons.today,
-                color: Colors.blue,
-              )),
-          // DecorationItem(
-          //     date: DateTime.now().add(const Duration(days: 3)),
-          //     decoration: const Text(
-          //       'Holiday',
-          //       style: TextStyle(
-          //         color: Colors.brown,
-          //         fontWeight: FontWeight.w600,
-          //       ),
-          //     )),
-        ],
+
+        // DecorationItem(
+        //     date: DateTime.now().add(const Duration(days: 3)),
+        //     decoration: const Text(
+        //       'Holiday',
+        //       style: TextStyle(
+        //         color: Colors.brown,
+        //         fontWeight: FontWeight.w600,
+        //       ),
+        //     )),
       ),
     );
   }
