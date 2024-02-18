@@ -18,7 +18,7 @@ abstract class Routes {
   static final routes = [
     GetPage(
       name: HOME,
-      page: () => const HomeScreen(),
+      page: () => HomeScreen(),
     ),
     GetPage(
       name: PROFILE,
