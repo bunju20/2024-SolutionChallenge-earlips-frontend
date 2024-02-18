@@ -73,10 +73,16 @@ class WordScreen extends StatelessWidget {
             const Spacer(),
             // wordViewModel   final String video로 영상 유튜브 링크를 바로 볼 수 있게 하기
             GetBuilder<WordViewModel>(
-              builder: (controller) => const Padding(
-                padding: EdgeInsets.all(20.0),
-                child: YoutubeWordPlayer(),
-              ),
+              builder: (controller) {
+                if (controller.type < 2) {
+                  return const Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: YoutubeWordPlayer(),
+                  );
+                } else {
+                  return Container();
+                }
+              },
             ),
             const Spacer(),
             // wordViewModel   final String video로 영상 유튜브 링크를 바로 볼 수 있게 하기
