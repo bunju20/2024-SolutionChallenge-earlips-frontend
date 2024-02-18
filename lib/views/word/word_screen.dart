@@ -74,7 +74,7 @@ class WordScreen extends StatelessWidget {
             // wordViewModel   final String video로 영상 유튜브 링크를 바로 볼 수 있게 하기
             const Padding(
               padding: EdgeInsets.all(20.0),
-              // child: YoutubeWordPlayer(),
+              child: YoutubeWordPlayer(),
             ),
             const Spacer(),
             // wordViewModel   final String video로 영상 유튜브 링크를 바로 볼 수 있게 하기
@@ -82,7 +82,6 @@ class WordScreen extends StatelessWidget {
               onPressed: () async {
                 await wordViewModel.markWordAsDone(wordViewModel
                     .wordList[wordViewModel.currentIndex.value].wordCard);
-
                 // YouTubePlayer 위젯 추가
                 Get.dialog(
                   AlertDialog(
@@ -157,14 +156,22 @@ class _YoutubeWordPlayerState extends State<YoutubeWordPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        'video: ${wordViewModel.wordList[wordViewModel.currentIndex.value].wordCard.video}');
-    return YoutubePlayer(
-      controller: YoutubePlayerController(
-        initialVideoId: wordViewModel
-            .wordList[wordViewModel.currentIndex.value].wordCard.video
-            .split('v=')[1],
-      ),
-    );
+    return GetBuilder<WordViewModel>(builder: (controller) {
+      if (controller.wordList.isEmpty) {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator()); // 로딩 중
+        } else {
+          return const Center(child: Text('아직 단어가 없습니다.')); // 데이터 없음
+        }
+      } else {
+        return YoutubePlayer(
+          controller: YoutubePlayerController(
+            initialVideoId: controller
+                .wordList[controller.currentIndex.value].wordCard.video
+                .split('v=')[1],
+          ),
+        );
+      }
+    });
   }
 }
