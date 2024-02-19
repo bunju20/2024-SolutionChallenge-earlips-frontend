@@ -1,26 +1,33 @@
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert'; // JSON 데이터를 다루기 위해 필요
 
 class AnalyzeViewModel with ChangeNotifier {
+  List<String> userWord = [];
+  List<String> userSenten = [];
+  List<int> wrongWordIndexes = [];
+  List<double> wrongFastIndexes = [];
 
-  final List<String> userWord = [
-    "가", "나", "다", "어쩌구", "저쩌구", "입니다", "나는", "매일", "조깅을", "합니다",
-    "플러터로", "앱", "개발을", "배우고", "있어요", "이것은", "더미", "텍스트입니다",
-    "데이터를", "시각화하는", "것은", "중요합니다"
-  ];
-  final List<String> userSenten = [
-    "가 나 다 어쩌구 저쩌구 입니다.",
-    "나는 매일 조깅을 합니다.",
-    "플러터로 앱 개발을 배우고 있어요.",
-    "이것은 더미 텍스트입니다.",
-    "데이터를 시각화하는 것은 중요합니다.",
-  ];
-  final List<int> wrongWordIndexes = [2, 14]; // "다", "앱"을 가리킴
-  final List<int> wrongFastIndexes = [1, 3]; // 두 번째와 네 번째 문장을 가리킴
-
-  // ViewModel 초기화
-  AnalyzeViewModel() {
-    // 필요한 초기화 로직 추가
+  // 비동기 데이터 로딩 함수는 그대로 유지
+  Future<void> fetchDataFromUrl(String url) async {
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        updateUserLists(data);
+      } else {
+        print("Failed to load data");
+      }
+    } catch (e) {
+      print("Error fetching data: $e");
+    }
   }
 
-// 여기에 필요한 기능을 추가하세요.
+  void updateUserLists(Map<String, dynamic> data) {
+    userWord = List<String>.from(data['user_word']);
+    userSenten = List<String>.from(data['user_sentence']);
+    wrongWordIndexes = List<int>.from(data['wrong']);
+    wrongFastIndexes = List<double>.from(data['speed'].map((x) => x.toDouble()));
+    notifyListeners();
+  }
 }

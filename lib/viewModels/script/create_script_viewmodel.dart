@@ -73,7 +73,7 @@ class CreateScriptViewModel extends ChangeNotifier {
 
 
   Future<void> sendTextAndAudio() async {
-    String url = 'https://heheds.free.beeceptor.com';
+    String url = 'https://962554f7-5348-4141-a3df-1a50c06b79b5-00-15gg2xcmiy7a0.sisko.replit.dev/upload';
     String textToSend = writedTextController.text;
     if (audioFilePath == null) {
       print('Audio file is not available.');
@@ -90,10 +90,16 @@ class CreateScriptViewModel extends ChangeNotifier {
 
       var response = await request.send();
       if (response.statusCode == 200) {
-        print('Data and audio sent successfully');
+        // 서버로부터의 응답 스트림을 문자열로 변환하여 출력
+        final respStr = await response.stream.bytesToString();
+        print('Server response: $respStr');
       } else {
-        print('Failed to send data and audio');
+        print('Failed to send data and audio. Status code: ${response.statusCode}');
+        // 에러 응답이 있을 경우 출력
+        final respStr = await response.stream.bytesToString();
+        print('Server error response: $respStr');
       }
+
     } catch (e) {
       print(e.toString());
     }

@@ -16,6 +16,12 @@ class AnalyzeScreen extends StatefulWidget {
 }
 
 class _AnalyzeScreenState extends State<AnalyzeScreen> {
+  final viewModel = AnalyzeViewModel();
+  @override
+  void initState() {
+    super.initState();
+    viewModel.fetchDataFromUrl("https://486ec2d3-f415-4919-8ea8-e5ca6656f875-00-j9718y89efig.pike.replit.dev/data");
+  }
 
   @override
   Widget build(BuildContext context) {
