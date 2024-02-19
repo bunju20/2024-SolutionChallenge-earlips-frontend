@@ -108,7 +108,7 @@ class TextStylingWidget extends StatelessWidget {
 
   List<TextSpan> _buildTextSpans() {
     List<TextSpan> spans = [];
-    int globalWordIndex = 0; // 전체 단어에 대한 인덱스를 추적합니다.
+    int globalWordIndex = 0;
 
     for (int i = 0; i < viewModel.userSenten.length; i++) {
       final List<String> words = viewModel.userSenten[i].split(' ');
@@ -122,16 +122,29 @@ class TextStylingWidget extends StatelessWidget {
             color: isWrongWord ? Colors.red : Colors.black,
           ),
         ));
-        globalWordIndex++; // 각 단어를 처리할 때마다 전체 단어 인덱스를 증가시킵니다.
+        globalWordIndex++;
+      }
+
+      // `wrongFastIndexes`의 값에 따라 밑줄 색상을 결정합니다.
+      Color underlineColor = Colors.white; // 기본값은 투명색입니다.
+      if (viewModel.wrongFastIndexes[i] < 1) {
+        underlineColor = Colors.purple; // 1미만인 경우 보라색 밑줄
+      } else if (viewModel.wrongFastIndexes[i] > 1) {
+        underlineColor = Colors.red; // 1초과인 경우 빨간색 밑줄
       }
 
       spans.add(TextSpan(
         children: wordSpans,
         style: TextStyle(
-          decoration: viewModel.wrongFastIndexes.contains(i) ? TextDecoration.underline : TextDecoration.none,
+          decoration: viewModel.wrongFastIndexes[i] != 0 ? TextDecoration.underline : TextDecoration.none,
+          decorationColor: underlineColor, // 밑줄 색상을 지정합니다.
+          decorationStyle: TextDecorationStyle.solid,
+            decorationThickness: 3.0,
+          //밑줄을 밑으로 내리기 위한 값
+
         ),
       ));
-      spans.add(TextSpan(text: "\n")); // 문장 사이에 줄바꿈 추가
+      spans.add(TextSpan(text: "\n"));
     }
 
     return spans;
@@ -174,16 +187,9 @@ class _TopText extends StatelessWidget {
             text: TextSpan(
               style: TextStyle(fontSize: 16, color: Colors.black),
               children: <TextSpan>[
-                TextSpan(text: '문장의 빠르기가 빠르거나 느리면 밑줄이 표시됩니다. ex)'),
+                TextSpan(text: '문장이 빠르면 빨강, 느리면 보라색 밑줄로 표시됩니다.'),
                 // 예시에 적용할 스타일
-                TextSpan(
-                  text: '강아지는 ',
-                  style: TextStyle(decoration: TextDecoration.underline),
-                ),
-                TextSpan(
-                  text: '뛴다',
-                  style: TextStyle(decoration: TextDecoration.underline),
-                ),
+                //들여쓰기
               ],
             ),
           ),
