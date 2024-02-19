@@ -86,6 +86,55 @@ class WordViewModel extends GetxController {
         'isDone': true,
         'doneDate': currentDate,
       });
+      // daily record 업데이트
+      DocumentReference dailyRecordRef = _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('daily_records')
+          .doc(DateFormat('yyyyMMdd').format(DateTime.now()));
+
+      try {
+        await _firestore.runTransaction((transaction) async {
+          // 현재 daily record 가져오기
+          DocumentSnapshot recordSnapshot =
+              await transaction.get(dailyRecordRef);
+
+          // 만약 단어가 이미 있는지 확인
+          if (recordSnapshot.exists) {
+            // 기존 단어 리스트 가져오기
+            List<Map<String, dynamic>> existingWordsList =
+                List<Map<String, dynamic>>.from(
+                    recordSnapshot.get('wordsList') ?? []);
+
+            // 이미 있는 단어인지 확인
+            if (existingWordsList
+                .any((element) => element['word'] == word.word)) {
+              // 만약 이미 있는 단어라면 return
+              return;
+            } else {
+              // 만약 없는 단어라면 추가
+              existingWordsList.add({
+                'word': word.word,
+                'type': word.type,
+              });
+
+              // 업데이트
+              transaction
+                  .update(dailyRecordRef, {'wordsList': existingWordsList});
+            }
+          } else {
+            // If the document doesn't exist, create a new one with the initial word
+            transaction.set(dailyRecordRef, {
+              'wordsList': [
+                {
+                  'word': word.word,
+                  'type': word.type,
+                },
+              ],
+            });
+          }
+        });
+      } catch (_) {}
 
       // 유저 record 업데이트
       DocumentReference recordRef = _firestore
@@ -93,7 +142,6 @@ class WordViewModel extends GetxController {
           .doc(uid)
           .collection('records')
           .doc(DateFormat('yyyyMMdd').format(DateTime.now()));
-
       try {
         await _firestore.runTransaction((transaction) async {
           // Get the current record
@@ -107,7 +155,6 @@ class WordViewModel extends GetxController {
               });
             }
           } else {
-            print('different date!!!!!!!!!!!!!');
             transaction.set(recordRef, {
               'cnt': 1,
               'date': currentDate,
