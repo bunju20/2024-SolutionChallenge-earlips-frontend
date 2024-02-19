@@ -43,6 +43,7 @@ class MainApp extends StatelessWidget {
         Routes.routes[1],
         Routes.routes[2],
         Routes.routes[3],
+        Routes.routes[4],
       ],
     );
   }

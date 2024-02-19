@@ -13,9 +13,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:earlips/views/script/learning_session_screen.dart';
 import '../realtime/real_create_script_screen.dart';
 
-import 'package:earlips/viewModels/user/user_viewmodel.dart';
-
-
 class HomeScreen extends BaseScreen<HomeViewModel> {
   final User? user =
       FirebaseAuth.instance.currentUser; // FirebaseFirestore 인스턴스 생성
@@ -40,7 +37,10 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
               child: Column(
                 children: [
                   HomeHeaderWidget(isLoggedIn: isLoggedIn, vm: viewModel),
-                  _Top(isLoggedIn: isLoggedIn, vm: viewModel,),
+                  _Top(
+                    isLoggedIn: isLoggedIn,
+                    vm: viewModel,
+                  ),
                   const _Middle(),
                   // 로그인 상태에 따라 _Bottom 클래스의 컨테이너 색상을 변경
                   _Bottom(isLoggedIn: isLoggedIn),
@@ -59,8 +59,6 @@ class _Top extends StatelessWidget {
   final UserViewModel vm;
   const _Top({required this.isLoggedIn, required this.vm});
 
-
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -75,8 +73,8 @@ class _Top extends StatelessWidget {
           height: Get.height * 0.19,
           child: Stack(
             children: [
-               Row(children: [
-                _Circle(vm : vm),
+              Row(children: [
+                _Circle(vm: vm),
                 _SpeakingAbility(vm: vm),
               ]),
               if (!isLoggedIn) // 로그인 안 됐을 때만 블러 효과와 자물쇠 아이콘 표시
@@ -228,10 +226,10 @@ class _Bottom extends StatelessWidget {
                     ),
                   ),
                 ),
-                 Container(
-                   alignment: Alignment.centerLeft,
+                Container(
+                    alignment: Alignment.centerLeft,
                     margin: const EdgeInsets.only(left: 15.0),
-                     child: LineChartSample2()),
+                    child: LineChartSample2()),
               ],
             ),
           ),
@@ -261,7 +259,7 @@ class _Bottom extends StatelessWidget {
 
 class _Circle extends StatelessWidget {
   final UserViewModel vm;
-  const _Circle({super.key,  required this.vm});
+  const _Circle({super.key, required this.vm});
 
   @override
   Widget build(BuildContext context) {
@@ -296,7 +294,7 @@ class _Circle extends StatelessWidget {
 
 class _SpeakingAbility extends StatelessWidget {
   final UserViewModel vm;
-  const _SpeakingAbility( {super.key, required this.vm});
+  const _SpeakingAbility({super.key, required this.vm});
 
   @override
   Widget build(BuildContext context) {
@@ -351,4 +349,3 @@ class _SpeakingAbility extends StatelessWidget {
     );
   }
 }
-

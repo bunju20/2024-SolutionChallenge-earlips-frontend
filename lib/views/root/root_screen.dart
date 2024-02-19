@@ -17,7 +17,6 @@ class RootScreen extends BaseScreen<RootViewModel> {
   @override
   Color? get screenBackgroundColor => const Color(0xFFAAA4F8);
 
-
   @override
   Widget buildBody(BuildContext context) {
     return Obx(
@@ -25,8 +24,8 @@ class RootScreen extends BaseScreen<RootViewModel> {
         index: viewModel.selectedIndex,
         children: [
           HomeScreen(),
-          StudyMain(),
-          ProfileScreen(),
+          const StudyMain(),
+          const ProfileScreen(),
         ],
       ),
     );
