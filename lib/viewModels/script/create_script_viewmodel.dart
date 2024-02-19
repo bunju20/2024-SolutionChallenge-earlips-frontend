@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -8,6 +10,8 @@ import 'dart:async';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:earlips/views/script/analyze_screen.dart';
+import 'package:earlips/viewModels/script/analyze_viewmodel.dart';
+
 
 class CreateScriptViewModel extends ChangeNotifier {
   bool isRecording = false;
@@ -28,6 +32,7 @@ class CreateScriptViewModel extends ChangeNotifier {
   }
 
   void _init() async {
+    Get.put(AnalyzeViewModel());
     await requestPermission();
     speechToText.initialize(
       onError: (val) => print('Error: $val'),
@@ -75,35 +80,38 @@ class CreateScriptViewModel extends ChangeNotifier {
   Future<void> sendTextAndAudio() async {
     String url = 'https://962554f7-5348-4141-a3df-1a50c06b79b5-00-15gg2xcmiy7a0.sisko.replit.dev/upload';
     String textToSend = writedTextController.text;
-    if (audioFilePath == null) {
+    if (audioFilePath.isEmpty) {
       print('Audio file is not available.');
       return;
     }
 
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url))
-        ..fields['text'] = textToSend // 텍스트 데이터 추가
-        ..files.add(await http.MultipartFile.fromPath(
-          'audio', // 서버에서 음성 파일을 식별하는 필드명
-          audioFilePath,
-        ));
+        ..fields['text'] = textToSend
+        ..files.add(await http.MultipartFile.fromPath('audio', audioFilePath));
 
       var response = await request.send();
       if (response.statusCode == 200) {
-        // 서버로부터의 응답 스트림을 문자열로 변환하여 출력
         final respStr = await response.stream.bytesToString();
+        final jsonResponse = json.decode(respStr);
         print('Server response: $respStr');
+
+        if (jsonResponse != null && jsonResponse['data'] != null) {
+          final analyzeViewModel = Get.find<AnalyzeViewModel>();
+          analyzeViewModel.updateData(jsonResponse['data']);
+          Get.to(() => AnalyzeScreen()); // AnalyzeScreen으로 이동
+        } else {
+          print('Received null or invalid data from the server.');
+        }
       } else {
         print('Failed to send data and audio. Status code: ${response.statusCode}');
-        // 에러 응답이 있을 경우 출력
-        final respStr = await response.stream.bytesToString();
-        print('Server error response: $respStr');
       }
-
     } catch (e) {
       print(e.toString());
     }
   }
+
+
 
 
   void _handleStatus(String status) {
@@ -155,11 +163,9 @@ class CreateScriptViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void complete() {
+  void complete() async {
     print("완료버튼 눌렀습니다.");
-    sendTextAndAudio(); // 텍스트와 오디오 파일 전송
-    //스크린을 이동 analyze_screen으로 이동하는 코드
-    Get.to(() => AnalyzeScreen());
+    await sendTextAndAudio(); // 비동기 호출로 수정
   }
 
 

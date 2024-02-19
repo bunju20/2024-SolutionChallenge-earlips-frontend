@@ -11,16 +11,20 @@ import '../../utilities/app_routes.dart';
 
 
 class AnalyzeScreen extends StatefulWidget {
+
+  AnalyzeScreen({Key? key}) : super(key: key); // 생성자에서 데이터를 받습니다.
   @override
   _AnalyzeScreenState createState() => _AnalyzeScreenState();
 }
 
 class _AnalyzeScreenState extends State<AnalyzeScreen> {
-  final viewModel = AnalyzeViewModel();
+  late AnalyzeViewModel viewModel;
+
   @override
   void initState() {
     super.initState();
-    viewModel.fetchDataFromUrl("https://486ec2d3-f415-4919-8ea8-e5ca6656f875-00-j9718y89efig.pike.replit.dev/data");
+    viewModel = Get.put(AnalyzeViewModel()); // 여기서 viewModel을 등록
+    print(viewModel.userSenten);
   }
 
   @override
@@ -89,7 +93,7 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
 }
 
 class TextStylingWidget extends StatelessWidget {
-  final AnalyzeViewModel model = Get.put(AnalyzeViewModel());
+  final viewModel = AnalyzeViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -108,12 +112,12 @@ class TextStylingWidget extends StatelessWidget {
     List<TextSpan> spans = [];
     int globalWordIndex = 0; // 전체 단어에 대한 인덱스를 추적합니다.
 
-    for (int i = 0; i < model.userSenten.length; i++) {
-      final List<String> words = model.userSenten[i].split(' ');
+    for (int i = 0; i < viewModel.userSenten.length; i++) {
+      final List<String> words = viewModel.userSenten[i].split(' ');
       List<TextSpan> wordSpans = [];
 
       for (String word in words) {
-        final bool isWrongWord = model.wrongWordIndexes.contains(globalWordIndex);
+        final bool isWrongWord = viewModel.wrongWordIndexes.contains(globalWordIndex);
         wordSpans.add(TextSpan(
           text: "$word ",
           style: TextStyle(
@@ -126,7 +130,7 @@ class TextStylingWidget extends StatelessWidget {
       spans.add(TextSpan(
         children: wordSpans,
         style: TextStyle(
-          decoration: model.wrongFastIndexes.contains(i) ? TextDecoration.underline : TextDecoration.none,
+          decoration: viewModel.wrongFastIndexes.contains(i) ? TextDecoration.underline : TextDecoration.none,
         ),
       ));
       spans.add(TextSpan(text: "\n")); // 문장 사이에 줄바꿈 추가
@@ -189,4 +193,6 @@ class _TopText extends StatelessWidget {
       ),
     );
   }
+
 }
+
