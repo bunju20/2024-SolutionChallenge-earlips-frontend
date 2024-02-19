@@ -20,8 +20,6 @@ class WordScreen extends StatelessWidget {
     final wordViewModel = Get.put(WordViewModel(
       type: type,
     ));
-    var arg = Get.arguments;
-    wordViewModel.currentIndex.value = arg;
 
     final PageController pageController =
         PageController(initialPage: wordViewModel.currentIndex.value);
@@ -113,10 +111,12 @@ class WordScreen extends StatelessWidget {
                           await wordViewModel.markWordAsDone(wordViewModel
                               .wordList[wordViewModel.currentIndex.value]
                               .wordCard);
+
                           wordViewModel.currentIndex.value <
                                   wordViewModel.wordList.length - 1
                               ? Get.back()
                               : Get.offAllNamed('/');
+
                           if (wordViewModel.currentIndex.value <
                               wordViewModel.wordList.length - 1) {
                             pageController.animateToPage(
@@ -124,6 +124,7 @@ class WordScreen extends StatelessWidget {
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.ease,
                             );
+
                             wordViewModel.currentIndex.value =
                                 wordViewModel.currentIndex.value + 1;
                           }
