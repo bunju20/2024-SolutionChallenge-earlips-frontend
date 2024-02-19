@@ -13,11 +13,15 @@ class WordScreen extends StatelessWidget {
 
   const WordScreen({super.key, required this.title, required this.type});
 
+  // argument로 받은 type에 따라 다른 wordViewModel을 사용
+
   @override
   Widget build(BuildContext context) {
     final wordViewModel = Get.put(WordViewModel(
       type: type,
     ));
+    var arg = Get.arguments;
+    wordViewModel.currentIndex.value = arg;
 
     final PageController pageController =
         PageController(initialPage: wordViewModel.currentIndex.value);
@@ -82,7 +86,7 @@ class WordScreen extends StatelessWidget {
                   );
                 } else {
                   return Container(
-                    child: CreateScriptPage(),
+                    child: const CreateScriptPage(),
                   );
                 }
               },
@@ -90,18 +94,29 @@ class WordScreen extends StatelessWidget {
             const Spacer(),
             // wordViewModel   final String video로 영상 유튜브 링크를 바로 볼 수 있게 하기
             ElevatedButton(
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all(
+                  const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                ),
+                backgroundColor: MaterialStateProperty.all(ColorSystem.main2),
+              ),
               onPressed: () async {
-                await wordViewModel.markWordAsDone(wordViewModel
-                    .wordList[wordViewModel.currentIndex.value].wordCard);
-
+                // isLast
                 Get.dialog(
                   AlertDialog(
                     title: const Text('학습 완료'),
                     content: const Text('다음으로 넘어가려면 아래 버튼을 눌러주세요.'),
                     actions: [
                       ElevatedButton(
-                        onPressed: () {
-                          Get.back();
+                        // button style
+                        onPressed: () async {
+                          await wordViewModel.markWordAsDone(wordViewModel
+                              .wordList[wordViewModel.currentIndex.value]
+                              .wordCard);
+                          wordViewModel.currentIndex.value <
+                                  wordViewModel.wordList.length - 1
+                              ? Get.back()
+                              : Get.offAllNamed('/');
                           if (wordViewModel.currentIndex.value <
                               wordViewModel.wordList.length - 1) {
                             pageController.animateToPage(
@@ -113,13 +128,24 @@ class WordScreen extends StatelessWidget {
                                 wordViewModel.currentIndex.value + 1;
                           }
                         },
-                        child: const Text('다음으로 넘어가기'),
+                        // 마지막 단어일 경우 홈으로 이동
+
+                        child: Text(wordViewModel.currentIndex.value <
+                                wordViewModel.wordList.length - 1
+                            ? '다음 단어'
+                            : '홈으로 이동'),
                       ),
                     ],
                   ),
                 );
               },
-              child: const Text("학습 완료"),
+              child: const Text(
+                "학습 완료",
+                style: TextStyle(
+                  color: ColorSystem.white,
+                  fontSize: 16.0,
+                ),
+              ),
             ),
             const SizedBox(height: 80),
           ],
