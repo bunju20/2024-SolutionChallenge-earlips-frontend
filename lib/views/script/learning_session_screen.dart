@@ -46,31 +46,38 @@ class LearningSessionScreen extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(15.0),
               boxShadow: [
-                // 그림자 설정
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 1,
+                  color: Colors.grey.withOpacity(0.15),
+                  spreadRadius: 0.1,
                   blurRadius: 10,
-                  offset: Offset(0, 2),
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
-            child: ListTile(
-              contentPadding: const EdgeInsets.all(20),
-              title: Text(
-                session.title,
-                style: const TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                ),
+            child: Container(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _SmallCard(name: DateFormat('yyyy/MM/dd').format(session.createdDate)),
+                  ListTile(
+                    contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
+                    title: Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        session.title,
+                        style: const TextStyle(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      // Todo: 세부 대본 학습 페이지로 이동하도록 구현
+                    },
+                  ),
+                ],
               ),
-              subtitle: Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: Text(DateFormat('yyyy/MM/dd').format(session.createdDate)),
-              ),
-              onTap: () {
-                // Todo: 세부 대본 학습 페이지로 이동하도록 구현
-              },
             ),
           );
         },
@@ -79,6 +86,35 @@ class LearningSessionScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.to(() => CreateScriptPage()),
         child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+
+class _SmallCard extends StatelessWidget {
+  final String name;
+
+  const _SmallCard({super.key, required this.name});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(left: 10.0, top: 10.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4.0),
+        color: const Color(0xFF1FA9DC),
+      ),
+      alignment: Alignment.center,
+      width: Get.height * 0.1,
+      height: 24,
+      child: Text(
+        name,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

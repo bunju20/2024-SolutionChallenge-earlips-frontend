@@ -5,6 +5,7 @@ import 'package:earlips/views/word/widget/word_list_widget.dart';
 import 'package:earlips/views/word/widget/word_youtube_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:earlips/views/paragraph/create_script_screen.dart';
 
 class WordScreen extends StatelessWidget {
   final String title;
@@ -80,7 +81,9 @@ class WordScreen extends StatelessWidget {
                     child: YoutubeWordPlayer(),
                   );
                 } else {
-                  return Container();
+                  return Container(
+                    child: CreateScriptPage(),
+                  );
                 }
               },
             ),
