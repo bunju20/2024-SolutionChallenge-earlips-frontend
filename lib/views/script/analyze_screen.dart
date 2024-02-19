@@ -8,11 +8,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:earlips/viewModels/script/analyze_viewmodel.dart';
 import '../../utilities/app_routes.dart';
 
-
-
 class AnalyzeScreen extends StatefulWidget {
-
-  AnalyzeScreen({Key? key}) : super(key: key); // 생성자에서 데이터를 받습니다.
+  AnalyzeScreen({Key? key}) : super(key: key);
   @override
   _AnalyzeScreenState createState() => _AnalyzeScreenState();
 }
@@ -46,13 +43,13 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
                 width: Get.width - 40,
                 height: Get.height * 0.2,
                 margin: EdgeInsets.all(20.0),
-                padding: EdgeInsets.all(10.0), // 내부 여백을 추가합니다.
+                padding: EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
-                  color: Colors.white, // 배경색을 지정합니다.
-                  borderRadius: BorderRadius.circular(15.0), // 테두리 둥글기를 지정합니다.
-                  border: Border.all(color: Colors.white), // 테두리 색상을 지정합니다. 필요에 따라 변경 가능합니다.
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.0),
+                  border: Border.all(color: Colors.white),
                 ),
-                child: _TopText(),
+                child: _TopText(), // 이 부분은 상태를 표시하지 않으므로 그대로 유지합니다.
               ),
               Stack(
                 children: [
@@ -61,15 +58,14 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
                     width: Get.width - 40,
                     height: Get.height * 0.5,
                     margin: EdgeInsets.all(20.0),
-                    padding: EdgeInsets.all(10.0), // 내부 여백을 추가합니다.
+                    padding: EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                      color: Colors.white, // 배경색을 지정합니다.
-                      borderRadius: BorderRadius.circular(15.0), // 테두리 둥글기를 지정합니다.
-                      border: Border.all(color: Colors.white), // 테두리 색상을 지정합니다. 필요에 따라 변경 가능합니다.
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15.0),
+                      border: Border.all(color: Colors.white),
                     ),
-                    child: TextStylingWidget(),
+                    child: TextStylingWidget(viewModel: viewModel), // viewModel을 전달합니다.
                   ),
-          
                 ],
               ),
             ],
@@ -78,13 +74,12 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
         floatingActionButton: Container(
           width: Get.width,
           alignment: Alignment.bottomCenter,
-
           child: FloatingActionButton(
             onPressed: () {
               Get.toNamed(Routes.HOME);
             },
-            child: Icon(Icons.home), // 홈 아이콘 사용
-            tooltip: '홈으로', // 롱 프레스 시 표시되는 텍스트
+            child: Icon(Icons.home),
+            tooltip: '홈으로',
           ),
         ),
       ),
@@ -93,7 +88,9 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
 }
 
 class TextStylingWidget extends StatelessWidget {
-  final viewModel = AnalyzeViewModel();
+  final AnalyzeViewModel viewModel; // viewModel을 받기 위한 생성자 파라미터를 추가합니다.
+
+  TextStylingWidget({required this.viewModel}); // 생성자를 통해 viewModel을 초기화합니다.
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +104,7 @@ class TextStylingWidget extends StatelessWidget {
       ),
     );
   }
+
 
   List<TextSpan> _buildTextSpans() {
     List<TextSpan> spans = [];
