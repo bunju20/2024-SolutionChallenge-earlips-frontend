@@ -11,9 +11,9 @@ import 'package:earlips/views/study/widget/contribution.dart';
 import 'package:get/get.dart';
 
 class StudyMain extends BaseScreen<StudyViewModel> {
-  final User? user;
-
-  const StudyMain({super.key, this.user});
+  const StudyMain({
+    super.key,
+  });
   @override
   Widget buildBody(BuildContext context) {
     return Scaffold(
@@ -31,7 +31,9 @@ class StudyMain extends BaseScreen<StudyViewModel> {
                   children: [
                     Container(
                       color: const Color(0x000000ff),
-                      child: const Contribute(),
+                      child: Contribute(
+                        isLogin: isLoggedIn,
+                      ),
                     ),
                     Stack(
                       children: [
