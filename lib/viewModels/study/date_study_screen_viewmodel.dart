@@ -1,24 +1,61 @@
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 class LearningSession {
-  final String type; // 세션 유형 (음소, 단어, 문장)
-  final DateTime createdDate; // 세션 생성 날짜
+  final int type; // 세션 유형 (음소, 단어, 문장)
+  final String createdDate; // 세션 생성 날짜
   final String text; // 세션과 관련된 텍스트
+  final int index; // 세션 인덱스
 
-  LearningSession({required this.type, required this.createdDate, required this.text});
+  LearningSession(
+      {required this.type,
+      required this.createdDate,
+      required this.text,
+      required this.index});
 }
 
 class DateStudyViewModel {
   final DateTime date;
-
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   DateStudyViewModel({required this.date});
 
-  List<LearningSession> getSessions() {
-    // 실제 애플리케이션에서는 여기서 날짜에 따라 데이터를 조회하거나 필터링하는 로직을 구현할 수 있습니다.
-    return [
-      LearningSession(type: '음소', createdDate: DateTime(2024, 2, 12), text: "가"),
-      LearningSession(type: '단어', createdDate: DateTime(2024, 2, 13), text: "가다"),
-      LearningSession(type: '문장', createdDate: DateTime(2024, 2, 14), text: "가다 보면 길이 있다."),
-    ];
+  Future<List<LearningSession>> getSessions() async {
+    // 파이어스토어에 저장된 날짜 형식에 맞게 날짜를 변환
+    final uid = _auth.currentUser?.uid;
+
+    String formattedDate = DateFormat('yyyyMMdd').format(date);
+    try {
+      // 해당 날짜의 daily record 문서를 가져옴
+      DocumentSnapshot dailyRecordSnapshot = await _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('daily_records')
+          .doc(formattedDate)
+          .get();
+
+      if (dailyRecordSnapshot.exists) {
+        // 해당 날짜의 세션 데이터를 가져옴
+        List<Map<String, dynamic>> sessionsData =
+            List<Map<String, dynamic>>.from(
+                dailyRecordSnapshot.get('wordsList') ?? []);
+        // 세션 데이터를 LearningSession 객체로 변환
+        List<LearningSession> sessions = sessionsData.map((session) {
+          return LearningSession(
+            type: session['type'],
+            createdDate: formattedDate,
+            text: session['word'],
+            index: session['index'],
+          );
+        }).toList();
+
+        return sessions;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      return [];
+    }
   }
 }

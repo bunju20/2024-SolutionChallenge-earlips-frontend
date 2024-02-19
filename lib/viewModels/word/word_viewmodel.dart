@@ -116,6 +116,7 @@ class WordViewModel extends GetxController {
               existingWordsList.add({
                 'word': word.word,
                 'type': word.type,
+                'index': currentIndex.value
               });
 
               // 업데이트
@@ -123,12 +124,13 @@ class WordViewModel extends GetxController {
                   .update(dailyRecordRef, {'wordsList': existingWordsList});
             }
           } else {
-            // If the document doesn't exist, create a new one with the initial word
+            // 만약 daily record가 없다면 새로 생성
             transaction.set(dailyRecordRef, {
               'wordsList': [
                 {
                   'word': word.word,
                   'type': word.type,
+                  'index': currentIndex.value
                 },
               ],
             });

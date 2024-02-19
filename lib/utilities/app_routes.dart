@@ -3,6 +3,7 @@ import 'package:earlips/views/home/home_screen.dart';
 import 'package:earlips/views/profile/profile_account/profile_account_screen.dart';
 import 'package:earlips/views/profile/profile_language_setting/profile_language_setting.dart';
 import 'package:earlips/views/profile/profile_screen.dart';
+import 'package:earlips/views/study/study_main.dart';
 import 'package:get/get.dart';
 
 abstract class Routes {
@@ -19,6 +20,10 @@ abstract class Routes {
     GetPage(
       name: HOME,
       page: () => HomeScreen(),
+    ),
+    GetPage(
+      name: STUDY,
+      page: () => const StudyMain(),
     ),
     GetPage(
       name: PROFILE,

@@ -85,6 +85,9 @@ class _WordListState extends State<WordList> {
                                       color: ColorSystem.gray5,
                                     ),
                                   ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
                                   const Icon(
                                     Icons.check_circle_rounded,
                                     color: ColorSystem.green,

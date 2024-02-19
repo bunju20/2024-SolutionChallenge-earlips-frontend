@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 
 class SmallCard extends StatelessWidget {
-  final String name;
+  final int type;
 
-  const SmallCard({super.key, required this.name});
+  const SmallCard({super.key, required this.type});
+
+  // type에 따라 name을 반환
+  String get name {
+    switch (type) {
+      case 0:
+        return '음소';
+      case 1:
+        return '단어';
+      case 2:
+        return '문장';
+      case 3:
+        return '문단';
+      default:
+        return '음소';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
