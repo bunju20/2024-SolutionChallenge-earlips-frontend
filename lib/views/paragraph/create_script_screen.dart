@@ -5,7 +5,10 @@ import 'package:earlips/viewModels/script/create_script_viewmodel.dart';
 import 'package:get/get.dart';
 
 class CreateScriptPage extends StatelessWidget {
-  const CreateScriptPage({super.key});
+  final String title;
+  final String text;
+
+  const CreateScriptPage({super.key, required this.title, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class CreateScriptPage extends StatelessWidget {
       child: Consumer<CreateScriptViewModel>(
         builder: (context, model, child) => Scaffold(
           appBar: AppBar(
-            title: const Text('문단교정'),
+            title: Text(title),
             centerTitle: true,
             actions: <Widget>[
               TextButton(
@@ -39,20 +42,9 @@ class CreateScriptPage extends StatelessWidget {
                     flex: 1,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: TextField(
-                        controller: model.writedTextController,
-                        expands: true,
-                        maxLines: null,
-                        decoration: InputDecoration(
-                          hintText: '대본을 입력하세요...',
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                        textAlignVertical: TextAlignVertical.top,
+                      child: Text(
+                        text,
+                        style: const TextStyle(fontSize: 16),
                       ),
                     ),
                   ),

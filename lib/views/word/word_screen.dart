@@ -86,7 +86,7 @@ class WordScreen extends StatelessWidget {
                   );
                 } else {
                   return Container(
-                    child: const CreateScriptPage(),
+                    // child: const CreateScriptPage(),
                   );
                 }
               },
