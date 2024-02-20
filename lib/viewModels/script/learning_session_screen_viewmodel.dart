@@ -1,0 +1,61 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+  import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+
+
+
+class LearningSessionScreenViewModel extends GetxController {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final RxBool isLoading = false.obs; // 로딩 상태 관리
+  final RxList<Paragraph> paragraphs = <Paragraph>[].obs; // Paragraph 객체 리스트
+
+  // Firestore에서 paragraphs 컬렉션의 데이터를 가져오는 함수
+
+  Future<void> fetchParagraphs() async {
+    final uid = _auth.currentUser?.uid; // 사용자 UID 가져오기
+    try {
+      isLoading(true); // 로딩 시작
+      final QuerySnapshot paragraphSnapshot = await _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('paragraph') // 사용자의 paragraph 컬렉션에 접근
+          .get();
+
+      final List<Paragraph> fetchedParagraphs = paragraphSnapshot.docs
+          .map((doc) {
+        // doc.data() 호출 결과를 Map<String, dynamic>으로 타입 캐스팅
+        final data = doc.data() as Map<String, dynamic>?;
+        // Null-safety를 고려하여, 필드에 접근하기 전에 null 체크
+        final title = data?['title'] as String? ?? ''; // title이 없으면 빈 문자열 할당
+        final text = data?['text'] as String? ?? ''; // text가 없으면 빈 문자열 할당
+        // dateFormat 필드를 DateTime으로 변환
+        final dateFormat = data?['dateFormat']?.toDate() ?? DateTime.now(); // dateFormat이 없으면 현재 시간 할당
+
+        // DateTime 객체를 원하는 문자열 형식으로 변환
+        final formattedDate = DateFormat('yyyy/MM/dd').format(dateFormat);
+
+        return Paragraph(title: title, text: text, dateFormat: formattedDate.toString());
+      })
+          .toList();
+
+      paragraphs.value = fetchedParagraphs; // 상태 업데이트
+    } catch (e) {
+      print("Error fetching paragraphs: $e"); // 오류 처리
+    } finally {
+      isLoading(false); // 로딩 종료
+    }
+  }
+}
+
+// Firestore 문서로부터 생성되는 Paragraph 모델
+class Paragraph {
+  final String title;
+  final String text;
+  final String dateFormat;
+  Paragraph({required this.title, required this.text, required this.dateFormat});
+}
