@@ -39,6 +39,7 @@ class _WordListState extends State<WordList> {
         itemCount: widget.wordDataList.length,
         onPageChanged: (index) {
           wordViewModel.currentIndex.value = index;
+          print('currentIndex: ${wordViewModel.currentIndex.value}');
         },
         itemBuilder: (context, index) {
           final wordData = widget.wordDataList[index];
@@ -64,14 +65,14 @@ class _WordListState extends State<WordList> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          '${wordViewModel.currentIndex.value + 1}/${widget.wordDataList.length}',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: ColorSystem.gray5,
-                          ),
-                        ),
+                        Obx(() => Text(
+                              '${wordViewModel.currentIndex.value + 1}/${widget.wordDataList.length}',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: ColorSystem.gray5,
+                              ),
+                            )),
 
                         // isDone 여부에 따라 다른 체크박스 아이콘을 표시합니다.
                         isDone

@@ -634,6 +634,8 @@ PODS:
   - AppAuth/Core (1.6.2)
   - AppAuth/ExternalUserAgent (1.6.2):
     - AppAuth/Core
+  - audioplayers_darwin (0.0.1):
+    - Flutter
   - BoringSSL-GRPC (0.0.24):
     - BoringSSL-GRPC/Implementation (= 0.0.24)
     - BoringSSL-GRPC/Interface (= 0.0.24)
@@ -840,6 +842,7 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -887,6 +890,8 @@ SPEC REPOS:
     - Try
 
 EXTERNAL SOURCES:
+  audioplayers_darwin:
+    :path: ".symlinks/plugins/audioplayers_darwin/ios"
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   firebase_auth:
@@ -923,6 +928,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   abseil: 926fb7a82dc6d2b8e1f2ed7f3a718bce691d1e46
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
+  audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   cloud_firestore: ba576bee785a05ff952e4da7fa4e23c196917436
   Firebase: 10c8cb12fb7ad2ae0c09ffc86cd9c1ab392a0031
@@ -964,6 +970,6 @@ SPEC CHECKSUMS:
   Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96
   video_player_avfoundation: 02011213dab73ae3687df27ce441fbbcc82b5579
 
-PODFILE CHECKSUM: 0b2c97823421f8b156b8e4753a469ac167670df8
+PODFILE CHECKSUM: 163f6f9d5628ee98843cfda3ba4b8cb24bfcad1a
 
 COCOAPODS: 1.15.2
