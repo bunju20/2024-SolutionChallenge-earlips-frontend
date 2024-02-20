@@ -7,6 +7,12 @@ class HomeViewModel extends GetxController {
   var circleNumber = 42.obs;
   var linialPersent = 0.9.obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    update();
+  }
+
   // 발음 점수 업데이트
   void updateSpeakingScore(int newScore) {
     speakingScore.value = newScore;
@@ -27,4 +33,3 @@ class HomeViewModel extends GetxController {
     linialPersent.value = newPersent;
   }
 }
-
