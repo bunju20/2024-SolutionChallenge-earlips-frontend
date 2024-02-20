@@ -11,6 +11,7 @@ void main() async {
   /* Open .env file */
   await dotenv.load(fileName: "assets/config/.env");
   await initializeDateFormatting();
+  WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
   await SystemChrome.setPreferredOrientations([
@@ -23,16 +24,10 @@ void main() async {
 
   runApp(EasyLocalization(
       // 지원 언어 리스트
-      supportedLocales: const [
-        Locale('ko', 'KR'),
-        Locale('en', 'US'),
-      ],
-      //path: 언어 파일 경로
+      saveLocale: true,
+      useOnlyLangCode: true,
+      supportedLocales: const [Locale('en'), Locale('ko')],
       path: 'assets/translations',
-      //fallbackLocale supportedLocales에 설정한 언어가 없는 경우 설정되는 언어
-      fallbackLocale: const Locale('en', 'US'),
-      //startLocale을 지정하면 초기 언어가 설정한 언어로 변경됨
-      //만일 이 설정을 하지 않으면 OS 언어를 따라 기본 언어가 설정됨
-      //startLocale: Locale('ko', 'KR')
+      fallbackLocale: const Locale('en'),
       child: const MainApp(initialRoute: "/")));
 }

@@ -53,6 +53,7 @@ class HomeHeaderWidget extends StatelessWidget {
                 ),
               ),
 // Use ViewModel data
+
               Text(
                 isLoggedIn
                     ? '${vm.learningLanguage.value} - ${vm.nickname.value}'
