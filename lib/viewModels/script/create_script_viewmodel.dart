@@ -76,7 +76,7 @@ class CreateScriptViewModel extends ChangeNotifier {
   }
 
   Future<void> sendTextAndAudio() async {
-    String url = dotenv.env['SCRIPT_API'].toString();
+    String url = '${dotenv.env['API_URL']!}/script';
     String textToSend = writedTextController.text;
     if (audioFilePath.isEmpty) {
       print('Audio file is not available.');

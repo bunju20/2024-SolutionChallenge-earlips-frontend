@@ -15,13 +15,13 @@ class SmallCard extends StatelessWidget {
         color: const Color(0xFF1FA9DC),
       ),
       alignment: Alignment.center,
-      width: 50,
+      width: 80,
       height: 24,
       child: Text(
         text,
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 14,
+          fontSize: 12,
           fontWeight: FontWeight.w600,
         ),
       ),
