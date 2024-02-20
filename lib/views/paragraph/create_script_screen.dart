@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 class CreateScriptPage extends StatelessWidget {
   final String title;
   final String text;
+  const CreateScriptPage({Key? key, required this.title, required this.text}) : super(key: key);
 
-  const CreateScriptPage({super.key, required this.title, required this.text});
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
 import 'package:earlips/viewModels/Paragraph/learning_session_screen_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:earlips/views/Paragraph/create_script_screen.dart';
+import 'package:earlips/views/paragraph/create_script_screen.dart';
 
 class LearningSessionScreen extends StatefulWidget {
   LearningSessionScreen({Key? key}) : super(key: key);
@@ -11,7 +11,8 @@ class LearningSessionScreen extends StatefulWidget {
 }
 
 class _LearningSessionScreenState extends State<LearningSessionScreen> {
-  final viewModel = Get.put(LearningSessionScreenViewModel()); // ViewModel 인스턴스 생성
+  final viewModel = Get.put(
+      LearningSessionScreenViewModel()); // ViewModel 인스턴스 생성
 
   @override
   void initState() {
@@ -26,7 +27,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
         title: Text('대본으로 학습하기'),
         centerTitle: true,
       ),
-      body: Obx(() { // GetX의 Obx()를 사용하여 반응형 UI 구성
+      body: Obx(() {
         if (viewModel.isLoading.value) {
           return Center(child: CircularProgressIndicator());
         } else {
@@ -58,8 +59,10 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                     ),
                   ),
                   onTap: () {
-                    // 다음 페이지로 이동하며 파라미터 전달
-                    Get.to(() => CreateScriptPage(title: paragraph.title, text: paragraph.text));
+                    // title과 text만 다음 페이지로 전달
+                    Get.to(() =>
+                        CreateScriptPage(
+                            title: paragraph.title, text: paragraph.text));
                   },
                 ),
               );
@@ -68,7 +71,6 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
           );
         }
       }),
-
     );
   }
 }
