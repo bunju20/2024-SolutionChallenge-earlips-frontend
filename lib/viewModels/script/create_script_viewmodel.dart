@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -18,6 +20,11 @@ class CreateScriptViewModel extends ChangeNotifier {
   bool _isRecording = false; // 녹음 중 여부 : 파일
   FlutterSoundRecorder? _audioRecorder;
   String audioFilePath = '';
+  // 사용자 로그인 상태를 확인하는 함수
+  bool get isLoggedIn => FirebaseAuth.instance.currentUser != null;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+
 
   bool handDone = false;
   TextEditingController writedTextController =
@@ -76,6 +83,7 @@ class CreateScriptViewModel extends ChangeNotifier {
   }
 
   Future<void> sendTextAndAudio() async {
+
     String url = '${dotenv.env['API_URL']!}/script';
     String textToSend = writedTextController.text;
     if (audioFilePath.isEmpty) {
@@ -117,6 +125,13 @@ class CreateScriptViewModel extends ChangeNotifier {
     } catch (e) {
       print(e.toString());
     }
+    if (!isLoggedIn) {
+      print('User is not logged in.');
+    }else {
+      print('User is logged in.');
+      saveDataToFirestore();
+    }
+
   }
 
   void _handleStatus(String status) {
@@ -171,6 +186,36 @@ class CreateScriptViewModel extends ChangeNotifier {
   void complete() async {
     print("완료버튼 눌렀습니다.");
     await sendTextAndAudio(); // 비동기 호출로 수정
+  }
+
+  Future<void> saveDataToFirestore() async {
+    final uid = _auth.currentUser?.uid;
+    if (!isLoggedIn) {
+      print("User is not logged in.");
+      return;
+    }
+    final textToSend = writedTextController.text;
+    final title = textToSend.length > 5 ? textToSend.substring(0, 5) + '...' : textToSend;
+    final dateFormat = Timestamp.now(); // 현재 시간을 Timestamp 형태로 저장
+
+    final documentReference = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('paragraph')
+        .doc(); // 새 문서 ID를 자동 생성
+
+    await documentReference.set({
+      'dateFormat': dateFormat,
+      'text': textToSend,
+      'title': title,
+    }).then((_) {
+      print("Data saved to Firestore successfully.");
+      print(dateFormat);
+      print(textToSend);
+      print(uid);
+    }).catchError((error) {
+      print("Failed to save data to Firestore: $error");
+    });
   }
 
   @override

@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:earlips/viewModels/script/create_script_viewmodel.dart';
 import 'package:get/get.dart';
-
+import 'package:earlips/viewModels/script/learning_session_screen_viewmodel.dart';
 class CreateScriptPage extends StatelessWidget {
   const CreateScriptPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider<CreateScriptViewModel>(
       create: (_) => CreateScriptViewModel(),
       child: Consumer<CreateScriptViewModel>(
