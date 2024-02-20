@@ -1,4 +1,5 @@
 import 'package:earlips/viewModels/Paragraph/learning_session_screen_viewmodel.dart';
+import 'package:earlips/views/word/widget/blue_back_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:earlips/views/paragraph/create_script_screen.dart';
@@ -23,9 +24,9 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('대본으로 학습하기'),
-        centerTitle: true,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: BlueBackAppbar(title: "문단교정"),
       ),
       body: Obx(() {
         if (viewModel.isLoading.value) {
@@ -54,7 +55,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                   title: Text(
                     paragraph.title,
                     style: const TextStyle(
-                      fontSize: 24.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

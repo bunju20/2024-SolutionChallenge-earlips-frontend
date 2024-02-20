@@ -40,11 +40,30 @@ class CreateScriptPage extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        text,
-                        style: const TextStyle(fontSize: 16),
+                    child: SingleChildScrollView(
+                      child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Container(
+                            margin: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(20.0),
+                            //가장자리 둥글게
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                      
+                              color: Colors.white,
+                      
+                            ),
+                      
+                            child: Text(
+                              text,
+                              style: const TextStyle(fontSize: 16,
+                              fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),

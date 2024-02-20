@@ -7,6 +7,7 @@ import 'package:earlips/views/word/widget/word_youtube_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:earlips/views/paragraph/create_script_screen.dart';
+import 'package:earlips/views/paragraph/learning_session_screen.dart';
 
 class WordScreen extends StatelessWidget {
   final String title;
@@ -85,7 +86,7 @@ class WordScreen extends StatelessWidget {
                     wordDataList: controller.wordList,
                   );
                 } else {
-                  return const CreateScriptPage();
+                  return LearningSessionScreen();
                 }
               },
             ),
