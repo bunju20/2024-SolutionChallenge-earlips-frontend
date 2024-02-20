@@ -24,6 +24,7 @@ class LearningSessionScreenViewModel extends GetxController {
           .collection('users')
           .doc(uid)
           .collection('paragraph') // 사용자의 paragraph 컬렉션에 접근
+          .orderBy('dateFormat', descending: true) // DateTime 기준으로 정렬
           .get();
 
       final List<Paragraph> fetchedParagraphs = paragraphSnapshot.docs
