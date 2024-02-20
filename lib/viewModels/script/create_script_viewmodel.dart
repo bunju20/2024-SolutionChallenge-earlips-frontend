@@ -98,16 +98,9 @@ class CreateScriptViewModel extends ChangeNotifier {
         final respStr = await response.stream.bytesToString();
         final jsonResponse = json.decode(respStr);
         print('Server response: $respStr');
-
-        // jsonResponse['data'] 대신 jsonResponse를 직접 사용합니다.
-        // 예제 JSON 구조에는 'data' 키가 최상위에 존재하지 않으므로,
-        // jsonResponse 자체를 사용하는 것이 적절합니다.
         if (jsonResponse != null) {
           final analyzeViewModel = Get.find<AnalyzeViewModel>();
 
-          // jsonResponse를 그대로 updateData 메소드에 전달하는 대신,
-          // 필요한 데이터만 추출하여 전달합니다.
-          // 여기서는 예제 JSON 구조에 맞추어 적절한 데이터 처리를 가정합니다.
           analyzeViewModel.updateData({
             'paragraph_word': jsonResponse['paragraph_word'],
             'user_word': jsonResponse['user_word'],
