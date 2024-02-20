@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:permission_handler/permission_handler.dart';
@@ -11,6 +12,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:earlips/views/script/analyze_screen.dart';
 import 'package:earlips/viewModels/script/analyze_viewmodel.dart';
+
 
 
 class CreateScriptViewModel extends ChangeNotifier {
@@ -78,7 +80,8 @@ class CreateScriptViewModel extends ChangeNotifier {
 
 
   Future<void> sendTextAndAudio() async {
-    String url = 'https://962554f7-5348-4141-a3df-1a50c06b79b5-00-15gg2xcmiy7a0.sisko.replit.dev/upload';
+
+    String url = dotenv.env['SCRIPT_API'].toString();
     String textToSend = writedTextController.text;
     if (audioFilePath.isEmpty) {
       print('Audio file is not available.');
@@ -87,8 +90,8 @@ class CreateScriptViewModel extends ChangeNotifier {
 
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url))
-        ..fields['text'] = textToSend
-        ..files.add(await http.MultipartFile.fromPath('audio', audioFilePath));
+        ..fields['content'] = textToSend // 'content' 필드 이름으로 수정
+        ..files.add(await http.MultipartFile.fromPath('audio', audioFilePath)); // 'audio' 필드 이름은 그대로 유지
 
       var response = await request.send();
       if (response.statusCode == 200) {
@@ -96,9 +99,24 @@ class CreateScriptViewModel extends ChangeNotifier {
         final jsonResponse = json.decode(respStr);
         print('Server response: $respStr');
 
-        if (jsonResponse != null && jsonResponse['data'] != null) {
+        // jsonResponse['data'] 대신 jsonResponse를 직접 사용합니다.
+        // 예제 JSON 구조에는 'data' 키가 최상위에 존재하지 않으므로,
+        // jsonResponse 자체를 사용하는 것이 적절합니다.
+        if (jsonResponse != null) {
           final analyzeViewModel = Get.find<AnalyzeViewModel>();
-          analyzeViewModel.updateData(jsonResponse['data']);
+
+          // jsonResponse를 그대로 updateData 메소드에 전달하는 대신,
+          // 필요한 데이터만 추출하여 전달합니다.
+          // 여기서는 예제 JSON 구조에 맞추어 적절한 데이터 처리를 가정합니다.
+          analyzeViewModel.updateData({
+            'paragraph_word': jsonResponse['paragraph_word'],
+            'user_word': jsonResponse['user_word'],
+            'paragraph_sentence': jsonResponse['paragraph_sentence'],
+            'user_sentence': jsonResponse['user_sentence'],
+            'wrong': jsonResponse['wrong'],
+            'speed': jsonResponse['speed'],
+          });
+
           Get.to(() => AnalyzeScreen()); // AnalyzeScreen으로 이동
         } else {
           print('Received null or invalid data from the server.');
@@ -169,38 +187,15 @@ class CreateScriptViewModel extends ChangeNotifier {
   }
 
 
-  Future<void> sendText() async {
-    String url = 'https://heheds.free.beeceptor.com';
-    String textToSend = writedTextController.text;
-
-    try {
-      final response = await http.post(
-        Uri.parse(url),
-        body: {'text': textToSend},
-      );
-
-      if (response.statusCode == 200) {
-        // 요청이 성공적으로 완료되었습니다.
-        print('Data sent successfully');
-      } else {
-        // 서버 오류가 발생했습니다.
-        print('Failed to send data');
-      }
-    } catch (e) {
-      // 네트워크 요청 중 오류가 발생했습니다.
-      print(e.toString());
+  @override
+  void dispose() {
+    // 컨트롤러들을 정리합니다.
+    if (_audioRecorder != null) {
+      _audioRecorder!.closeRecorder();
+      _audioRecorder = null;
     }
-
-    @override
-    void dispose() {
-      // 컨트롤러들을 정리합니다.
-      if (_audioRecorder != null) {
-        _audioRecorder!.closeRecorder();
-        _audioRecorder = null;
-      }
-      writedTextController.dispose();
-      voicedTextController.dispose();
-      super.dispose();
-    }
+    writedTextController.dispose();
+    voicedTextController.dispose();
+    super.dispose();
   }
 }
