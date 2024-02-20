@@ -8,12 +8,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:async';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:earlips/views/script/analyze_screen.dart';
 import 'package:earlips/viewModels/script/analyze_viewmodel.dart';
-
-
 
 class CreateScriptViewModel extends ChangeNotifier {
   bool isRecording = false;
@@ -22,10 +19,11 @@ class CreateScriptViewModel extends ChangeNotifier {
   FlutterSoundRecorder? _audioRecorder;
   String audioFilePath = '';
 
-
   bool handDone = false;
-  TextEditingController writedTextController = TextEditingController(); // 사용자 입력을 위한 컨트롤러
-  TextEditingController voicedTextController = TextEditingController(); // 음성 인식 결과를 위한 컨트롤러
+  TextEditingController writedTextController =
+      TextEditingController(); // 사용자 입력을 위한 컨트롤러
+  TextEditingController voicedTextController =
+      TextEditingController(); // 음성 인식 결과를 위한 컨트롤러
   stt.SpeechToText speechToText = stt.SpeechToText();
 
   CreateScriptViewModel() {
@@ -53,9 +51,8 @@ class CreateScriptViewModel extends ChangeNotifier {
     if (!_isRecorderInitialized || _isRecording) return;
 
     final directory = await getApplicationDocumentsDirectory();
-    final filePath = '${directory.path}/${DateTime
-        .now()
-        .millisecondsSinceEpoch}.aac';
+    final filePath =
+        '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.aac';
 
     await _audioRecorder!.startRecorder(
       toFile: filePath,
@@ -78,9 +75,7 @@ class CreateScriptViewModel extends ChangeNotifier {
     }
   }
 
-
   Future<void> sendTextAndAudio() async {
-
     String url = dotenv.env['SCRIPT_API'].toString();
     String textToSend = writedTextController.text;
     if (audioFilePath.isEmpty) {
@@ -91,7 +86,8 @@ class CreateScriptViewModel extends ChangeNotifier {
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url))
         ..fields['content'] = textToSend // 'content' 필드 이름으로 수정
-        ..files.add(await http.MultipartFile.fromPath('audio', audioFilePath)); // 'audio' 필드 이름은 그대로 유지
+        ..files.add(await http.MultipartFile.fromPath(
+            'audio', audioFilePath)); // 'audio' 필드 이름은 그대로 유지
 
       var response = await request.send();
       if (response.statusCode == 200) {
@@ -115,21 +111,19 @@ class CreateScriptViewModel extends ChangeNotifier {
           print('Received null or invalid data from the server.');
         }
       } else {
-        print('Failed to send data and audio. Status code: ${response.statusCode}');
+        print(
+            'Failed to send data and audio. Status code: ${response.statusCode}');
       }
     } catch (e) {
       print(e.toString());
     }
   }
 
-
-
-
   void _handleStatus(String status) {
     if (handDone) return;
     if (status == 'done') {
       stopListening();
-      Future.delayed(Duration(milliseconds: 100), () {
+      Future.delayed(const Duration(milliseconds: 100), () {
         startListening();
       });
     }
@@ -160,12 +154,12 @@ class CreateScriptViewModel extends ChangeNotifier {
     speechToText.listen(
       onResult: (result) {
         if (result.finalResult) {
-          voicedTextController.text += result.recognizedWords + " ";
+          voicedTextController.text += "${result.recognizedWords} ";
           notifyListeners();
         }
       },
-      listenFor: Duration(minutes: 5),
-      pauseFor: Duration(seconds: 3),
+      listenFor: const Duration(minutes: 5),
+      pauseFor: const Duration(seconds: 3),
     );
   }
 
@@ -178,7 +172,6 @@ class CreateScriptViewModel extends ChangeNotifier {
     print("완료버튼 눌렀습니다.");
     await sendTextAndAudio(); // 비동기 호출로 수정
   }
-
 
   @override
   void dispose() {
