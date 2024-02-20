@@ -2,6 +2,7 @@ import 'package:earlips/utilities/style/color_styles.dart';
 import 'package:earlips/viewModels/word/word_viewmodel.dart';
 import 'package:earlips/views/word/widget/blue_back_appbar.dart';
 import 'package:earlips/views/word/widget/word_list_widget.dart';
+import 'package:earlips/views/word/widget/word_sentence_widget.dart';
 import 'package:earlips/views/word/widget/word_youtube_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,9 +13,6 @@ class WordScreen extends StatelessWidget {
   final int type;
 
   const WordScreen({super.key, required this.title, required this.type});
-
-  // argument로 받은 type에 따라 다른 wordViewModel을 사용
-
   @override
   Widget build(BuildContext context) {
     final wordViewModel = Get.put(WordViewModel(
@@ -82,15 +80,17 @@ class WordScreen extends StatelessWidget {
                     padding: EdgeInsets.all(20.0),
                     child: YoutubeWordPlayer(),
                   );
-                } else {
-                  return Container(
-                    child: const CreateScriptPage(),
+                } else if (controller.type == 2) {
+                  return WordSentenceWidget(
+                    wordDataList: controller.wordList,
                   );
+                } else {
+                  return const CreateScriptPage();
                 }
               },
             ),
             const Spacer(),
-            // wordViewModel   final String video로 영상 유튜브 링크를 바로 볼 수 있게 하기
+            // final String video로 영상 유튜브 링크를 바로 볼 수 있게 하기
             ElevatedButton(
               style: ButtonStyle(
                 padding: MaterialStateProperty.all(
@@ -108,15 +108,18 @@ class WordScreen extends StatelessWidget {
                       ElevatedButton(
                         // button style
                         onPressed: () async {
+                          // 단어 학습 완료 처리 =>
                           await wordViewModel.markWordAsDone(wordViewModel
                               .wordList[wordViewModel.currentIndex.value]
                               .wordCard);
 
+                          // 마지막 단어가 아닐 경우 뒤로가기, 마지막 단어일 경우 홈으로 이동
                           wordViewModel.currentIndex.value <
                                   wordViewModel.wordList.length - 1
                               ? Get.back()
                               : Get.offAllNamed('/');
 
+                          // 다음 단어로 넘어가기
                           if (wordViewModel.currentIndex.value <
                               wordViewModel.wordList.length - 1) {
                             pageController.animateToPage(
@@ -125,12 +128,12 @@ class WordScreen extends StatelessWidget {
                               curve: Curves.ease,
                             );
 
+                            // currentIndex 증가
                             wordViewModel.currentIndex.value =
                                 wordViewModel.currentIndex.value + 1;
                           }
                         },
                         // 마지막 단어일 경우 홈으로 이동
-
                         child: Text(wordViewModel.currentIndex.value <
                                 wordViewModel.wordList.length - 1
                             ? '다음 단어'

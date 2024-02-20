@@ -13,40 +13,6 @@ class UserViewModel extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final storage = const FlutterSecureStorage(); // Instance for secure storage
 
-  // final List<WordCard> wordList = [
-  //   WordCard(
-  //       id: 1,
-  //       word: "강",
-  //       speaker: "가-앙",
-  //       video: "https://www.youtube.com/watch?v=OzHrIz-wMLA"),
-  //   WordCard(
-  //       id: 2,
-  //       word: "서",
-  //       speaker: "가-앙",
-  //       video: "https://www.youtube.com/watch?v=OzHrIz-wMLA"),
-  //   WordCard(
-  //       id: 3,
-  //       word: "희",
-  //       speaker: "가-앙",
-  //       video: "https://www.youtube.com/watch?v=OzHrIz-wMLA"),
-  //   WordCard(
-  //       id: 4,
-  //       word: "찬",
-  //       speaker: "차-안",
-  //       video: "https://www.youtube.com/watch?v=OzHrIz-wMLA"),
-  //   WordCard(
-  //       id: 5,
-  //       word: "캬",
-  //       speaker: "캬",
-  //       video: "https://www.youtube.com/watch?v=OzHrIz-wMLA"),
-  // ];
-
-  //   for (final word in wordList) {
-  //   await FirebaseFirestore.instance
-  //       .collection('words')
-  //       .doc(word.id.toString())
-  //       .set(word.toMap());
-  // }
   // User Profile Data
   final Rx<User?> _firebaseUser = Rx<User?>(null);
   String? get uid => _firebaseUser.value?.uid;
@@ -65,7 +31,6 @@ class UserViewModel extends GetxController {
   final circleNumber = 10.obs;
   final linialPersent = 0.1.obs;
 
-
   final flSpots = <FlSpot>[].obs;
   final DataFetcher _dataFetcher = DataFetcher();
   RxDouble maxYValue = 0.0.obs;
@@ -75,7 +40,11 @@ class UserViewModel extends GetxController {
   void onInit() {
     super.onInit();
     fetchAndSetGraphData();
+    _firebaseUser.bindStream(_auth.authStateChanges());
+
+    if (uid != null) getUserData();
   }
+
   void fetchAndSetGraphData() async {
     final data = await _dataFetcher.fetchGraphData();
     flSpots.value = data;
@@ -96,6 +65,7 @@ class UserViewModel extends GetxController {
       final doc = await _firestore.collection('users').doc(uid).get();
       userData.value = doc.data() ?? {};
       nickname.value = userData.value['nickname'] ?? '';
+      print('nickname: ${nickname.value}');
       systemLanguage.value = userData.value['systemLanguage'] ?? '한국어';
       learningLanguage.value = userData.value['learningLanguage'] ?? '한국어';
 
@@ -168,9 +138,7 @@ class UserViewModel extends GetxController {
   }
 }
 
-
 class DataFetcher {
-
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   double maxYValue = 0.0;
@@ -184,7 +152,6 @@ class DataFetcher {
     DateTime now = DateTime.now();
     DateTime startDate = DateTime(now.year, now.month, now.day - 29);
     DateFormat formatter = DateFormat('yyyyMMdd'); // Reuse the formatter
-
 
     // Prepare a list of all dates to query
     List<Future<DocumentSnapshot>> futures = List.generate(31, (i) {
@@ -215,6 +182,4 @@ class DataFetcher {
 
     return spots;
   }
-
 }
-
