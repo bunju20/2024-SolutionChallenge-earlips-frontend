@@ -8,14 +8,21 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:earlips/viewModels/script/analyze_viewmodel.dart';
 import '../../utilities/app_routes.dart';
 
-
-
 class AnalyzeScreen extends StatefulWidget {
+  AnalyzeScreen({Key? key}) : super(key: key);
   @override
   _AnalyzeScreenState createState() => _AnalyzeScreenState();
 }
 
 class _AnalyzeScreenState extends State<AnalyzeScreen> {
+  late AnalyzeViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = Get.put(AnalyzeViewModel()); // 여기서 viewModel을 등록
+    print(viewModel.userSenten);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +43,13 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
                 width: Get.width - 40,
                 height: Get.height * 0.2,
                 margin: EdgeInsets.all(20.0),
-                padding: EdgeInsets.all(10.0), // 내부 여백을 추가합니다.
+                padding: EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
-                  color: Colors.white, // 배경색을 지정합니다.
-                  borderRadius: BorderRadius.circular(15.0), // 테두리 둥글기를 지정합니다.
-                  border: Border.all(color: Colors.white), // 테두리 색상을 지정합니다. 필요에 따라 변경 가능합니다.
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.0),
+                  border: Border.all(color: Colors.white),
                 ),
-                child: _TopText(),
+                child: _TopText(), // 이 부분은 상태를 표시하지 않으므로 그대로 유지합니다.
               ),
               Stack(
                 children: [
@@ -51,15 +58,14 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
                     width: Get.width - 40,
                     height: Get.height * 0.5,
                     margin: EdgeInsets.all(20.0),
-                    padding: EdgeInsets.all(10.0), // 내부 여백을 추가합니다.
+                    padding: EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                      color: Colors.white, // 배경색을 지정합니다.
-                      borderRadius: BorderRadius.circular(15.0), // 테두리 둥글기를 지정합니다.
-                      border: Border.all(color: Colors.white), // 테두리 색상을 지정합니다. 필요에 따라 변경 가능합니다.
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15.0),
+                      border: Border.all(color: Colors.white),
                     ),
-                    child: TextStylingWidget(),
+                    child: TextStylingWidget(viewModel: viewModel), // viewModel을 전달합니다.
                   ),
-          
                 ],
               ),
             ],
@@ -68,13 +74,12 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
         floatingActionButton: Container(
           width: Get.width,
           alignment: Alignment.bottomCenter,
-
           child: FloatingActionButton(
             onPressed: () {
               Get.toNamed(Routes.HOME);
             },
-            child: Icon(Icons.home), // 홈 아이콘 사용
-            tooltip: '홈으로', // 롱 프레스 시 표시되는 텍스트
+            child: Icon(Icons.home),
+            tooltip: '홈으로',
           ),
         ),
       ),
@@ -83,7 +88,9 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
 }
 
 class TextStylingWidget extends StatelessWidget {
-  final AnalyzeViewModel model = Get.put(AnalyzeViewModel());
+  final AnalyzeViewModel viewModel; // viewModel을 받기 위한 생성자 파라미터를 추가합니다.
+
+  TextStylingWidget({required this.viewModel}); // 생성자를 통해 viewModel을 초기화합니다.
 
   @override
   Widget build(BuildContext context) {
@@ -98,32 +105,46 @@ class TextStylingWidget extends StatelessWidget {
     );
   }
 
+
   List<TextSpan> _buildTextSpans() {
     List<TextSpan> spans = [];
-    int globalWordIndex = 0; // 전체 단어에 대한 인덱스를 추적합니다.
+    int globalWordIndex = 0;
 
-    for (int i = 0; i < model.userSenten.length; i++) {
-      final List<String> words = model.userSenten[i].split(' ');
+    for (int i = 0; i < viewModel.userSenten.length; i++) {
+      final List<String> words = viewModel.userSenten[i].split(' ');
       List<TextSpan> wordSpans = [];
 
       for (String word in words) {
-        final bool isWrongWord = model.wrongWordIndexes.contains(globalWordIndex);
+        final bool isWrongWord = viewModel.wrongWordIndexes.contains(globalWordIndex);
         wordSpans.add(TextSpan(
           text: "$word ",
           style: TextStyle(
             color: isWrongWord ? Colors.red : Colors.black,
           ),
         ));
-        globalWordIndex++; // 각 단어를 처리할 때마다 전체 단어 인덱스를 증가시킵니다.
+        globalWordIndex++;
+      }
+
+      // `wrongFastIndexes`의 값에 따라 밑줄 색상을 결정합니다.
+      Color underlineColor = Colors.white; // 기본값은 투명색입니다.
+      if (viewModel.wrongFastIndexes[i] < 1) {
+        underlineColor = Colors.purple; // 1미만인 경우 보라색 밑줄
+      } else if (viewModel.wrongFastIndexes[i] > 1) {
+        underlineColor = Colors.red; // 1초과인 경우 빨간색 밑줄
       }
 
       spans.add(TextSpan(
         children: wordSpans,
         style: TextStyle(
-          decoration: model.wrongFastIndexes.contains(i) ? TextDecoration.underline : TextDecoration.none,
+          decoration: viewModel.wrongFastIndexes[i] != 0 ? TextDecoration.underline : TextDecoration.none,
+          decorationColor: underlineColor, // 밑줄 색상을 지정합니다.
+          decorationStyle: TextDecorationStyle.solid,
+            decorationThickness: 3.0,
+          //밑줄을 밑으로 내리기 위한 값
+
         ),
       ));
-      spans.add(TextSpan(text: "\n")); // 문장 사이에 줄바꿈 추가
+      spans.add(TextSpan(text: "\n"));
     }
 
     return spans;
@@ -166,16 +187,9 @@ class _TopText extends StatelessWidget {
             text: TextSpan(
               style: TextStyle(fontSize: 16, color: Colors.black),
               children: <TextSpan>[
-                TextSpan(text: '문장의 빠르기가 빠르거나 느리면 밑줄이 표시됩니다. ex)'),
+                TextSpan(text: '문장이 빠르면 빨강, 느리면 보라색 밑줄로 표시됩니다.'),
                 // 예시에 적용할 스타일
-                TextSpan(
-                  text: '강아지는 ',
-                  style: TextStyle(decoration: TextDecoration.underline),
-                ),
-                TextSpan(
-                  text: '뛴다',
-                  style: TextStyle(decoration: TextDecoration.underline),
-                ),
+                //들여쓰기
               ],
             ),
           ),
@@ -183,4 +197,6 @@ class _TopText extends StatelessWidget {
       ),
     );
   }
+
 }
+

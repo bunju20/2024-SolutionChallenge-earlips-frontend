@@ -5,7 +5,10 @@ import 'package:earlips/viewModels/script/create_script_viewmodel.dart';
 import 'package:get/get.dart';
 
 class CreateScriptPage extends StatelessWidget {
-  const CreateScriptPage({super.key});
+  final String title;
+  final String text;
+  const CreateScriptPage({Key? key, required this.title, required this.text}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class CreateScriptPage extends StatelessWidget {
       child: Consumer<CreateScriptViewModel>(
         builder: (context, model, child) => Scaffold(
           appBar: AppBar(
-            title: const Text('문단교정'),
+            title: Text(title),
             centerTitle: true,
             actions: <Widget>[
               TextButton(
@@ -37,22 +40,30 @@ class CreateScriptPage extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: TextField(
-                        controller: model.writedTextController,
-                        expands: true,
-                        maxLines: null,
-                        decoration: InputDecoration(
-                          hintText: '대본을 입력하세요...',
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                            borderSide: BorderSide.none,
+                    child: SingleChildScrollView(
+                      child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Container(
+                            margin: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(20.0),
+                            //가장자리 둥글게
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                      
+                              color: Colors.white,
+                      
+                            ),
+                      
+                            child: Text(
+                              text,
+                              style: const TextStyle(fontSize: 16,
+                              fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
                           ),
                         ),
-                        textAlignVertical: TextAlignVertical.top,
                       ),
                     ),
                   ),
