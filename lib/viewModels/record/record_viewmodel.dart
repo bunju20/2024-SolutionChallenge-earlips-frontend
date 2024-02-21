@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -9,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 
 class RecordViewModel extends GetxController {
   final FlutterSoundRecorder _audioRecorder = FlutterSoundRecorder();
-
+  bool _isRecorderInitialized = false; // 녹음기 초기화 여부 : 파일
   final RxBool isRecording = false.obs;
   RxString audioFilePath = ''.obs;
   final RxMap<String, dynamic> response =
@@ -21,6 +20,7 @@ class RecordViewModel extends GetxController {
     super.onInit();
   }
 
+// 요청 권한
   Future<void> _requestPermission() async {
     var microphoneStatus = await Permission.microphone.status;
     if (!microphoneStatus.isGranted) {
@@ -29,20 +29,17 @@ class RecordViewModel extends GetxController {
   }
 
   Future<void> _startRecording() async {
-    if (isRecording.value) return;
-
-    // Ensure the recorder is open
+    if (!_isRecorderInitialized || isRecording.value) return;
     if (!_audioRecorder.isStopped) {
       await _audioRecorder.closeRecorder();
     }
 
     // Open the recorder
     await _audioRecorder.openRecorder();
+    _isRecorderInitialized = true;
     final directory = await getApplicationDocumentsDirectory();
     final filePath =
         '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.aac';
-
-    print('Recording to $filePath');
     try {
       await _audioRecorder.startRecorder(
         toFile: filePath,
@@ -50,10 +47,7 @@ class RecordViewModel extends GetxController {
       );
 
       isRecording.value = true;
-    } catch (e) {
-      print('Error starting recorder: $e');
-      // Handle the error as needed
-    }
+    } catch (_) {}
   }
 
   Future<String?> _stopRecording() async {
@@ -61,18 +55,19 @@ class RecordViewModel extends GetxController {
       final path = await _audioRecorder.stopRecorder();
       audioFilePath.value = path!;
       isRecording.value = false;
+      //  파일 디코딩하여 유효성 확인
+
       return path; // 녹음이 중지된 파일의 경로를 반환합니다.
-    } catch (e) {}
+    } catch (_) {}
     return null;
   }
 
-  Future<void> sendTextAndAudio(String content) async {
-    String url = '${dotenv.env['API_URL']!}/study/syllable';
-    print('Sending data and audio to $url');
-    print('audioFilePath.value: ${audioFilePath.value}');
-    print('content: $content');
+  Future<void> sendTextAndAudio(String content, int type) async {
+    String url =
+        '${dotenv.env['API_URL']!}/study/${type == 0 ? 'syllable' : (type == 1 ? 'word' : 'sentence')}';
+
+    print(audioFilePath.value);
     if (audioFilePath.value.isEmpty) {
-      print('Audio file is not available.');
       return;
     }
 
@@ -82,23 +77,14 @@ class RecordViewModel extends GetxController {
         ..files.add(
             await http.MultipartFile.fromPath('audio', audioFilePath.value));
 
-      print('Sending data and audio...----------------------------');
       var response = await request.send();
       if (response.statusCode == 200) {
-        // Read the response stream and convert it to a JSON object
         final respStr = await response.stream.bytesToString();
         final jsonResponse = json.decode(respStr);
-
-        // Store the response in the RxMap
+        //
         this.response.value = jsonResponse;
-      } else {
-        print(
-          'Failed to send data and audio. Status code: ${response.statusCode}',
-        );
-      }
-    } catch (e) {
-      print(e.toString());
-    }
+      } else {}
+    } catch (e) {}
   }
 
   void toggleRecording() async {

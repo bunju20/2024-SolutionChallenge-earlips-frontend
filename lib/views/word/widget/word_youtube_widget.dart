@@ -24,8 +24,7 @@ class _YoutubeWordPlayerState extends State<YoutubeWordPlayer> {
         }
       } else {
         final videoId = wordViewModel
-            .wordList[wordViewModel.currentIndex.value].wordCard.video
-            .split('v=')[1];
+            .wordList[wordViewModel.currentIndex.value].wordCard.video;
         return YoutubePlayer(
           key: ValueKey(
               videoId), // Ensure the player is rebuilt when the video changes
