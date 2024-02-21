@@ -31,12 +31,12 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
                   ),
                 ),
                 Text(
-                  '${model.response['sentence_word'].join(" ")}',
+                  '${model.response['sentence_word'] != null ? model.response['sentence_word'].join(" ") : "다시 녹음해주세요"}',
                   style: const TextStyle(
                     color: ColorSystem.black,
                     fontSize: 14,
                   ),
-                ),
+                )
               ],
             ),
             const SizedBox(height: 10),
@@ -52,8 +52,8 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
                   ),
                 ),
                 HighlightMistakesTextWidget(
-                  userWords: model.response['user_word'],
-                  wrongIndices: model.response['wrong'],
+                  userWords: model.response['user_word'] ?? [],
+                  wrongIndices: model.response['wrong'] ?? [-1],
                 ),
               ],
             ),
@@ -70,7 +70,12 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
                   ),
                 ),
                 Text(
-                    '${model.response['wrong'][0] == -1 ? "없음" : model.response['wrong'].join(", ")} 번째 단어'),
+                  '${model.response['wrong'] != null && model.response['wrong'][0] != -1 ? model.response['wrong'].join(", ") : "알 수 없음"} 번째 단어',
+                  style: const TextStyle(
+                    color: ColorSystem.black,
+                    fontSize: 14,
+                  ),
+                )
               ],
             ),
             const SizedBox(height: 10),
@@ -85,7 +90,7 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Text('${model.response['loudness']}'),
+                Text('${model.response['loudness'] ?? '알 수 없음'}'),
               ],
             ),
             const SizedBox(height: 10),
@@ -100,11 +105,15 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Text(model.response['variance'] == 1 ? "일정함" : "변동 폭 큼",
-                    style: const TextStyle(
-                      color: ColorSystem.black,
-                      fontSize: 14,
-                    )),
+                Text(
+                  model.response['variance'] == null
+                      ? "알 수 없음"
+                      : (model.response['variance'] == 1 ? "일정함" : "변동 폭 큼"),
+                  style: const TextStyle(
+                    color: ColorSystem.black,
+                    fontSize: 14,
+                  ),
+                )
               ],
             ),
             const SizedBox(height: 10),
@@ -120,7 +129,7 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
                   ),
                 ),
                 Text(
-                  _getSpeedDescription(model.response['speed']),
+                  _getSpeedDescription(model.response['speed'] ?? 1),
                   style: const TextStyle(
                     color: ColorSystem.black,
                     fontSize: 14,

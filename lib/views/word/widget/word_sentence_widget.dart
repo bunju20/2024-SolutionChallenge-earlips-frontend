@@ -2,6 +2,7 @@ import 'package:earlips/models/word_data_model.dart';
 import 'package:earlips/viewModels/record/record_viewmodel.dart';
 import 'package:earlips/viewModels/word/word_viewmodel.dart';
 import 'package:earlips/views/word/widget/sentence_alert_widget.dart';
+import 'package:earlips/views/word/widget/sentence_guide_widget.dart';
 import 'package:earlips/views/word/widget/word_result_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Import GetX library
@@ -28,6 +29,21 @@ class WordSentenceWidget extends StatelessWidget {
         return Center(
           child: Column(
             children: [
+              type == 2
+                  ? const Column(
+                      children: [
+                        PronunciationGuidelinesWidget(
+                          loudness: 50,
+                          variance: 1,
+                        ),
+                        SizedBox(
+                          height: 60,
+                        ),
+                      ],
+                    )
+                  : const SizedBox(
+                      height: 20,
+                    ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Ink(
