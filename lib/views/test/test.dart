@@ -5,6 +5,8 @@ import 'dart:async';
 import 'dart:io';
 
 class SimpleRecorder extends StatefulWidget {
+  const SimpleRecorder({super.key});
+
   @override
   _SimpleRecorderState createState() => _SimpleRecorderState();
 }
@@ -31,7 +33,8 @@ class _SimpleRecorderState extends State<SimpleRecorder> {
     if (!_isRecorderInitialized || _isRecording) return;
 
     final directory = await getApplicationDocumentsDirectory();
-    final filePath = '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.aac';
+    final filePath =
+        '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.aac';
 
     await _audioRecorder!.startRecorder(
       toFile: filePath,
@@ -66,7 +69,7 @@ class _SimpleRecorderState extends State<SimpleRecorder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Simple Recorder'),
+        title: const Text('Simple Recorder'),
       ),
       body: Center(
         child: Column(
@@ -74,11 +77,11 @@ class _SimpleRecorderState extends State<SimpleRecorder> {
           children: <Widget>[
             ElevatedButton(
               onPressed: _isRecording ? null : _startRecording,
-              child: Text('Start Recording'),
+              child: const Text('Start Recording'),
             ),
             ElevatedButton(
               onPressed: _isRecording ? _stopRecording : null,
-              child: Text('Stop Recording'),
+              child: const Text('Stop Recording'),
             ),
           ],
         ),
@@ -87,4 +90,4 @@ class _SimpleRecorderState extends State<SimpleRecorder> {
   }
 }
 
-void main() => runApp(MaterialApp(home: SimpleRecorder()));
+void main() => runApp(const MaterialApp(home: SimpleRecorder()));
