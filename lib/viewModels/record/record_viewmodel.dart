@@ -29,7 +29,6 @@ class RecordViewModel extends GetxController {
   }
 
   Future<void> _startRecording() async {
-    if (!_isRecorderInitialized || isRecording.value) return;
     if (!_audioRecorder.isStopped) {
       await _audioRecorder.closeRecorder();
     }
@@ -38,8 +37,10 @@ class RecordViewModel extends GetxController {
     await _audioRecorder.openRecorder();
     _isRecorderInitialized = true;
     final directory = await getApplicationDocumentsDirectory();
+
     final filePath =
         '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.aac';
+    print(filePath);
     try {
       await _audioRecorder.startRecorder(
         toFile: filePath,
@@ -47,6 +48,7 @@ class RecordViewModel extends GetxController {
       );
 
       isRecording.value = true;
+      print('Recording started');
     } catch (_) {}
   }
 
