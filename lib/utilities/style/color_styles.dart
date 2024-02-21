@@ -16,7 +16,6 @@ class ColorSystem {
   static const Color white = Color(0xFFFFFFFF);
   static const Color green = Color(0xFF63DC68);
   static const Color green2 = Color(0xFFD5E9AA);
-
   static const Color yellow = Color(0xFFFFC100);
   static const Color red = Color(0xFFFB5D5D);
   static const Color background = Color(0xFFF0F4F8);
