@@ -94,11 +94,13 @@ class DateStudyScreen extends StatelessWidget {
                         title: Container(
                           alignment: Alignment.center,
                           child: Text(
-                            session.text,
+                            session.text.length > 13 ? '${session.text.substring(0, 13)}...' : session.text,
                             style: const TextStyle(
                               fontSize: 24.0,
                               fontWeight: FontWeight.bold,
                             ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         onTap: () {
