@@ -65,8 +65,16 @@ class RecordViewModel extends GetxController {
   }
 
   Future<void> sendTextAndAudio(String content, int type) async {
+
+    isRecording.value ? await _stopRecording() : await _startRecording();
+    update();
+    if(isRecording.value == true) {
+      return;
+    }
+    print("들어오긴 함?");
     String url =
         '${dotenv.env['API_URL']!}/study/${type == 0 ? 'syllable' : (type == 1 ? 'word' : 'sentence')}';
+
 
     print(audioFilePath.value);
     if (audioFilePath.value.isEmpty) {
@@ -85,14 +93,13 @@ class RecordViewModel extends GetxController {
         final jsonResponse = json.decode(respStr);
         //
         this.response.value = jsonResponse;
-      } else {}
+        print(jsonResponse);
+      } else {
+        print('Failed to upload');
+      }
     } catch (e) {}
   }
 
-  void toggleRecording() async {
-    isRecording.value ? await _stopRecording() : await _startRecording();
-    update();
-  }
 
   @override
   void onClose() {
