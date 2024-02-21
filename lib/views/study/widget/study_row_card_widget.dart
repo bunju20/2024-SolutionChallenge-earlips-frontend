@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class SmallCard extends StatelessWidget {
   final int type;
@@ -9,15 +10,15 @@ class SmallCard extends StatelessWidget {
   String get name {
     switch (type) {
       case 0:
-        return '음소';
+        return 'row_card_badge_1'.tr;
       case 1:
-        return '단어';
+        return 'row_card_badge_2'.tr;
       case 2:
-        return '문장';
+        return 'row_card_badge_3'.tr;
       case 3:
-        return '문단';
+        return 'row_card_badge_4'.tr;
       default:
-        return '음소';
+        return 'row_card_badge_1'.tr;
     }
   }
 

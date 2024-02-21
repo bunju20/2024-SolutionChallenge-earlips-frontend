@@ -20,7 +20,7 @@ class _YoutubeWordPlayerState extends State<YoutubeWordPlayer> {
         if (wordViewModel.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
         } else {
-          return const Center(child: Text('아직 단어가 없습니다.'));
+          return Center(child: Text('no_data'.tr));
         }
       } else {
         final videoId = wordViewModel

@@ -13,7 +13,7 @@ class EmailLoginScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("이메일 로그인"),
+        title: Text("email_login_2".tr),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -24,26 +24,26 @@ class EmailLoginScreen extends StatelessWidget {
             children: [
               TextFormField(
                 controller: controller.emailController,
-                decoration: const InputDecoration(hintText: '이메일'),
+                decoration: InputDecoration(hintText: 'email'.tr),
                 validator: (value) => controller.emailValidator(value),
               ),
               TextFormField(
                 controller: controller.passwordController,
                 obscureText: true,
-                decoration: const InputDecoration(hintText: '비밀번호'),
+                decoration: InputDecoration(hintText: 'password'.tr),
                 validator: (value) => controller.passwordValidator(value),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
                 // 로그인 메소드 호출
                 onPressed: controller.signInWithEmailAndPassword,
-                child: const Text('Login'),
+                child: Text('login'.tr),
               ),
               const SizedBox(height: 10),
               // 회원가입 화면으로 이동
               TextButton(
                 onPressed: () => Get.to(() => const EmailSignupScreen()),
-                child: const Text("회원가입 하러가기"),
+                child: Text("go_signup".tr),
               ),
             ],
           ),

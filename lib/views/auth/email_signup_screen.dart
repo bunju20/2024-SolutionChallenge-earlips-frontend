@@ -12,7 +12,7 @@ class EmailSignupScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("이메일 회원가입"),
+        title: Text("email_signup".tr),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -24,21 +24,21 @@ class EmailSignupScreen extends StatelessWidget {
               TextFormField(
                 // 이메일 메소드 호출
                 controller: controller.emailController,
-                decoration: const InputDecoration(hintText: '이메일'),
+                decoration: InputDecoration(hintText: 'email'.tr),
                 validator: (value) => controller.emailValidator(value),
               ),
               TextFormField(
                 // 비밀번호 메소드 호출
                 controller: controller.passwordController,
                 obscureText: true,
-                decoration: const InputDecoration(hintText: '비밀번호'),
+                decoration: InputDecoration(hintText: 'password'.tr),
                 validator: (value) => controller.passwordValidator(value),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
                 // 회원가입 메소드 호출
                 onPressed: controller.registerWithEmailAndPassword,
-                child: const Text('회원 가입'),
+                child: Text('signup'.tr),
               ),
             ],
           ),

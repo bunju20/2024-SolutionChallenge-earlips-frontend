@@ -81,16 +81,6 @@ class _ContributeState extends State<Contribute> {
                 ],
               ),
             ),
-
-            // DecorationItem(
-            //     date: DateTime.now().add(const Duration(days: 3)),
-            //     decoration: const Text(
-            //       'Holiday',
-            //       style: TextStyle(
-            //         color: Colors.brown,
-            //         fontWeight: FontWeight.w600,
-            //       ),
-            //     )),
           ),
         ),
       ],

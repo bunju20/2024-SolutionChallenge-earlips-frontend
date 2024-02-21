@@ -7,8 +7,11 @@ import 'package:get/get.dart';
 class UserScriptScreen extends StatelessWidget {
   final String title;
   final String text;
-  const UserScriptScreen({Key? key, required this.title, required this.text, }) : super(key: key);
-
+  const UserScriptScreen({
+    super.key,
+    required this.title,
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +25,9 @@ class UserScriptScreen extends StatelessWidget {
             actions: <Widget>[
               TextButton(
                 onPressed: model.complete,
-                child: const Text(
-                  '완료',
-                  style: TextStyle(
+                child: Text(
+                  'appbar_done'.tr,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 20,
                   ),
@@ -41,27 +44,21 @@ class UserScriptScreen extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: SingleChildScrollView(
-                      child: Container(
-                        child: Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: Container(
-                            margin: const EdgeInsets.all(10.0),
-                            padding: const EdgeInsets.all(20.0),
-                            //가장자리 둥글게
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Container(
+                          margin: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(20.0),
+                          //가장자리 둥글게
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            color: Colors.white,
+                          ),
 
-                              color: Colors.white,
-
-                            ),
-
-                            child: Text(
-                              text,
-                              style: const TextStyle(fontSize: 16,
-                                  fontFamily: 'Pretendard',
-                                  fontWeight: FontWeight.bold
-                              ),
-                            ),
+                          child: Text(
+                            text,
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),

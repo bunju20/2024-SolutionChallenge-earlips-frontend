@@ -3,7 +3,6 @@ import 'package:earlips/viewModels/user/user_viewmodel.dart';
 import 'package:earlips/views/base/default_back_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class ProfileLanguageScreen extends StatelessWidget {
   const ProfileLanguageScreen({super.key});

@@ -29,24 +29,24 @@ class StudyNainBodyWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       StudyCardWidget(
-                        title: "음소 교정",
-                        subtitle: "옴소 교정 및 발음 테스트",
+                        title: "study_main_title_1".tr,
+                        subtitle: "study_main_subtitle_1".tr,
                         imagePath: "assets/images/study/1.png",
                         onTap: () {
-                          Get.to(() => const WordScreen(
-                                title: "음소 교정",
+                          Get.to(() => WordScreen(
+                                title: "study_main_title_1".tr,
                                 type: 0,
                               ));
                         },
                         imgSize: 85,
                       ),
                       StudyCardWidget(
-                        title: "단어 교정",
-                        subtitle: "단어 교정 및 발음 테스트",
+                        title: 'study_main_title_2'.tr,
+                        subtitle: "study_main_subtitle_2".tr,
                         imagePath: "assets/images/study/2.png",
                         onTap: () {
-                          Get.to(() => const WordScreen(
-                                title: "단어 교정",
+                          Get.to(() => WordScreen(
+                                title: 'study_main_title_2'.tr,
                                 type: 1,
                               ));
                         },
@@ -62,24 +62,23 @@ class StudyNainBodyWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       StudyCardWidget(
-                        title: "문장 교정",
-                        subtitle: "문장 교정 및 발음 테스트",
+                        title: "study_main_title_3".tr,
+                        subtitle: "study_main_subtitle_3".tr,
                         imagePath: "assets/images/study/3.png",
                         onTap: () {
-                          Get.to(() => const WordScreen(
-                                title: "문장 교정",
+                          Get.to(() => WordScreen(
+                                title: "study_main_title_3".tr,
                                 type: 2,
                               ));
                         },
                         imgSize: 85,
                       ),
                       StudyCardWidget(
-                        title: "문단 교정",
-                        subtitle: "대본 입력 및 발음 테스트",
+                        title: "study_main_title_4".tr,
+                        subtitle: "study_main_subtitle_4".tr,
                         imagePath: "assets/images/study/4.png",
                         onTap: () {
-                          Get.to(() => LearningSessionScreen(
-                          ));
+                          Get.to(() => LearningSessionScreen());
                         },
                         imgSize: 85,
                       ),

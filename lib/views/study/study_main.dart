@@ -60,9 +60,9 @@ class StudyMain extends BaseScreen<StudyViewModel> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        const Text(
-                                          "로그인이 필요합니다.",
-                                          style: TextStyle(
+                                        Text(
+                                          "homeHeaderGuest".tr,
+                                          style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
                                             color: ColorSystem.black,
