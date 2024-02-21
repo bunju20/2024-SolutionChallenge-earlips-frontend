@@ -73,8 +73,8 @@ class AuthService {
     } catch (error) {
       // 에러 발생시 에러 메시지 출력
       Get.snackbar(
-        "구글 로그인 실패",
-        "구글 로그인에 실패했습니다. 다시 시도해주세요.",
+        'google_login_fail_title'.tr,
+        'google_login_fail_content'.tr,
         snackPosition: SnackPosition.TOP,
       );
     }
@@ -100,8 +100,8 @@ class AuthService {
     } catch (error) {
       // 에러 발생시 에러 메시지 출력
       Get.snackbar(
-        "회원 탈퇴 실패",
-        "회원 탈퇴에 실패했습니다. 다시 시도해주세요.",
+        'signout_fail_title'.tr,
+        'signout_fail_content'.tr,
         snackPosition: SnackPosition.TOP,
       );
     }

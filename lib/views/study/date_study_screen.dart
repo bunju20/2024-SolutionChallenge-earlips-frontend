@@ -37,7 +37,7 @@ class DateStudyScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('등록된 학습 기록이 없습니다.'),
+                  Text('no_study_record'.tr),
                   const SizedBox(height: 20),
                   // 학습하러가기
                   ElevatedButton(
@@ -51,9 +51,9 @@ class DateStudyScreen extends StatelessWidget {
                     onPressed: () {
                       Get.back();
                     },
-                    child: const Text(
-                      '학습하러가기',
-                      style: TextStyle(
+                    child: Text(
+                      'go_study'.tr,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16.0,
                       ),
@@ -94,7 +94,9 @@ class DateStudyScreen extends StatelessWidget {
                         title: Container(
                           alignment: Alignment.center,
                           child: Text(
-                            session.text.length > 13 ? '${session.text.substring(0, 13)}...' : session.text,
+                            session.text.length > 13
+                                ? '${session.text.substring(0, 13)}...'
+                                : session.text,
                             style: const TextStyle(
                               fontSize: 24.0,
                               fontWeight: FontWeight.bold,
@@ -108,12 +110,12 @@ class DateStudyScreen extends StatelessWidget {
                               () => WordScreen(
                                     // session type에 따라 다른 tttle
                                     title: session.type == 0
-                                        ? '음소'
+                                        ? 'row_card_badge_1'.tr
                                         : (session.type == 1
-                                            ? '단어'
+                                            ? 'row_card_badge_2'.tr
                                             : (session.type == 2
-                                                ? '문장'
-                                                : '문단')),
+                                                ? 'row_card_badge_3'.tr
+                                                : 'row_card_badge_4'.tr)),
                                     type: 0,
                                   ),
                               arguments: session.index);

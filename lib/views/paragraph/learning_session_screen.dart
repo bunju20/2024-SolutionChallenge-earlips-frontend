@@ -5,15 +5,15 @@ import 'package:get/get.dart';
 import 'package:earlips/views/paragraph/create_script_screen.dart';
 
 class LearningSessionScreen extends StatefulWidget {
-  LearningSessionScreen({Key? key}) : super(key: key);
+  const LearningSessionScreen({super.key});
 
   @override
   State<LearningSessionScreen> createState() => _LearningSessionScreenState();
 }
 
 class _LearningSessionScreenState extends State<LearningSessionScreen> {
-  final viewModel = Get.put(
-      LearningSessionScreenViewModel()); // ViewModel 인스턴스 생성
+  final viewModel =
+      Get.put(LearningSessionScreenViewModel()); // ViewModel 인스턴스 생성
 
   @override
   void initState() {
@@ -26,11 +26,11 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: BlueBackAppbar(title: "문단교정"),
+        child: BlueBackAppbar(title: "study_main_title_5".tr),
       ),
       body: Obx(() {
         if (viewModel.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else {
           return ListView.separated(
             padding: const EdgeInsets.fromLTRB(25, 20, 25, 20),
@@ -61,9 +61,8 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                   ),
                   onTap: () {
                     // title과 text만 다음 페이지로 전달
-                    Get.to(() =>
-                        CreateScriptPage(
-                            title: paragraph.title, text: paragraph.text));
+                    Get.to(() => CreateScriptPage(
+                        title: paragraph.title, text: paragraph.text));
                   },
                 ),
               );
@@ -75,4 +74,3 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
     );
   }
 }
-

@@ -1,8 +1,10 @@
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
+
 class AuthValidators {
   // Email Validator
   static String? emailValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return '이메일 주소를 입력해주세요';
+      return 'email_address'.tr;
     }
     // Email 정규식
     final RegExp emailRegex = RegExp(
@@ -10,7 +12,7 @@ class AuthValidators {
     );
 
     if (!emailRegex.hasMatch(value)) {
-      return '올바른 이메일 주소를 입력해주세요';
+      return 'email_address_input'.tr;
     }
     return null;
   }
@@ -19,12 +21,12 @@ class AuthValidators {
   // 대충.. 10자리 이상, 문자와 숫자가 섞여있어야 함
   static String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return '비밀번호를 입력해주세요';
+      return 'password_input'.tr;
     } else if (value.length < 10) {
-      return '비밀번호는 10자리 이상이어야 합니다';
+      return 'password_input_2'.tr;
     } else if (!RegExp(r'^(?=.*?[a-zA-Z])(?=.*?[0-9]).{10,}$')
         .hasMatch(value)) {
-      return '비밀번호는 문자와 숫자가 섞여있어야 합니다';
+      return 'password_input_3'.tr;
     }
     return null;
   }

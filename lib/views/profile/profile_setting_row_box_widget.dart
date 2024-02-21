@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class ProfileSettingRowBoxWidget extends StatelessWidget {
   final String text;
@@ -30,16 +31,16 @@ class ProfileSettingRowBoxWidget extends StatelessWidget {
               ),
             ),
             if (routerLinkText == null) const Spacer(),
-            if (text == '버전 정보')
+            if (text == 'mypage_menu3'.tr)
               const Text(
-                "1.0.0",
+                "2.0.1",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                   color: Color(0xff90909F),
                 ),
               ),
-            if (text == "문의")
+            if (text == "mypage_menu4".tr)
               const Text(
                 "earlips@gmail.com",
                 style: TextStyle(

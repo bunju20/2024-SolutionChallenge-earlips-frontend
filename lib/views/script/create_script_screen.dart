@@ -1,28 +1,28 @@
-import 'package:earlips/utilities/style/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:earlips/viewModels/script/create_script_viewmodel.dart';
 import 'package:get/get.dart';
-import 'package:earlips/viewModels/script/learning_session_screen_viewmodel.dart';
+
 class CreateScriptPage extends StatelessWidget {
   const CreateScriptPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider<CreateScriptViewModel>(
       create: (_) => CreateScriptViewModel(),
       child: Consumer<CreateScriptViewModel>(
         builder: (context, model, child) => Scaffold(
           appBar: AppBar(
-            title: const Text('대본으로 학습하기'),
+            title: Text(
+              'live_script_title'.tr,
+            ),
             centerTitle: true,
             actions: <Widget>[
               TextButton(
                 onPressed: model.complete,
-                child: const Text(
-                  '완료',
-                  style: TextStyle(
+                child: Text(
+                  'appbar_done'.tr,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 20,
                   ),
@@ -45,7 +45,7 @@ class CreateScriptPage extends StatelessWidget {
                         expands: true,
                         maxLines: null,
                         decoration: InputDecoration(
-                          hintText: '대본을 입력하세요...',
+                          hintText: 'live_script_hint'.tr,
                           fillColor: Colors.white,
                           filled: true,
                           border: OutlineInputBorder(

@@ -1,6 +1,7 @@
 import 'package:earlips/utilities/style/color_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class AuthCard extends StatelessWidget {
   final String iconPath;
@@ -25,14 +26,14 @@ class AuthCard extends StatelessWidget {
         ),
         elevation: 0,
         child: Padding(
-          padding: EdgeInsets.all(label == '구글 계정으로 로그인' ? 15 : 17),
+          padding: EdgeInsets.all(label == 'google_login'.tr ? 15 : 17),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(width: 20),
               SvgPicture.asset(
                 iconPath,
-                height: label == "구글 계정으로 로그인" ? 30 : 25,
+                height: label == 'google_login'.tr ? 30 : 25,
                 width: 30,
               ),
               const SizedBox(width: 20),

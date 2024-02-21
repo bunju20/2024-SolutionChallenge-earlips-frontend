@@ -59,8 +59,8 @@ class WordScreen extends StatelessWidget {
                         ),
                         Text(
                           type == 2
-                              ? "문장의 높낮이를 참고하세요"
-                              : "아래의 혀, 입술 모양을 따라 말해보세요!",
+                              ? "word_type_2_height".tr
+                              : "word_type_12_height".tr,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,

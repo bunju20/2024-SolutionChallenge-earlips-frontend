@@ -9,8 +9,8 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
     WordViewModel wordViewModel, PageController pageController) {
   return Get.dialog(
     AlertDialog(
-      title: const Text('문장 테스트 결과',
-          style: TextStyle(
+      title: Text('sentence_test_result_title'.tr,
+          style: const TextStyle(
             color: ColorSystem.black,
             fontSize: 20,
           )),
@@ -22,9 +22,9 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  '문장',
-                  style: TextStyle(
+                Text(
+                  'sentence_test_result_sentence'.tr,
+                  style: const TextStyle(
                     color: ColorSystem.black,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -43,9 +43,9 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  '사용자 발음',
-                  style: TextStyle(
+                Text(
+                  'sentence_test_result_user_sentence'.tr,
+                  style: const TextStyle(
                     color: ColorSystem.black,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -61,16 +61,16 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  '틀린 부분',
-                  style: TextStyle(
+                Text(
+                  'sentence_test_result_wrong'.tr,
+                  style: const TextStyle(
                     color: ColorSystem.black,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
-                  '${model.response['wrong'] != null && model.response['wrong'][0] != -1 ? model.response['wrong'].join(", ") : "알 수 없음"} 번째 단어',
+                  '${model.response['wrong'] != null && model.response['wrong'][0] != -1 ? model.response['wrong'].join(", ") : "unknown".tr}',
                   style: const TextStyle(
                     color: ColorSystem.black,
                     fontSize: 14,
@@ -82,24 +82,24 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  '볼륨',
-                  style: TextStyle(
+                Text(
+                  'sentence_test_result_volume'.tr,
+                  style: const TextStyle(
                     color: ColorSystem.black,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Text('${model.response['loudness'] ?? '알 수 없음'}'),
+                Text('${model.response['loudness'] ?? 'unknown'.tr}'),
               ],
             ),
             const SizedBox(height: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  '변동성',
-                  style: TextStyle(
+                Text(
+                  'sentence_test_result_pitch'.tr,
+                  style: const TextStyle(
                     color: ColorSystem.black,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -107,8 +107,10 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
                 ),
                 Text(
                   model.response['variance'] == null
-                      ? "알 수 없음"
-                      : (model.response['variance'] == 1 ? "일정함" : "변동 폭 큼"),
+                      ? "unknown".tr
+                      : (model.response['variance'] == 1
+                          ? "sentence_test_result_stability".tr
+                          : "sentence_test_result_pitch_high".tr),
                   style: const TextStyle(
                     color: ColorSystem.black,
                     fontSize: 14,
@@ -120,9 +122,9 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  '속도',
-                  style: TextStyle(
+                Text(
+                  'sentence_test_result_speed'.tr,
+                  style: const TextStyle(
                     color: ColorSystem.black,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -142,9 +144,9 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
       ),
       actions: <Widget>[
         TextButton(
-          child: const Text(
-            '다음',
-            style: TextStyle(
+          child: Text(
+            'next'.tr,
+            style: const TextStyle(
               color: ColorSystem.black,
               fontSize: 16,
             ),
@@ -156,7 +158,6 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
             wordViewModel.currentIndex.value < wordViewModel.wordList.length - 1
                 ? Get.back()
                 : Get.offAllNamed('/');
-
             // 다음 단어로 넘어가기
             if (wordViewModel.currentIndex.value <
                 wordViewModel.wordList.length - 1) {
@@ -179,16 +180,16 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
 String _getSpeedDescription(double speed) {
   switch (speed) {
     case 0:
-      return '엄청 느림';
+      return 'sentence_test_result_speed_very_slow'.tr;
     case 0.5:
-      return '느림';
+      return 'sentence_test_result_speed_slow'.tr;
     case 1:
-      return '평범';
+      return 'sentence_test_result_speed_normal'.tr;
     case 1.5:
-      return '약간 빠름';
+      return 'sentence_test_result_speed_fast'.tr;
     case 2:
-      return '완전 빠름';
+      return 'sentence_test_result_speed_very_fast'.tr;
     default:
-      return '알 수 없음'; // 속도 값이 주어진 범위에 없는 경우
+      return 'unknown'.tr; // 속도 값이 주어진 범위에 없는 경우
   }
 }

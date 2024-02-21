@@ -61,9 +61,9 @@ class PronunciationGuidelinesWidget extends StatelessWidget {
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
-                getTitlesWidget: (value, meta) => const Text('목소리 높이',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                getTitlesWidget: (value, meta) => Text('sound_pitch'.tr,
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w600)),
               ),
             ),
           ),
@@ -91,7 +91,7 @@ class PronunciationGuidelinesWidget extends StatelessWidget {
             PieChartSectionData(
               value: 100,
               color: ColorSystem.main,
-              title: '변동 일정',
+              title: 'sound_pitch_stability'.tr,
               titleStyle: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -102,7 +102,7 @@ class PronunciationGuidelinesWidget extends StatelessWidget {
             PieChartSectionData(
               value: variance == -1 ? 100 : 0,
               color: ColorSystem.gray4,
-              title: '변동 일정',
+              title: 'sound_pitch_stability'.tr,
               titleStyle: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -113,7 +113,7 @@ class PronunciationGuidelinesWidget extends StatelessWidget {
             PieChartSectionData(
               value: variance == -1 ? 100 : 0,
               color: Colors.red.shade400,
-              title: '변동',
+              title: 'sound_pitch_high'.tr,
               titleStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -162,7 +162,7 @@ class PronunciationGuidelinesWidget extends StatelessWidget {
                 interval: 1, // Show labels for every speed value
                 reservedSize: 30,
                 getTitlesWidget: (value, meta) => Text(
-                  '${value.toInt()}배',
+                  '${value.toInt()}x',
                   style: const TextStyle(fontSize: 14),
                 ),
               ),
@@ -170,7 +170,7 @@ class PronunciationGuidelinesWidget extends StatelessWidget {
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
-                getTitlesWidget: (value, meta) => const Text('속도'),
+                getTitlesWidget: (value, meta) => Text('sound_speed'.tr),
               ),
             ),
           ),

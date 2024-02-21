@@ -27,14 +27,14 @@ class ProfileHeader extends StatelessWidget {
               children: [
                 // 유저 정보가 있으면 이메일을 보여주고, 없으면 로그인 버튼 보여줌
                 user != null
-                    ? Text("${user!.displayName}님 반가워요!",
+                    ? Text("${user!.displayName}${'mypage_user_title'.tr}",
                         style: const TextStyle(
                             color: ColorSystem.black,
                             fontSize: 20,
                             fontWeight: FontWeight.bold))
-                    : const Text(
-                        "로그인 하러가기",
-                        style: TextStyle(
+                    : Text(
+                        "mypage_go_login".tr,
+                        style: const TextStyle(
                             color: ColorSystem.main,
                             fontSize: 20,
                             fontWeight: FontWeight.bold),

@@ -43,7 +43,6 @@ class StudyCardWidget extends StatelessWidget {
             Text(
               title,
               style: const TextStyle(
-                fontFamily: 'Pretendard-Bold',
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),
@@ -51,7 +50,6 @@ class StudyCardWidget extends StatelessWidget {
             Text(
               subtitle,
               style: const TextStyle(
-                fontFamily: 'Pretendard-Regular',
                 fontSize: 12,
               ),
             ),

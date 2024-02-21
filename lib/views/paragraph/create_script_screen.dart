@@ -7,8 +7,7 @@ import 'package:get/get.dart';
 class CreateScriptPage extends StatelessWidget {
   final String title;
   final String text;
-  const CreateScriptPage({Key? key, required this.title, required this.text}) : super(key: key);
-
+  const CreateScriptPage({super.key, required this.title, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -50,17 +49,13 @@ class CreateScriptPage extends StatelessWidget {
                             //가장자리 둥글게
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15.0),
-                      
                               color: Colors.white,
-                      
                             ),
-                      
+
                             child: Text(
                               text,
-                              style: const TextStyle(fontSize: 16,
-                              fontFamily: 'Pretendard',
-                                fontWeight: FontWeight.bold
-                              ),
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),

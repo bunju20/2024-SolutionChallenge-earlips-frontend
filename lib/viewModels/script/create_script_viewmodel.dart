@@ -24,8 +24,6 @@ class CreateScriptViewModel extends ChangeNotifier {
   bool get isLoggedIn => FirebaseAuth.instance.currentUser != null;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-
-
   bool handDone = false;
   TextEditingController writedTextController =
       TextEditingController(); // 사용자 입력을 위한 컨트롤러
@@ -74,20 +72,16 @@ class CreateScriptViewModel extends ChangeNotifier {
       final path = await _audioRecorder!.stopRecorder();
       audioFilePath = path!;
       _isRecording = false;
-      print('Recording stopped, file path: $path');
       return path; // 녹음이 중지된 파일의 경로를 반환합니다.
     } catch (e) {
-      print('Error stopping recorder: $e');
       return null;
     }
   }
 
   Future<void> sendTextAndAudio() async {
-
     String url = '${dotenv.env['API_URL']!}/script';
     String textToSend = writedTextController.text;
     if (audioFilePath.isEmpty) {
-      print('Audio file is not available.');
       return;
     }
 
@@ -101,7 +95,6 @@ class CreateScriptViewModel extends ChangeNotifier {
       if (response.statusCode == 200) {
         final respStr = await response.stream.bytesToString();
         final jsonResponse = json.decode(respStr);
-        print('Server response: $respStr');
         if (jsonResponse != null) {
           final analyzeViewModel = Get.find<AnalyzeViewModel>();
 
@@ -114,24 +107,14 @@ class CreateScriptViewModel extends ChangeNotifier {
             'speed': jsonResponse['speed'],
           });
 
-          Get.to(() => AnalyzeScreen()); // AnalyzeScreen으로 이동
-        } else {
-          print('Received null or invalid data from the server.');
-        }
-      } else {
-        print(
-            'Failed to send data and audio. Status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      print(e.toString());
-    }
+          Get.to(() => const AnalyzeScreen()); // AnalyzeScreen으로 이동
+        } else {}
+      } else {}
+    } catch (_) {}
     if (!isLoggedIn) {
-      print('User is not logged in.');
-    }else {
-      print('User is logged in.');
+    } else {
       saveDataToFirestore();
     }
-
   }
 
   void _handleStatus(String status) {
@@ -163,7 +146,6 @@ class CreateScriptViewModel extends ChangeNotifier {
   Future<void> startListening() async {
     bool available = await speechToText.initialize();
     if (!available) {
-      print("The user has denied the use of speech recognition.");
       return;
     }
     speechToText.listen(
@@ -184,18 +166,17 @@ class CreateScriptViewModel extends ChangeNotifier {
   }
 
   void complete() async {
-    print("완료버튼 눌렀습니다.");
     await sendTextAndAudio(); // 비동기 호출로 수정
   }
 
   Future<void> saveDataToFirestore() async {
     final uid = _auth.currentUser?.uid;
     if (!isLoggedIn) {
-      print("User is not logged in.");
       return;
     }
     final textToSend = writedTextController.text;
-    final title = textToSend.length > 5 ? textToSend.substring(0, 5) + '...' : textToSend;
+    final title =
+        textToSend.length > 5 ? '${textToSend.substring(0, 5)}...' : textToSend;
     final dateFormat = Timestamp.now(); // 현재 시간을 Timestamp 형태로 저장
 
     final documentReference = FirebaseFirestore.instance
@@ -204,18 +185,14 @@ class CreateScriptViewModel extends ChangeNotifier {
         .collection('paragraph')
         .doc(); // 새 문서 ID를 자동 생성
 
-    await documentReference.set({
-      'dateFormat': dateFormat,
-      'text': textToSend,
-      'title': title,
-    }).then((_) {
-      print("Data saved to Firestore successfully.");
-      print(dateFormat);
-      print(textToSend);
-      print(uid);
-    }).catchError((error) {
-      print("Failed to save data to Firestore: $error");
-    });
+    await documentReference
+        .set({
+          'dateFormat': dateFormat,
+          'text': textToSend,
+          'title': title,
+        })
+        .then((_) {})
+        .catchError((_) {});
   }
 
   @override

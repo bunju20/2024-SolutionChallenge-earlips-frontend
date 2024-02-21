@@ -30,9 +30,9 @@ class BlueBackAppbar extends DefaultBackAppbar {
           ),
         ),
         icon: SvgPicture.asset("assets/icons/back_white.svg"),
-        label: const Text(
-          "뒤로",
-          style: TextStyle(
+        label: Text(
+          "appbar_back".tr,
+          style: const TextStyle(
             color: ColorSystem.white,
             fontSize: 14,
             fontWeight: FontWeight.w600,
