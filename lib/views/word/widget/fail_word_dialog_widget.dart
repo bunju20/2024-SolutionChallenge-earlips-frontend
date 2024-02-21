@@ -7,8 +7,8 @@ Future<dynamic> FailWordDialogWidget(
     WordViewModel wordViewModel, PageController pageController) {
   return Get.dialog(
     AlertDialog(
-      title: const Text('학습 실패'),
-      content: const Text('다시 한번 녹음해주세요.'),
+      title: Text('fail_study_title'.tr),
+      content: Text('fail_study_content'.tr),
       backgroundColor: ColorSystem.white,
       surfaceTintColor: ColorSystem.white,
       actions: [
@@ -16,7 +16,7 @@ Future<dynamic> FailWordDialogWidget(
           onPressed: () async {
             Get.back();
           },
-          child: const Text('다시하기'),
+          child: Text('fail_study_retry'.tr),
         ),
         ElevatedButton(
           onPressed: () async {
@@ -32,13 +32,12 @@ Future<dynamic> FailWordDialogWidget(
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.ease,
               );
-
               // currentIndex 증가
               wordViewModel.currentIndex.value =
                   wordViewModel.currentIndex.value + 1;
             }
           },
-          child: const Text('다음 단어'),
+          child: Text('fail_study_next_word'.tr),
         ),
       ],
     ),

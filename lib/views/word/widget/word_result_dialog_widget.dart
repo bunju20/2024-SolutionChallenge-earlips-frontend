@@ -15,9 +15,9 @@ Future<dynamic> WordResultDialogWidget(RecordViewModel model,
       ),
       insetPadding: const EdgeInsets.all(20),
       surfaceTintColor: ColorSystem.white,
-      title: const Text(
-        '결과',
-        style: TextStyle(
+      title: Text(
+        'result_title'.tr,
+        style: const TextStyle(
           color: ColorSystem.black,
           fontSize: 20,
         ),
@@ -33,8 +33,8 @@ Future<dynamic> WordResultDialogWidget(RecordViewModel model,
             children: [
               Text(
                 model.response['pronunciation'] != null
-                    ? '발음: ${model.response['pronunciation']}'
-                    : '너무 빠르거나 느립니다. 다시 녹음해주세요',
+                    ? '${'pitch'.tr}: ${model.response['pronunciation']}'
+                    : 'pitch_null'.tr,
                 style: const TextStyle(
                   color: ColorSystem.black,
                   fontSize: 16,
@@ -42,7 +42,7 @@ Future<dynamic> WordResultDialogWidget(RecordViewModel model,
               ),
               Text(
                   model.response['similarity'] != null
-                      ? '정확도: ${model.response['similarity']}'
+                      ? '${'accuracy'.tr}: ${model.response['similarity']}'
                       : "",
                   style: const TextStyle(
                     color: ColorSystem.black,
@@ -71,10 +71,10 @@ Future<dynamic> WordResultDialogWidget(RecordViewModel model,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: ColorSystem.black),
               ),
-              child: const Text(
-                '확인',
+              child: Text(
+                'cofirm'.tr,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: ColorSystem.black,
                 ),
               ),

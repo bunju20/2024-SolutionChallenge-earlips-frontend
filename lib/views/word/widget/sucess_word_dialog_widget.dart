@@ -6,8 +6,8 @@ Future<dynamic> SucessWordDialogWidget(
     WordViewModel wordViewModel, PageController pageController) {
   return Get.dialog(
     AlertDialog(
-      title: const Text('학습 완료'),
-      content: const Text('다음으로 넘어가려면 아래 버튼을 눌러주세요.'),
+      title: Text('success_study_title'.tr),
+      content: Text('success_study_content'.tr),
       actions: [
         ElevatedButton(
           onPressed: () async {
@@ -31,7 +31,7 @@ Future<dynamic> SucessWordDialogWidget(
                   wordViewModel.currentIndex.value + 1;
             }
           },
-          child: const Text('다음 단어'),
+          child: Text('fail_study_next_word'.tr),
         ),
       ],
     ),

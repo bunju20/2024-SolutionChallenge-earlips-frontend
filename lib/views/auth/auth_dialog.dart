@@ -19,7 +19,7 @@ Future<void> authDialog({
     onCancel: () => Get.back(),
     onConfirm: () async {
       /// title == '로그아웃' ? 로그아웃 : 회원탈퇴
-      title == '로그아웃'
+      title == 'profile_account_logout'.tr
           ? await authService.signOut()
           : await authService.withdraw();
       Get.offAllNamed('/');
