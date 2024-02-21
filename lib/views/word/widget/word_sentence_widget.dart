@@ -37,18 +37,15 @@ class WordSentenceWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(40),
                     onTap: () async {
                       if (model.isRecording.value) {
-                        // 녹음 토글 버튼
                         print('녹음 종료');
-                        model.toggleRecording();
-
                         await model.sendTextAndAudio(
                             wordDataList[wordViewModel.currentIndex.value]
                                 .wordCard
                                 .word,
                             type);
+
                         // Handle the response here, e.g., show it in a dialog
                         Get.dialog(
-                          // height
                           AlertDialog(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
@@ -182,7 +179,7 @@ class WordSentenceWidget extends StatelessWidget {
                       } else {
                         // Start recording
                         print('녹음 시작');
-                        model.toggleRecording();
+                        model.sendTextAndAudio('content', 0);
                       }
                     },
                     child: Padding(
