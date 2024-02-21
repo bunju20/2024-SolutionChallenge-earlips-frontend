@@ -28,9 +28,9 @@ class DefaultBackAppbar extends StatelessWidget {
           ),
         ),
         icon: SvgPicture.asset("assets/icons/back.svg"),
-        label: const Text(
-          "뒤로",
-          style: TextStyle(
+        label: Text(
+          'appbar_back'.tr,
+          style: const TextStyle(
             color: ColorSystem.gray5,
             fontSize: 14,
             fontWeight: FontWeight.w600,

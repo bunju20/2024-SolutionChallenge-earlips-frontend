@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class TopWidget extends StatelessWidget {
   final bool isLoggedIn;
@@ -105,7 +106,6 @@ class _SpeakingAbility extends StatelessWidget {
             "Speaking Ability",
             style: TextStyle(
               fontSize: 20,
-              fontFamily: 'Pretendard-Bold',
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -115,17 +115,15 @@ class _SpeakingAbility extends StatelessWidget {
           child: Row(
             children: [
               Obx(() => Text(
-                    "발음 ${vm.speakingScore.value}",
+                    "${'speakingAbility1'.tr} ${vm.speakingScore.value}",
                     style: const TextStyle(
-                      fontFamily: 'Pretendard-Regular',
                       fontSize: 15,
                     ),
                   )),
               const SizedBox(width: 30),
               Obx(() => Text(
-                    "높낮이 ${vm.pitchScore.value}",
+                    "${'speakingAbility2'.tr} ${vm.pitchScore.value}",
                     style: const TextStyle(
-                      fontFamily: 'Pretendard-Regular',
                       fontSize: 15,
                     ),
                   )),

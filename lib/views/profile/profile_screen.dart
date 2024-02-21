@@ -5,6 +5,7 @@ import 'package:earlips/views/profile/profile_setting_row_btn_widget.dart';
 import 'package:earlips/views/profile/profile_setting_row_box_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -25,26 +26,26 @@ class ProfileScreen extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 // 에러 발생시 안내
-                return const Center(child: Text('네트워크 상태를 확인해주세요.'));
+                return Center(child: Text('check_network_connection'.tr));
               } else if (snapshot.hasData) {
                 // --------------------- 로그인 된 상태 ---------------------
                 return Column(
                   children: [
                     ProfileHeader(
                         user: snapshot.hasData ? snapshot.data : null),
-                    const ProfileSettingRowBtnWidget(
+                    ProfileSettingRowBtnWidget(
                         iconImg: 'assets/icons/icon-setting1.svg',
-                        text: '시스템 및 학습 언어 설정',
+                        text: 'mypage_menu1'.tr,
                         routeLinkText: '/profile/language-setting'),
-                    const ProfileSettingRowBtnWidget(
+                    ProfileSettingRowBtnWidget(
                         iconImg: 'assets/icons/icon-setting.svg',
-                        text: '계정 관리',
+                        text: 'mypage_menu2'.tr,
                         routeLinkText: '/profile/account'),
                     const ProfileDividerWidget(),
-                    const ProfileSettingRowBoxWidget(
-                        text: "버전 정보", routerLinkText: null),
-                    const ProfileSettingRowBoxWidget(
-                        text: "문의", routerLinkText: null),
+                    ProfileSettingRowBoxWidget(
+                        text: "mypage_menu3".tr, routerLinkText: null),
+                    ProfileSettingRowBoxWidget(
+                        text: "mypage_menu4".tr, routerLinkText: null),
                   ],
                 );
               } else {
@@ -52,15 +53,15 @@ class ProfileScreen extends StatelessWidget {
                 return Column(
                   children: [
                     ProfileHeader(),
-                    const ProfileSettingRowBtnWidget(
+                    ProfileSettingRowBtnWidget(
                         iconImg: 'assets/icons/icon-setting1.svg',
-                        text: '시스템 및 학습 언어 설정',
+                        text: 'mypage_menu1'.tr,
                         routeLinkText: '/profile/language-setting'),
                     const ProfileDividerWidget(),
-                    const ProfileSettingRowBoxWidget(
-                        text: "버전 정보", routerLinkText: null),
-                    const ProfileSettingRowBoxWidget(
-                        text: "문의", routerLinkText: null),
+                    ProfileSettingRowBoxWidget(
+                        text: "mypage_menu3".tr, routerLinkText: null),
+                    ProfileSettingRowBoxWidget(
+                        text: "mypage_menu4".tr, routerLinkText: null),
                   ],
                 );
               }

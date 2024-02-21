@@ -3,7 +3,7 @@ import 'package:earlips/viewModels/user/user_viewmodel.dart';
 import 'package:earlips/views/base/default_back_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class ProfileLanguageScreen extends StatelessWidget {
   const ProfileLanguageScreen({super.key});
@@ -13,15 +13,11 @@ class ProfileLanguageScreen extends StatelessWidget {
     final userViewModel = Get.find<UserViewModel>();
     userViewModel.loadLanguageSettings();
 
-    String title = tr('language_settings');
-    String systemLanguage = tr('system_language');
-    String learningLanguage = tr('learning_language');
-
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
         child: DefaultBackAppbar(
-          title: "언어 설정",
+          title: 'language_setting_title'.tr,
         ),
       ),
       body: Container(
@@ -33,30 +29,28 @@ class ProfileLanguageScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildLanguageSettingSection(
-                title: systemLanguage,
+                title: 'language_setting_system'.tr,
                 selectedLanguage: userViewModel.systemLanguage,
                 onLanguageSelected: (value) {
                   userViewModel.systemLanguage.value = value!;
-                  userViewModel.updateLanguageSettings();
+                  userViewModel.updateLanguageSettings(value);
                 },
                 languageOptions: [
-                  const DropdownMenuItem(value: '한국어', child: Text('한국어')),
-                  const DropdownMenuItem(
-                      value: 'English', child: Text('English')),
+                  DropdownMenuItem(value: '한국어', child: Text('korean'.tr)),
+                  DropdownMenuItem(value: 'English', child: Text('english'.tr)),
                 ],
               ),
               const SizedBox(height: 20),
               _buildLanguageSettingSection(
-                title: learningLanguage,
+                title: 'language_setting_learning'.tr,
                 selectedLanguage: userViewModel.learningLanguage,
                 onLanguageSelected: (value) {
                   userViewModel.learningLanguage.value = value!;
-                  userViewModel.updateLanguageSettings();
+                  userViewModel.updateLanguageSettings(value);
                 },
                 languageOptions: [
-                  const DropdownMenuItem(value: '한국어', child: Text('한국어')),
-                  const DropdownMenuItem(
-                      value: 'English', child: Text('English')),
+                  DropdownMenuItem(value: '한국어', child: Text('korean'.tr)),
+                  DropdownMenuItem(value: 'English', child: Text('english'.tr)),
                 ],
               ),
             ],
@@ -85,12 +79,8 @@ class ProfileLanguageScreen extends StatelessWidget {
               items: languageOptions,
               onChanged: (newValue) {
                 onLanguageSelected(newValue);
-                // Call your language change logic here
-                // For example:
-                // userViewModel.systemLanguage.value = newValue!;
-                // userViewModel.updateLanguageSettings();
               },
-              hint: Text(tr('select_language') ?? 'fallback_language'),
+              hint: Text('select_language'.tr),
             )),
       ],
     );

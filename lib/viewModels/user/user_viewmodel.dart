@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
@@ -90,7 +91,9 @@ class UserViewModel extends GetxController {
   }
 
 // 언어 설정 업데이트
-  Future<void> updateLanguageSettings() async {
+  Future<void> updateLanguageSettings(value) async {
+    print(value);
+    //value
     try {
       if (uid != null) {
         await _firestore.collection('users').doc(uid).update({
@@ -106,6 +109,13 @@ class UserViewModel extends GetxController {
           key: 'learningLanguage',
           value: learningLanguage.value,
         );
+        if (value == '한국어') {
+          Get.updateLocale(const Locale('ko', 'KR'));
+          print(Get.deviceLocale);
+        } else {
+          Get.updateLocale(const Locale('en', 'US'));
+          print(Get.deviceLocale);
+        }
 
         Get.snackbar(
           "언어 설정 변경",
@@ -127,6 +137,13 @@ class UserViewModel extends GetxController {
           "언어 설정이 변경되었습니다.",
           snackPosition: SnackPosition.TOP,
         );
+        if (value == '한국어') {
+          Get.updateLocale(const Locale('ko', 'KR'));
+          print(Get.deviceLocale);
+        } else {
+          Get.updateLocale(const Locale('en', 'US'));
+          print(Get.deviceLocale);
+        }
       }
     } catch (e) {
       Get.snackbar(

@@ -27,12 +27,12 @@ class LoginScreen extends StatelessWidget {
             children: [
               AuthCard(
                 iconPath: "assets/icons/google.svg",
-                label: "구글 계정으로 로그인",
+                label: "google_login".tr,
                 onTap: () => _authService.signInWithGoogle(),
               ),
               AuthCard(
                 iconPath: "assets/icons/mailbox.svg",
-                label: "이메일로 로그인",
+                label: "email_login".tr,
                 onTap: () => Get.to(() => const EmailLoginScreen()),
               ),
               const SizedBox(height: 80),

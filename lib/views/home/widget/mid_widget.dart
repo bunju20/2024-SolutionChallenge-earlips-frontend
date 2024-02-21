@@ -33,18 +33,17 @@ class MidWidget extends StatelessWidget {
                 height: 90,
                 child: Image.asset('assets/images/home/Chart_new.png'),
               ),
-              const Text(
-                "대본으로 학습하기",
-                style: TextStyle(
+              Text(
+                'home_script_title'.tr,
+                style: const TextStyle(
                   fontFamily: 'Pretendard-Bold',
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Text(
-                "대본 입력 및 발음 테스트",
-                style: TextStyle(
-                  fontFamily: 'Pretendard-Regular',
+              Text(
+                'home_script_subtitle'.tr,
+                style: const TextStyle(
                   fontSize: 12,
                 ),
               ),
@@ -76,18 +75,16 @@ class MidWidget extends StatelessWidget {
                   height: 85,
                 ),
               ),
-              const Text(
-                "실시간 발음테스트",
-                style: TextStyle(
-                  fontFamily: 'Pretendard-Bold',
+              Text(
+                'home_live_script_title'.tr,
+                style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Text(
-                "음성 인식 및 발음 테스트",
-                style: TextStyle(
-                  fontFamily: 'Pretendard-Regular',
+              Text(
+                'home_live_script_subtitle'.tr,
+                style: const TextStyle(
                   fontSize: 12,
                 ),
               ),

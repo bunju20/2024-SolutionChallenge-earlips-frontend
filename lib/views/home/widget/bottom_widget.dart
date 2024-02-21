@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:earlips/views/home/widget/study_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class BottomWidget extends StatelessWidget {
   final bool isLoggedIn;
@@ -23,9 +24,9 @@ class BottomWidget extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(top: 20.0, left: 20.0),
                   alignment: Alignment.centerLeft,
-                  child: const Text(
-                    "진행한 학습",
-                    style: TextStyle(
+                  child: Text(
+                    'home_chart_title'.tr,
+                    style: const TextStyle(
                       fontFamily: 'Pretendard-Bold',
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -35,7 +36,7 @@ class BottomWidget extends StatelessWidget {
                 Container(
                     alignment: Alignment.centerLeft,
                     margin: const EdgeInsets.only(left: 15.0),
-                    child: LineChartSample2()),
+                    child: const LineChartSample2()),
               ],
             ),
           ),
