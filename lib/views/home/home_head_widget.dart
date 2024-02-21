@@ -2,12 +2,13 @@ import 'dart:math';
 
 import 'package:earlips/viewModels/user/user_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 final messages = [
-  "발음 연습해볼까요? 오늘도 화이팅!",
-  "오늘도 화이팅!",
-  "귀와 입을 이어요, 이어립스",
-  "꾸준함이 능력! 꾸준히 노력하자!",
+  'message1',
+  'message2',
+  'message3',
+  'message4',
 ];
 
 class HomeHeaderWidget extends StatelessWidget {
@@ -30,7 +31,7 @@ class HomeHeaderWidget extends StatelessWidget {
           margin: const EdgeInsets.only(left: 20.0, top: 20.0),
 
           child: Text(
-            randomMessage,
+            randomMessage.tr,
             style: const TextStyle(
               fontSize: 21,
               fontWeight: FontWeight.w600,
@@ -53,11 +54,10 @@ class HomeHeaderWidget extends StatelessWidget {
                 ),
               ),
 // Use ViewModel data
-
               Text(
                 isLoggedIn
                     ? '${vm.learningLanguage.value} - ${vm.nickname.value}'
-                    : 'korean - 로그인이 필요합니다',
+                    : '${'homeLanguage'.tr}  - ${'homeHeaderGuest'.tr}',
                 style: const TextStyle(
                   fontSize: 12,
                 ),

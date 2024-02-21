@@ -31,7 +31,6 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             viewModel.onInit();
-
             final bool isLoggedIn = snapshot.hasData;
             return SingleChildScrollView(
               child: Column(
