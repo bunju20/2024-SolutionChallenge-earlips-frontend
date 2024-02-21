@@ -8,15 +8,21 @@ import 'package:path_provider/path_provider.dart';
 
 class RecordViewModel extends GetxController {
   final FlutterSoundRecorder _audioRecorder = FlutterSoundRecorder();
-  bool _isRecorderInitialized = false; // 녹음기 초기화 여부 : 파일
+  bool _isRecorderInitialized = false;
   final RxBool isRecording = false.obs;
   RxString audioFilePath = ''.obs;
+  RxDouble loudness = 0.0.obs; // Reactive variable for loudness
+
   final RxMap<String, dynamic> response =
       <String, dynamic>{}.obs; // Specify the types
 
   @override
   void onInit() {
     _requestPermission();
+    _audioRecorder.openRecorder(); // Initialize recorder
+    _audioRecorder.onProgress!.listen((e) {
+      loudness.value = e.decibels! / 160; // Example: Normalize decibels
+    });
     super.onInit();
   }
 
@@ -65,18 +71,13 @@ class RecordViewModel extends GetxController {
   }
 
   Future<void> sendTextAndAudio(String content, int type) async {
-
     isRecording.value ? await _stopRecording() : await _startRecording();
     update();
-    if(isRecording.value == true) {
+    if (isRecording.value == true) {
       return;
     }
-    print("들어오긴 함?");
     String url =
         '${dotenv.env['API_URL']!}/study/${type == 0 ? 'syllable' : (type == 1 ? 'word' : 'sentence')}';
-
-
-    print(audioFilePath.value);
     if (audioFilePath.value.isEmpty) {
       return;
     }
@@ -93,13 +94,9 @@ class RecordViewModel extends GetxController {
         final jsonResponse = json.decode(respStr);
         //
         this.response.value = jsonResponse;
-        print(jsonResponse);
-      } else {
-        print('Failed to upload');
-      }
-    } catch (e) {}
+      } else {}
+    } catch (_) {}
   }
-
 
   @override
   void onClose() {
