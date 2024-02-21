@@ -55,8 +55,8 @@ class EmailSignupViewModel extends GetxController {
         Get.back();
       } on FirebaseAuthException catch (_) {
         Get.snackbar(
-          "회원가입 실패",
-          "회원가입에 실패했습니다. 다시 시도해주세요.",
+          "signup_fail_title".tr,
+          "signup_fail_content".tr,
           snackPosition: SnackPosition.TOP,
         );
       }

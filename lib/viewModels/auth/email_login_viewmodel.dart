@@ -39,8 +39,11 @@ class EmailLoginViewModel extends GetxController {
         // 로그인 성공시 홈화면으로 이동
         Get.offAllNamed('/');
       } on FirebaseAuthException catch (_) {
-        Get.snackbar('로그인 실패', "로그인에 실패했습니다. 다시 시도해주세요.",
-            snackPosition: SnackPosition.TOP);
+        Get.snackbar(
+          'login_fail_snackar_title'.tr,
+          'login_fail_snackar_message'.tr,
+          snackPosition: SnackPosition.TOP,
+        );
       }
     }
   }
