@@ -111,7 +111,7 @@ class WordScreen extends StatelessWidget {
                     ],
                   );
                 } else {
-                  return LearningSessionScreen();
+                  return const LearningSessionScreen();
                 }
               },
             ),

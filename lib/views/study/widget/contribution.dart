@@ -71,7 +71,7 @@ class _ContributeState extends State<Contribute> {
                   Container(
                       margin: const EdgeInsets.only(bottom: 15.0),
                       child: Text(
-                        DateFormat.yMMMM().format(time),
+                        DateFormat('yyyy/MM').format(time),
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                             fontSize: 18.0,

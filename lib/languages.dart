@@ -230,8 +230,7 @@ class Languages extends Translations {
           'no_data': 'No Data Available.',
           // Word Types
           'word_type_2_height': 'Refer to the pitch of the sentence.',
-          'word_type_12_height':
-              'Speak following the tongue and lip shapes below!',
+          'word_type_12_height': 'Speak following the tongue/lip shapes below!',
           // Results
           'result_title': 'Results',
           'result_content': 'Check your results',
@@ -267,14 +266,14 @@ class Languages extends Translations {
           'sound_pitch_high': 'High Variability',
           'sound_speed': 'Speed',
           // Study Main Titles and Subtitles
-          'study_main_title_1': 'Phoneme Correction',
-          'study_main_subtitle_1': 'Phoneme Correction and Pronunciation Test',
-          'study_main_title_2': 'Word Correction',
-          'study_main_subtitle_2': 'Word Correction and Pronunciation Test',
+          'study_main_title_1': 'Phoneme',
+          'study_main_subtitle_1': 'Phoneme Correction Test',
+          'study_main_title_2': 'Word',
+          'study_main_subtitle_2': 'Word Correction Test',
           'study_main_title_3': 'Sentence Correction',
-          'study_main_subtitle_3': 'Sentence Correction and Pronunciation Test',
+          'study_main_subtitle_3': 'Sentence Correction Test',
           'study_main_title_4': 'Paragraph Correction',
-          'study_main_subtitle_4': 'Script Input and Pronunciation Test',
+          'study_main_subtitle_4': 'Script Test',
           'row_card_badge_1': 'Phoneme',
           'row_card_badge_2': 'Word',
           'row_card_badge_3': 'Sentence',
