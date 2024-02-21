@@ -36,6 +36,7 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
             return SingleChildScrollView(
               child: Column(
                 children: [
+                  const SizedBox(height: 15),
                   HomeHeaderWidget(isLoggedIn: isLoggedIn, vm: viewModel),
                   _Top(
                     isLoggedIn: isLoggedIn,
