@@ -1,33 +1,37 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:intl/intl.dart';
-import 'create_script_screen.dart';
+import 'package:earlips/views/script/widget/small_card.dart';
+import 'package:earlips/views/script/create_script_screen.dart';
+import 'package:earlips/views/script/user_script_screen.dart';
+import 'package:earlips/viewModels/script/learning_session_screen_viewmodel.dart';
+import 'package:intl/intl.dart'; // DateFormat을 사용하기 위해 추가
 
-class LearningSession {
-  final String title;
-  final DateTime createdDate;
+class LearningSessionScreen extends StatefulWidget {
+  LearningSessionScreen({Key? key}) : super(key: key);
 
-  LearningSession({required this.title, required this.createdDate});
+  @override
+  State<LearningSessionScreen> createState() => _LearningSessionScreenState();
 }
 
-// Todo: 일단 여기서는 StatelessWidget을 사용했는데, Stateful로 해야하는지?
-class LearningSessionScreen extends StatelessWidget {
-  // Todo: 나중에 더미데이터 바꾸기 -> viewModels로 로직 변경
-  final List<LearningSession> sessions = [
-    LearningSession(title: '대본 1', createdDate: DateTime(2024, 2, 11)),
-    LearningSession(title: '대본 2', createdDate: DateTime(2024, 2, 11)),
-    LearningSession(title: '대본 3', createdDate: DateTime(2024, 2, 11)),
-    LearningSession(title: '대본 4', createdDate: DateTime(2024, 2, 11)),
-    LearningSession(title: '대본 5', createdDate: DateTime(2024, 2, 11)),
-    LearningSession(title: '대본 6', createdDate: DateTime(2024, 2, 11)),
-    LearningSession(title: '대본 7', createdDate: DateTime(2024, 2, 11)),
-    LearningSession(title: '대본 8', createdDate: DateTime(2024, 2, 11)),
-    LearningSession(title: '대본 9', createdDate: DateTime(2024, 2, 11)),
-    LearningSession(title: '대본 10', createdDate: DateTime(2024, 2, 11)),
-  ];
+class _LearningSessionScreenState extends State<LearningSessionScreen> {
+  final viewModel = Get.put(LearningSessionScreenViewModel()); // ViewModel 인스턴스 생성
 
-  LearningSessionScreen({Key? key}) : super(key: key);
+  @override
+  void initState() {
+    super.initState();
+    // 로그인 상태를 확인하고, 로그인 상태에 따라 데이터를 가져오는 로직을 여기에 배치
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        // User is signed in
+        viewModel.fetchParagraphs(); // 로그인한 사용자의 데이터를 가져옵니다.
+      } else {
+        // No user is signed in
+        // 로그인하지 않은 사용자에 대한 처리는 필요하지 않을 수 있습니다.
+        // 필요하다면, 여기에 로그인하지 않은 사용자를 위한 초기화 코드를 추가합니다.
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,86 +39,97 @@ class LearningSessionScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('대본으로 학습하기'),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.fromLTRB(25, 20, 25, 20),
-        itemCount: sessions.length,
-        itemBuilder: (context, index) {
-          var session = sessions[index];
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.15),
-                  spreadRadius: 0.1,
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Container(
-              alignment: Alignment.centerLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _SmallCard(name: DateFormat('yyyy/MM/dd').format(session.createdDate)),
-                  ListTile(
-                    contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
-                    title: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        session.title,
-                        style: const TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    onTap: () {
-                      // Todo: 세부 대본 학습 페이지로 이동하도록 구현
+      body: Obx(() {
+        if (viewModel.isLoading.value) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              final bool isLoggedIn = snapshot.hasData;
+              if (!isLoggedIn) {
+                // 로그인하지 않았을 경우 더미 데이터로 UI 구성
+                final dummyDate = DateFormat('yyyy/MM/dd').format(DateTime.now());
+                final dummyParagraph = Paragraph(
+                  title: "로그인을 하면 생성한 대본이 기록됩니다!",
+                  text: "로그인을 하면 생성한 대본이 저장되어 대본을 토대로 학습할 수 있습니다!",
+                  dateFormat: dummyDate,
+                );
+                return Container(
+                  margin: const EdgeInsets.only(left: 20, top: 20),
+                  height: Get.height * 0.15,
+                  width: Get.width*0.9,
+                    child: _buildParagraphContainer(dummyParagraph));
+              } else {
+                // 로그인 했을 경우의 UI 구성
+                return Container(
+                  child: ListView.separated(
+                    padding: const EdgeInsets.fromLTRB(25, 20, 25, 20),
+                    itemCount: viewModel.paragraphs.length,
+                    itemBuilder: (context, index) {
+                      var paragraph = viewModel.paragraphs[index];
+                      return _buildParagraphContainer(paragraph);
                     },
+                    separatorBuilder: (context, index) => const SizedBox(height: 20),
                   ),
-                ],
-              ),
-            ),
+                );
+              }
+            },
           );
-        },
-        separatorBuilder: (context, index) => const SizedBox(height: 20), // 카드들 사이의 간격 조정
-      ),
+        }
+      }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.to(() => CreateScriptPage()),
         child: const Icon(Icons.add),
       ),
     );
   }
-}
 
-
-class _SmallCard extends StatelessWidget {
-  final String name;
-
-  const _SmallCard({super.key, required this.name});
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildParagraphContainer(Paragraph paragraph) {
     return Container(
-      margin: const EdgeInsets.only(left: 10.0, top: 10.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4.0),
-        color: const Color(0xFF1FA9DC),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.15),
+            spreadRadius: 0.1,
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      alignment: Alignment.center,
-      width: Get.height * 0.1,
-      height: 24,
-      child: Text(
-        name,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-        ),
+      child: Column(
+        children: [
+          Container(
+            alignment: Alignment.centerLeft,
+            margin: const EdgeInsets.only(left: 10.0, top: 10.0),
+            child: SmallCard(text: paragraph.dateFormat),
+          ),
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
+            title: Container(
+              alignment: Alignment.center,
+              child: Text(
+                paragraph.title,
+                style: const TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            onTap: () {
+              Get.to(() => UserScriptScreen(title: paragraph.title, text: paragraph.text));
+            },
+          ),
+        ],
       ),
     );
   }
