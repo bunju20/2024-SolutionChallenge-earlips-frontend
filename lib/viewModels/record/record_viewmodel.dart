@@ -46,7 +46,6 @@ class RecordViewModel extends GetxController {
 
     final filePath =
         '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.aac';
-    print(filePath);
     try {
       await _audioRecorder.startRecorder(
         toFile: filePath,
@@ -54,7 +53,6 @@ class RecordViewModel extends GetxController {
       );
 
       isRecording.value = true;
-      print('Recording started');
     } catch (_) {}
   }
 

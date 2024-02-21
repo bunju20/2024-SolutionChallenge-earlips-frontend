@@ -164,9 +164,7 @@ class WordViewModel extends GetxController {
             });
           }
         });
-      } catch (e) {
-        print("Transaction failed: $e");
-      }
+      } catch (_) {}
       // 로컬에서 단어 데이터 업데이트
       final index =
           wordList.indexWhere((element) => element.wordCard.id == word.id);

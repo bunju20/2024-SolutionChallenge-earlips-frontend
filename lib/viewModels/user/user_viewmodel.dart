@@ -2,12 +2,12 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class UserViewModel extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -54,22 +54,11 @@ class UserViewModel extends GetxController {
 
   Future<void> getUserData() async {
     if (uid != null) {
-      // // users 컬렉션의 하위 컬렉션에 단어 완료 정보 삽입
-      // for (final word in wordList) {
-      //   await FirebaseFirestore.instance
-      //       .collection('users')
-      //       .doc(uid)
-      //       .collection('words')
-      //       .doc(word.id.toString())
-      //       .set(UserWord(wordId: word.id, isDone: false).toMap());
-      // }
       final doc = await _firestore.collection('users').doc(uid).get();
       userData.value = doc.data() ?? {};
       nickname.value = userData.value['nickname'] ?? '';
-      print('nickname: ${nickname.value}');
       systemLanguage.value = userData.value['systemLanguage'] ?? '한국어';
       learningLanguage.value = userData.value['learningLanguage'] ?? '한국어';
-
       speakingScore.value = userData.value['speakingScore'] ?? 86;
       pitchScore.value = userData.value['pitchScore'] ?? 50;
       circleNumber.value = userData.value['circleNumber'] ?? 80;
@@ -92,7 +81,6 @@ class UserViewModel extends GetxController {
 
 // 언어 설정 업데이트
   Future<void> updateLanguageSettings(value) async {
-    print(value);
     //value
     try {
       if (uid != null) {
@@ -111,15 +99,13 @@ class UserViewModel extends GetxController {
         );
         if (value == '한국어') {
           Get.updateLocale(const Locale('ko', 'KR'));
-          print(Get.deviceLocale);
         } else {
           Get.updateLocale(const Locale('en', 'US'));
-          print(Get.deviceLocale);
         }
 
         Get.snackbar(
-          "언어 설정 변경",
-          "언어 설정이 변경되었습니다.",
+          'language_setting_snackbar_title'.tr,
+          "language_setting_snackbar_content".tr,
           snackPosition: SnackPosition.TOP,
         );
       } else {
@@ -133,22 +119,20 @@ class UserViewModel extends GetxController {
           value: learningLanguage.value,
         );
         Get.snackbar(
-          "언어 설정 변경",
-          "언어 설정이 변경되었습니다.",
+          "language_setting_snackbar_title".tr,
+          "language_setting_snackbar_content".tr,
           snackPosition: SnackPosition.TOP,
         );
         if (value == '한국어') {
           Get.updateLocale(const Locale('ko', 'KR'));
-          print(Get.deviceLocale);
         } else {
           Get.updateLocale(const Locale('en', 'US'));
-          print(Get.deviceLocale);
         }
       }
     } catch (e) {
       Get.snackbar(
-        "언어 설정 변경 실패",
-        "언어 설정을 변경하는 중 오류가 발생했습니다.",
+        "language_setting_snackbar_fail_title".tr,
+        "language_setting_snackbar_fail_content".tr,
         snackPosition: SnackPosition.TOP,
       );
     }
