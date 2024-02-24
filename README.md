@@ -3,14 +3,15 @@
 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FGDSC-DGU%2F2024-SolutionChallenge-earlips-frontend&count_bg=%238B8B8B&title_bg=%231FA9DC&icon=wechat.svg&icon_color=%23E7E7E7&title=Connecting+your+ears+to+your+lips%2C+Earlips&edge_flat=false)](https://hits.seeyoufarm.com)
 
-# 👋 팀원 소개
+
+# 👋 introduce team member
 
 ## [Front-End](/frontend/naemansan/README.md)
 
-| 이름                                         | 전공           | 학번   | Email                |
+| name                                        |major        |student number  | Email                |
 | -------------------------------------------- | -------------- | ------ | -------------------- |
-| [서희찬](https://github.com/seochan99)       | 컴퓨터공학전공 | 19학번 | gmlcks0513@dgu.ac.kr |
-| [황현정](https://github.com/bunju20) | 컴퓨터공학전공     | 20학번 | ghkd4009@gmail.com |
+| [서희찬](https://github.com/seochan99)       | Computer Science | 19st | gmlcks0513@dgu.ac.kr |
+| [황현정](https://github.com/bunju20) | Computer Science     | 20st | ghkd4009@gmail.com |
 
 
 ---
@@ -53,54 +54,71 @@
 
 ---
 
-## 1. 프로젝트 명
+## Flutter Project Build Instructions
+```
+flutter pub get
+flutter run
 
+## If you encounter any issues in iOS build, follow these steps to clean your build cache for iOS
+cd ios
+rm Podfile.lock
+rm Podfile
+rm -rf Pods
+pod cache clean --all
+cd ..
+flutter clean
+flutter pub get
+cd ios
+pod install
+flutter pub get
+flutter run
 
-## 2. 프로젝트 소개
+## If you encounter any issues in Android build, follow these steps to clean your build cache for Android 
+cd android
+./gradlew clean
+cd ..
+flutter clean
+flutter pub get
+flutter run
+```
+## Project Introduction
+<img width="100%" alt="image" src="https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/85238126/1db0ed9d-2afc-4f17-aa1e-51e0b03f278a">
 
-
-## 3. 프로젝트 구조도
-
-
-## 4. 시연 영상 및 구동화면
+## Architecture
+<img width="100%" alt="image" src="https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/85238126/20616201-352f-4983-8266-4f2298200275">
 
 ### 💻 시연 영상
 
 ### ✨ 스크린
-## 5. 서버 전체 구조
 
 
-## 6. 서버 세부 구조
-
-
-### 7. 구동 방법 (가이드라인 다시 확인하기)
 
 ---
 
 ## 🎯 Commit Convention
 
--   feat : 새로운 기능 추가
--   fix : 버그 수정
--   docs : 문서 수정
--   style : 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우
--   refactor: 코드 리펙토링
--   test: 테스트 코드, 리펙토링 테스트 코드 추가
--   chore : 빌드 업무 수정, 패키지 매니저 수정
+- feat: Add a new feature
+- fix: Bug fix
+- docs: Documentation updates
+- style: Code formatting, missing semicolons, cases where no code change is involved
+- refactor: Code refactoring
+- test: Test code, adding refactoring tests
+-hore: Build task updates, package manager updates
 
 ## 💡 PR Convetion
 
 | 아이콘 | 코드                       | 설명                     |
 | ------ | -------------------------- | ------------------------ |
-| 🎨     | :art                       | 코드의 구조/형태 개선    |
-| ⚡️    | :zap                       | 성능 개선                |
-| 🔥     | :fire                      | 코드/파일 삭제           |
-| 🐛     | :bug                       | 버그 수정                |
-| 🚑     | :ambulance                 | 긴급 수정                |
-| ✨     | :sparkles                  | 새 기능                  |
-| 💄     | :lipstick                  | UI/스타일 파일 추가/수정 |
-| ⏪     | :rewind                    | 변경 내용 되돌리기       |
-| 🔀     | :twisted_rightwards_arrows | 브랜치 합병              |
-| 💡     | :bulb                      | 주석 추가/수정           |
-| 🗃      | :card_file_box             | 데이버베이스 관련 수정   |
+| 🎨     | :art                       | Improving structure/format of the code   |
+| ⚡️    | :zap                       | Performance improvement               |
+| 🔥     | :fire                      | 	Code/file deletion          |
+| 🐛     | :bug                       | Bug fix             |
+| 🚑     | :ambulance                 | Critical fix|
+| ✨     | :sparkles                  | New features               |
+| 💄     | :lipstick                  | Adding/updating UI/style files |
+| ⏪     | :rewind                    | Reverting changes     |
+| 🔀     | :twisted_rightwards_arrows | Branch merging            |
+| 💡     | :bulb                      | Adding/updating comments         |
+| 🗃      | :card_file_box             | Database-related modifications   |
 
 ## Lisence
