@@ -8,10 +8,10 @@
 
 ## [Front-End](/frontend/naemansan/README.md)
 
-| name                                        |major        |student number  | Email                |
+| name                                        |major        |GDSC  | Email                |
 | -------------------------------------------- | -------------- | ------ | -------------------- |
-| [서희찬](https://github.com/seochan99)       | Computer Science | 19st | gmlcks0513@dgu.ac.kr |
-| [황현정](https://github.com/bunju20) | Computer Science     | 20st | ghkd4009@gmail.com |
+| [서희찬](https://github.com/seochan99)       | Computer Science | LEAD | gmlcks0513@dgu.ac.kr |
+| [황현정](https://github.com/bunju20) | Computer Science     | General | ghkd4009@gmail.com |
 
 
 ---
