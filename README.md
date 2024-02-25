@@ -22,8 +22,6 @@
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
-![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
 
 ## Server
 ![Google Cloud](https://img.shields.io/badge/Google%20Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)
@@ -31,26 +29,11 @@
 
 ## Stack
 
-![geolocator](https://img.shields.io/badge/geolocator-9.0.2-orange?style=for-the-badge)
-![jwt_decoder](https://img.shields.io/badge/jwt_decoder-2.0.1-yellow?style=for-the-badge)
 ![http](https://img.shields.io/badge/http-0.13.6-red?style=for-the-badge)
 ![uuid](https://img.shields.io/badge/uuid-3.0.7-blue?style=for-the-badge)
-![geocoding](https://img.shields.io/badge/geocoding-2.1.0-red?style=for-the-badge)
 
-![JPA](https://img.shields.io/badge/JPA-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
-![Spring Security](https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=spring-security&logoColor=white)
-![JSON Web Tokens](https://img.shields.io/badge/json%20web%20tokens-323330?style=for-the-badge&logo=json-web-tokens&logoColor=pink)
-![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white)
-
-![gensim](https://img.shields.io/badge/gensim-4.30-374da9?style=for-the-badge)
-![haversine](https://img.shields.io/badge/haversine%20-2.8.0-374da9?style=for-the-badge)
-![numpy](https://img.shields.io/badge/numpy-1.23.5-374da9?style=for-the-badge)
-![pandas](https://img.shields.io/badge/pandas-1.5.3-374da9?style=for-the-badge)
 ![PyMySQL](https://img.shields.io/badge/PyMySQL-1.0.3-374da9?style=for-the-badge)
 ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.2.1-orange?style=for-the-badge)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![Swift](https://img.shields.io/badge/Swift-FA7343?style=for-the-badge&logo=swift&logoColor=white)
-
 
 ---
 
@@ -87,10 +70,18 @@ flutter run
 ## Architecture
 <img width="100%" alt="image" src="https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/85238126/20616201-352f-4983-8266-4f2298200275">
 
-### 💻 시연 영상
+### 💻 demonstration video
+[![예제](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/85238126/1db0ed9d-2afc-4f17-aa1e-51e0b03f278a)](https://youtu.be/DLwqB820kL8) 
+https://youtu.be/DLwqB820kL8
 
-### ✨ 스크린
 
+
+### ✨ Screen
+| Title         | Img                                   | Title         | Img                                   |
+| ------------ | ---------------------------------------- | ------------ | ---------------------------------------- |
+| Study Screen    | ![Screenshot_20240222_062040](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/78739194/1b55af36-eb6a-43ab-befb-f70625d52dae) | Home Screen  | ![Screenshot_20240222_062034](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/78739194/e9665bab-7466-468d-a3a3-4d87e7b39166) |
+| Script Study    | ![Screenshot_20240222_062105](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/78739194/8f6f42e0-1425-48fa-b6f4-a2288c64e0ce) | Study-word    | ![Screenshot_20240222_062221](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/78739194/14058380-1516-4a36-b24e-0df5ee81fad7) |
+|  word study result | ![Screenshot_20240222_062230](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/78739194/e7cab7e7-06ac-4b6e-b1a0-15413966fcd8) | Sentence Study   | ![Screenshot_20240222_062239](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/78739194/b3bcc778-bbc6-4b40-b5f8-c2ea6fe2c63e) |
 
 
 ---
