@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:earlips/utilities/style/color_styles.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:earlips/views/auth/login_screen.dart';
 import 'package:earlips/views/study/widget/study_main_body_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';

@@ -1,4 +1,4 @@
-import 'package:earlips/utilities/style/color_styles.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:earlips/viewModels/word/word_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

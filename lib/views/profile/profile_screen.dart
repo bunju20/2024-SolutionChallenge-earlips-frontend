@@ -1,4 +1,4 @@
-import 'package:earlips/utilities/style/color_styles.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:earlips/views/profile/profile_divider_widget.dart';
 import 'package:earlips/views/profile/profile_header_widget.dart';
 import 'package:earlips/views/profile/profile_setting_row_btn_widget.dart';

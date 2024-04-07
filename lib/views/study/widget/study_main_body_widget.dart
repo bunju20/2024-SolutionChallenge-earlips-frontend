@@ -1,4 +1,4 @@
-import 'package:earlips/utilities/style/color_styles.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:earlips/views/study/widget/study_card_widget.dart';
 import 'package:earlips/views/word/word_screen.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +78,7 @@ class StudyNainBodyWidget extends StatelessWidget {
                         subtitle: "study_main_subtitle_4".tr,
                         imagePath: "assets/images/study/4.png",
                         onTap: () {
-                          Get.to(() => LearningSessionScreen());
+                          Get.to(() => const LearningSessionScreen());
                         },
                         imgSize: 85,
                       ),

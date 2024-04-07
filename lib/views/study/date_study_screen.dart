@@ -1,4 +1,4 @@
-import 'package:earlips/utilities/style/color_styles.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:earlips/viewModels/study/date_study_screen_viewmodel.dart';
 import 'package:earlips/views/base/default_back_appbar.dart';
 import 'package:earlips/views/study/widget/study_row_card_widget.dart';

@@ -1,4 +1,4 @@
-import 'package:earlips/utilities/style/color_styles.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:earlips/views/auth/auth_dialog.dart';
 import 'package:earlips/views/base/default_back_appbar.dart';
 import 'package:flutter/material.dart';
