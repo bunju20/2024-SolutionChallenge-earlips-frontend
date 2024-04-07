@@ -1,8 +1,8 @@
 import 'package:earlips/utilities/style/color_system.dart';
-import 'package:earlips/views/profile/profile_divider_widget.dart';
-import 'package:earlips/views/profile/profile_header_widget.dart';
-import 'package:earlips/views/profile/profile_setting_row_btn_widget.dart';
-import 'package:earlips/views/profile/profile_setting_row_box_widget.dart';
+import 'package:earlips/views/profile/widget/profile_divider_widget.dart';
+import 'package:earlips/views/profile/widget/profile_header_widget.dart';
+import 'package:earlips/views/profile/widget/profile_setting_row_btn_widget.dart';
+import 'package:earlips/views/profile/widget/profile_setting_row_box_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';

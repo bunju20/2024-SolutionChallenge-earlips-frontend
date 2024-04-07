@@ -2,6 +2,7 @@ import 'package:earlips/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+/// [authDialog] is a function that shows a dialog to confirm the user's authentication.
 Future<void> authDialog({
   required BuildContext context,
   required String title,
@@ -18,7 +19,6 @@ Future<void> authDialog({
     textCancel: textCancel,
     onCancel: () => Get.back(),
     onConfirm: () async {
-      /// title == '로그아웃' ? 로그아웃 : 회원탈퇴
       title == 'profile_account_logout'.tr
           ? await authService.signOut()
           : await authService.withdraw();

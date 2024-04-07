@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:earlips/views/home/home_screen.dart';
 import 'package:earlips/views/root/custom_bottom_navigation_bar.dart';
-import '../../utilities/app_routes.dart';
 import '../../viewModels/root/root_viewmodel.dart';
 import '../base/base_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';

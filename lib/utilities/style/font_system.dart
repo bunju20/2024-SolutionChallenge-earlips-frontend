@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class FontStyles {
+class FontSystem {
   static const TextStyle semiBold24 = TextStyle(
     fontSize: 24.0,
     fontWeight: FontWeight.w600,
