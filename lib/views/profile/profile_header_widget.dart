@@ -1,4 +1,4 @@
-import 'package:earlips/utilities/style/color_styles.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:earlips/viewModels/user/user_viewmodel.dart';
 import 'package:earlips/views/auth/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -34,8 +34,8 @@ class ProfileHeader extends StatelessWidget {
                             fontWeight: FontWeight.bold))
                     : Text(
                         "mypage_go_login".tr,
-                        style: const TextStyle(
-                            color: ColorSystem.main,
+                        style: TextStyle(
+                            color: ColorSystem.primary,
                             fontSize: 20,
                             fontWeight: FontWeight.bold),
                       ),

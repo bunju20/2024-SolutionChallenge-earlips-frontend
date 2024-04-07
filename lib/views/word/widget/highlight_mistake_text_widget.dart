@@ -1,4 +1,4 @@
-import 'package:earlips/utilities/style/color_styles.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
@@ -26,7 +26,7 @@ class HighlightMistakesTextWidget extends StatelessWidget {
                   text: "$word ", // 단어와 공백을 포함시킵니다.
                   style: TextStyle(
                     color: isWrong
-                        ? ColorSystem.red
+                        ? ColorSystem.accent
                         : ColorSystem.black, // 잘못된 부분은 빨간색으로, 그 외는 검정색으로 표시
                   ),
                 );

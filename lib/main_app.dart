@@ -1,4 +1,5 @@
 import 'package:earlips/languages.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
@@ -22,13 +23,13 @@ class MainApp extends StatelessWidget {
     return GetMaterialApp(
       title: "earlips",
       translations: Languages(),
-      locale: Get.deviceLocale,
-      fallbackLocale: const Locale('en', 'US'),
+      locale: const Locale('ko', 'KR'),
+      fallbackLocale: const Locale('ko', 'KR'),
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: 'Pretendard',
-        colorSchemeSeed: Colors.blue,
-        scaffoldBackgroundColor: const Color(0xFFf6f6f8),
+        colorScheme: ColorSystem.createLightColorScheme(),
+        scaffoldBackgroundColor: ColorSystem.background, // More direct usage
       ),
       initialRoute: Routes.HOME,
       getPages: [
