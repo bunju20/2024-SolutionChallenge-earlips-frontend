@@ -31,15 +31,8 @@ class MainApp extends StatelessWidget {
         colorScheme: ColorSystem.createLightColorScheme(),
         scaffoldBackgroundColor: ColorSystem.background, // More direct usage
       ),
-      initialRoute: Routes.HOME,
-      getPages: [
-        GetPage(
-            name: '/', page: () => const RootScreen(), binding: RootBinding()),
-        Routes.routes[1],
-        Routes.routes[2],
-        Routes.routes[3],
-        Routes.routes[4],
-      ],
+      initialRoute: initialRoute,
+      getPages: Routes.routes,
     );
   }
 }
