@@ -36,7 +36,7 @@ class _RealCreateScriptPageState extends State<RealCreateScriptPage> {
     if (status == 'done') {
       stopListening();
       // 잠시 후 다시 시작하기 위해 delay를 사용
-      Future.delayed(const Duration(milliseconds: 100), () {
+      Future.delayed(Duration(milliseconds: 100), () {
         startListening();
       });
       if (status == 'notListening') {

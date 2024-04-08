@@ -14,7 +14,7 @@ class CreateScriptPage extends StatelessWidget {
         builder: (context, model, child) => Scaffold(
           appBar: AppBar(
             title: Text(
-              'live_script_title'.tr,
+              'home_script_subtitle'.tr,
             ),
             centerTitle: true,
             actions: <Widget>[
