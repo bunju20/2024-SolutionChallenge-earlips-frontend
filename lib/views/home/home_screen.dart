@@ -37,7 +37,7 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
                     isLoggedIn: isLoggedIn,
                     vm: viewModel,
                   ),
-                  const MidWidget(),
+                  MidWidget(),
                   // 로그인 상태에 따라 _Bottom 클래스의 컨테이너 색상을 변경
                   BottomWidget(isLoggedIn: isLoggedIn),
                 ],
