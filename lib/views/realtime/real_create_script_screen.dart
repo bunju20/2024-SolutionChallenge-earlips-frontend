@@ -13,7 +13,7 @@ class RealCreateScriptPage extends BaseScreen<RealCreateViewModel> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Live Script Title'),
+        title: Text('live_script_title'.tr),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -29,7 +29,7 @@ class RealCreateScriptPage extends BaseScreen<RealCreateViewModel> {
               expands: true,
               maxLines: null,
               decoration: InputDecoration(
-                hintText: 'Voice Recognition',
+                hintText: 'voice_recognition'.tr,
                 fillColor: Colors.white,
                 filled: true,
                 border: OutlineInputBorder(
@@ -53,7 +53,10 @@ class RealCreateScriptPage extends BaseScreen<RealCreateViewModel> {
                 ),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(40),
-                  onTap: () => speechController.toggleRecording(),
+                  onTap: (){
+                    speechController.toggleRecording();
+                    speechController.clearText();
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Icon(

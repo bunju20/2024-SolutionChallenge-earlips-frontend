@@ -15,6 +15,9 @@ class RealCreateViewModel extends GetxController {
     requestPermission();
   }
 
+  void clearText() {
+    text.value = '';
+  }
   void toggleRecording() {
     print("녹음 버튼 클릭" );
     if (isRecording.value) {

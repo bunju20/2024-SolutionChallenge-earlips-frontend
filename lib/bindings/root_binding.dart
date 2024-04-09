@@ -14,6 +14,5 @@ class RootBinding extends Bindings {
     Get.put(HomeViewModel());
     Get.put(StudyViewModel());
     Get.put(RealCreateViewModel());
-
   }
 }
