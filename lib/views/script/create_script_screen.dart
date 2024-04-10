@@ -4,7 +4,11 @@ import 'package:earlips/viewModels/script/create_script_viewmodel.dart';
 import 'package:get/get.dart';
 
 class CreateScriptPage extends StatelessWidget {
-  const CreateScriptPage({super.key});
+  final String? title; // 선택적으로 제목을 받음
+  final String? text; // 선택적으로 텍스트를 받음
+
+  const CreateScriptPage({super.key, this.title, this.text});
+
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +18,7 @@ class CreateScriptPage extends StatelessWidget {
         builder: (context, model, child) => Scaffold(
           appBar: AppBar(
             title: Text(
-              'home_script_subtitle'.tr,
+              title ?? 'home_script_subtitle'.tr, // 제목이 제공되면 사용, 아니면 기본값
             ),
             centerTitle: true,
             actions: <Widget>[
@@ -40,7 +44,23 @@ class CreateScriptPage extends StatelessWidget {
                     flex: 1,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: TextField(
+                      child: text != null
+                          ? // 텍스트가 제공되면 이를 사용하여 Container를 구성
+                      Container(
+                        width: Get.width - 40,
+                        margin: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(20.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: Colors.white,
+                        ),
+                        child: Text(
+                          text!,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      )
+                          : // 텍스트가 제공되지 않으면 기본 TextField를 사용
+                      TextField(
                         controller: model.writedTextController,
                         expands: true,
                         maxLines: null,

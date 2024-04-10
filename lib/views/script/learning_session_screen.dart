@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:earlips/views/script/widget/small_card.dart';
 import 'package:earlips/views/script/create_script_screen.dart';
-import 'package:earlips/views/script/user_script_screen.dart';
 import 'package:earlips/viewModels/script/learning_session_screen_viewmodel.dart';
 import 'package:intl/intl.dart'; // DateFormat을 사용하기 위해 추가
 
@@ -41,7 +40,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: DefaultBackAppbar(
-          title: 'live_script_title'.tr,
+          title: 'home_script_title'.tr,
         ),
       ),
       body: Obx(() {
@@ -127,7 +126,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
               ),
             ),
             onTap: () {
-              Get.to(() => UserScriptScreen(
+              Get.to(() => CreateScriptPage(
                   title: paragraph.title, text: paragraph.text));
             },
           ),

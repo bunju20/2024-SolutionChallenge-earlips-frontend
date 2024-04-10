@@ -17,23 +17,26 @@ class RealCreateScriptPage extends BaseScreen<RealCreateViewModel> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Get.back(),
-        ),
-      ),
-      body: Stack(
-        children: [
-          Padding(
+          onPressed: (){
+            Get.back();
+            speechController.clearText();
+    },
+            ),
+            ),
+            body: Stack(
+            children: [
+            Padding(
             padding: const EdgeInsets.fromLTRB(25, 20, 25, 100),
             child: Obx(() => TextField(
-              controller: TextEditingController(text: speechController.text.value),
-              expands: true,
-              maxLines: null,
-              decoration: InputDecoration(
-                hintText: 'voice_recognition'.tr,
-                fillColor: Colors.white,
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15.0),
+            controller: TextEditingController(text: speechController.text.value),
+            expands: true,
+            maxLines: null,
+            decoration: InputDecoration(
+            hintText: 'voice_recognition'.tr,
+            fillColor: Colors.white,
+            filled: true,
+            border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15.0),
                   borderSide: BorderSide.none,
                 ),
               ),
@@ -55,7 +58,6 @@ class RealCreateScriptPage extends BaseScreen<RealCreateViewModel> {
                   borderRadius: BorderRadius.circular(40),
                   onTap: (){
                     speechController.toggleRecording();
-                    speechController.clearText();
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(20),
