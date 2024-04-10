@@ -3,8 +3,8 @@ import 'package:earlips/views/study/widget/study_card_widget.dart';
 import 'package:earlips/views/word/word_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:earlips/views/paragraph/create_script_screen.dart';
-import 'package:earlips/views/paragraph/learning_session_screen.dart';
+import 'package:earlips/views/script/create_script_screen.dart';
+import 'package:earlips/views/script/learning_session_screen.dart';
 
 class StudyNainBodyWidget extends StatelessWidget {
   const StudyNainBodyWidget({
@@ -78,7 +78,7 @@ class StudyNainBodyWidget extends StatelessWidget {
                         subtitle: "study_main_subtitle_4".tr,
                         imagePath: "assets/images/study/4.png",
                         onTap: () {
-                          Get.to(() => const LearningSessionScreen());
+                          Get.to(() => const LearningSessionScreen(isStudyMode: true));
                         },
                         imgSize: 85,
                       ),

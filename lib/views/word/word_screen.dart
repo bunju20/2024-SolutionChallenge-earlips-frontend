@@ -6,7 +6,7 @@ import 'package:earlips/views/word/widget/word_sentence_widget.dart';
 import 'package:earlips/views/word/widget/word_youtube_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:earlips/views/paragraph/learning_session_screen.dart';
+import 'package:earlips/views/script/learning_session_screen.dart';
 
 class WordScreen extends StatelessWidget {
   final String title;
@@ -111,7 +111,7 @@ class WordScreen extends StatelessWidget {
                     ],
                   );
                 } else {
-                  return const LearningSessionScreen();
+                  return LearningSessionScreen(isStudyMode: true);
                 }
               },
             ),

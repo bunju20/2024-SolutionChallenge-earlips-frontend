@@ -8,7 +8,8 @@ import 'package:earlips/viewModels/script/learning_session_screen_viewmodel.dart
 import 'package:intl/intl.dart'; // DateFormat을 사용하기 위해 추가
 
 class LearningSessionScreen extends StatefulWidget {
-  const LearningSessionScreen({super.key});
+  final bool isStudyMode; // 스터디 모드 여부를 결정하는 변수
+  const LearningSessionScreen({super.key,this.isStudyMode = false});
 
   @override
   State<LearningSessionScreen> createState() => _LearningSessionScreenState();
@@ -21,17 +22,16 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
   @override
   void initState() {
     super.initState();
-    // 로그인 상태를 확인하고, 로그인 상태에 따라 데이터를 가져오는 로직을 여기에 배치
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user != null) {
-        // User is signed in
-        viewModel.fetchParagraphs(); // 로그인한 사용자의 데이터를 가져옵니다.
-      } else {
-        // No user is signed in
-        // 로그인하지 않은 사용자에 대한 처리는 필요하지 않을 수 있습니다.
-        // 필요하다면, 여기에 로그인하지 않은 사용자를 위한 초기화 코드를 추가합니다.
-      }
-    });
+   print(widget.isStudyMode);
+    if (widget.isStudyMode) {
+      viewModel.fetchParagraphsStudy(); // 스터디 모드일 때 호출
+    } else {
+      FirebaseAuth.instance.authStateChanges().listen((User? user) {
+        if (user != null) {
+          viewModel.fetchParagraphsScript(); // 스크립트 모드일 때 호출
+        }
+      });
+    }
   }
 
   @override
@@ -110,7 +110,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
           Container(
             alignment: Alignment.centerLeft,
             margin: const EdgeInsets.only(left: 10.0, top: 10.0),
-            child: SmallCard(text: paragraph.dateFormat),
+            child: SmallCard(text: paragraph.dateFormat!),
           ),
           ListTile(
             contentPadding:
