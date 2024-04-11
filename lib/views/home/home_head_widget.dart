@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:earlips/viewModels/user/user_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 final messages = [
@@ -54,14 +55,22 @@ class HomeHeaderWidget extends StatelessWidget {
                 ),
               ),
 // Use ViewModel data
-              Text(
-                isLoggedIn
-                    ? '${vm.learningLanguage.value} - ${vm.nickname.value}'
-                    : '${'homeLanguage'.tr}  - ${'homeHeaderGuest'.tr}',
-                style: const TextStyle(
-                  fontSize: 12,
-                ),
-              ),
+              isLoggedIn
+                  ? Obx(() =>
+                  Text(
+                    '${vm.learningLanguage.value} - ${vm.nickname.value}',
+                    style: const TextStyle(fontSize: 12),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+              )
+                  : Text(
+                '${'homeLanguage'.tr} - ${'homeHeaderGuest'.tr}',
+                style: const TextStyle(fontSize: 12),
+                overflow: TextOverflow.ellipsis,
+              )
+
+
+
             ],
           ),
         )

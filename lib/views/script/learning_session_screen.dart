@@ -36,11 +36,12 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var title = widget.isStudyMode ? 'study_main_title_4'.tr : 'home_script_title'.tr;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: DefaultBackAppbar(
-          title: 'home_script_title'.tr,
+          title: title,
         ),
       ),
       body: Obx(() {
@@ -84,10 +85,11 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
           );
         }
       }),
-      floatingActionButton: FloatingActionButton(
+      //여기에 조건문 넣고싶어
+      floatingActionButton: !widget.isStudyMode ? FloatingActionButton(
         onPressed: () => Get.to(() => const CreateScriptPage()),
         child: const Icon(Icons.add),
-      ),
+      ) : null, // widget.isStudyMode가 true일 때는 null을 반환
     );
   }
 

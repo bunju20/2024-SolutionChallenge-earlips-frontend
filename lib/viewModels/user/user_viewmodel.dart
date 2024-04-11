@@ -13,6 +13,7 @@ class UserViewModel extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final storage = const FlutterSecureStorage(); // Instance for secure storage
+  var isLoading = true.obs; // 로딩 상태를 관리하는 Observable 변수 추가
 
   // User Profile Data
   final Rx<User?> _firebaseUser = Rx<User?>(null);
@@ -37,16 +38,20 @@ class UserViewModel extends GetxController {
   RxDouble maxYValue = 0.0.obs;
 
   @override
-  @override
   void onInit() {
     super.onInit();
-    fetchAndSetGraphData();
+    fetchAndSetGraphData().then((_) {
+      isLoading.value = false; // fetchAndSetGraphData가 완료되면 로딩 상태를 false로 변경
+    }).catchError((error) {
+      isLoading.value = false; // 에러 발생 시에도 로딩 상태를 false로 변경
+      // 에러 처리 로직 추가 가능
+    });
     _firebaseUser.bindStream(_auth.authStateChanges());
 
     if (uid != null) getUserData();
   }
 
-  void fetchAndSetGraphData() async {
+  Future<void> fetchAndSetGraphData() async {
     final data = await _dataFetcher.fetchGraphData();
     flSpots.value = data;
     maxYValue.value = _dataFetcher.maxYValue;
