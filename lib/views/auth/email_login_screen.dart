@@ -15,37 +15,40 @@ class EmailLoginScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("email_login_2".tr),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          // 키 값을 ViewModel에서 가져옴
-          key: controller.formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: controller.emailController,
-                decoration: InputDecoration(hintText: 'email'.tr),
-                validator: (value) => controller.emailValidator(value),
-              ),
-              TextFormField(
-                controller: controller.passwordController,
-                obscureText: true,
-                decoration: InputDecoration(hintText: 'password'.tr),
-                validator: (value) => controller.passwordValidator(value),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                // 로그인 메소드 호출
-                onPressed: controller.signInWithEmailAndPassword,
-                child: Text('login'.tr),
-              ),
-              const SizedBox(height: 10),
-              // 회원가입 화면으로 이동
-              TextButton(
-                onPressed: () => Get.to(() => const EmailSignupScreen()),
-                child: Text("go_signup".tr),
-              ),
-            ],
+      body: Container(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            // 키 값을 ViewModel에서 가져옴
+            key: controller.formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: controller.emailController,
+                  decoration: InputDecoration(hintText: 'email'.tr),
+                  validator: (value) => controller.emailValidator(value),
+                ),
+                TextFormField(
+                  controller: controller.passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(hintText: 'password'.tr),
+                  validator: (value) => controller.passwordValidator(value),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  // 로그인 메소드 호출
+                  onPressed: controller.signInWithEmailAndPassword,
+                  child: Text('login'.tr),
+                ),
+                const SizedBox(height: 10),
+                // 회원가입 화면으로 이동
+                TextButton(
+                  onPressed: () => Get.to(() => const EmailSignupScreen()),
+                  child: Text("go_signup".tr),
+                ),
+              ],
+            ),
           ),
         ),
       ),
