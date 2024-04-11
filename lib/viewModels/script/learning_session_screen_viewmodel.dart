@@ -8,7 +8,7 @@ class LearningSessionScreenViewModel extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final RxBool isLoading = false.obs; // 로딩 상태 관리
+  final RxBool isLoading = true.obs; // 로딩 상태 관리
   final RxList<Paragraph> paragraphs = <Paragraph>[].obs; // Paragraph 객체 리스트
 
   // Firestore에서 paragraphs 컬렉션의 데이터를 가져오는 함수

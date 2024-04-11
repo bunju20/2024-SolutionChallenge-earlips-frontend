@@ -22,13 +22,13 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
   @override
   void initState() {
     super.initState();
-   print(widget.isStudyMode);
     if (widget.isStudyMode) {
       viewModel.fetchParagraphsStudy(); // 스터디 모드일 때 호출
     } else {
       FirebaseAuth.instance.authStateChanges().listen((User? user) {
         if (user != null) {
-          viewModel.fetchParagraphsScript(); // 스크립트 모드일 때 호출
+          viewModel.fetchParagraphsScript();
+          // 스크립트 모드일 때 호출
         }
       });
     }
@@ -51,8 +51,14 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
           return StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
+              // 로그인 상태가 아직 확인되지 않았다면 로딩 인디케이터 표시
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
               final bool isLoggedIn = snapshot.hasData;
               if (!isLoggedIn) {
+                print("로그인안함?");
                 // 로그인하지 않았을 경우 더미 데이터로 UI 구성
                 final dummyDate =
                     DateFormat('yyyy/MM/dd').format(DateTime.now());
