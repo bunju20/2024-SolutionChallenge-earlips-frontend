@@ -2,6 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
+/// 학습 세션 데이터 모델
+/// 세션 유형, 생성 날짜, 텍스트, 인덱스를 가지고 있음
+/// 세션 유형은 0: 음소, 1: 단어, 2: 문장
+/// 세션 인덱스는 세션의 순서를 나타냄
 class LearningSession {
   final int type; // 세션 유형 (음소, 단어, 문장)
   final String createdDate; // 세션 생성 날짜
@@ -15,6 +19,10 @@ class LearningSession {
       required this.index});
 }
 
+/// 날짜별 학습 세션 데이터를 가져오는 뷰 모델
+/// 파이어스토어에서 날짜별 학습 세션 데이터를 가져옴
+/// 세션 데이터는 LearningSession 객체로 변환하여 반환
+/// 세션 데이터가 없을 경우 빈 리스트를 반환
 class DateStudyViewModel {
   final DateTime date;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

@@ -7,6 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+///  * A widget that has a [DateTime] and shows the study record of that date.
+///    It shows the study record of the date passed as an argument.
+///  * If there is no study record, it shows a message and a button to go to the study screen.
+/// * If there is a study record, it shows the study record in a list.
+/// * If you click on the study record, it moves to the word screen.
 class DateStudyScreen extends StatelessWidget {
   final DateTime date;
 

@@ -9,6 +9,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+/// **UserViewModel**
+/// [FirebaseAuth]와 [FirebaseFirestore]를 사용하여 사용자 정보를 가져오는 뷰 모델
+/// 사용자 정보를 가져오는 동안 로딩 상태를 관리하고, 사용자 정보를 저장하는 변수를 관리
+/// 사용자 정보를 가져오는 동안 에러가 발생하면 에러 처리 로직을 추가할 수 있음
+/// 사용자 정보를 가져오는 동안 로딩 상태를 관리하고, 사용자 정보를 저장하는 변수를 관리
+/// 사용자 정보를 가져오는 동안 에러가 발생하면 에러 처리 로직을 추가할 수 있음
 class UserViewModel extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

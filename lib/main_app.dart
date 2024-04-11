@@ -3,8 +3,6 @@ import 'package:earlips/utilities/style/color_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-import 'package:earlips/bindings/root_binding.dart';
-import 'views/root/root_screen.dart';
 import 'utilities/app_routes.dart';
 
 class MainApp extends StatelessWidget {
