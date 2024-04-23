@@ -37,9 +37,9 @@ class LearningSessionScreenViewModel extends GetxController {
 
         // DateTime 객체를 원하는 문자열 형식으로 변환
         final formattedDate = DateFormat('yyyy/MM/dd').format(dateFormat);
-
+        String timeFormat = DateFormat('h:mm a').format(dateFormat);
         return Paragraph(
-            title: title, text: text, dateFormat: formattedDate.toString());
+            title: title, text: text, dateFormat: formattedDate.toString(), timeFormat: timeFormat);
       }).toList();
 
       paragraphs.value = fetchedParagraphs; // 상태 업데이트
@@ -83,6 +83,7 @@ class Paragraph {
   final String title;
   final String text;
   final String ?dateFormat;
+  final String ?timeFormat;
   Paragraph(
-      {required this.title, required this.text, this.dateFormat});
+      {required this.title, required this.text, this.dateFormat, this.timeFormat});
 }
