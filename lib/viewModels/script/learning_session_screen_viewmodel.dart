@@ -66,7 +66,10 @@ class LearningSessionScreenViewModel extends GetxController {
         final title = data?['title'] as String? ?? ''; // title이 없으면 빈 문자열 할당
         final text = data?['text'] as String? ?? ''; // text가 없으면 빈 문자열 할당
         final dateFormat = data?['dateFormat']?.toDate() ?? "Example";
-        return Paragraph(title: title, text: text, dateFormat: dateFormat.toString());
+
+        String timeFormat = DateFormat('h:mm a').format(DateTime.now());
+
+        return Paragraph(title: title, text: text, dateFormat: dateFormat.toString(), timeFormat: timeFormat);
       }).toList();
 
       paragraphs.value = fetchedParagraphs; // 상태 업데이트

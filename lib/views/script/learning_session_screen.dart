@@ -125,13 +125,14 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.only(left: 16.0,top: 16.0,bottom: 8.0),
                 child: Text(
-                  "${DateFormat('yyyy년 MM월 dd일 ').format(DateFormat('yyyy/MM/dd').parse(paragraph.dateFormat!))}진행한 학습",
+                  paragraph.dateFormat == "Example" ? "script example" : "${DateFormat('yyyy년 MM월 dd일 ').format(DateFormat('yyyy/MM/dd').parse(paragraph.dateFormat!))}진행한 학습",
                   style: TextStyle(
                     fontSize: 11,
                     color: Color(0xFF6E6A7C),
                   ),
                 ),
               ),
+
               Container(
                 margin: const EdgeInsets.only(right: 12.0, top: 12.0),
                 child: SvgPicture.asset("assets/icons/book.svg",
@@ -147,8 +148,9 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
             },
             child: Container(
               alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(left: 16.0,bottom: 8.0),
+              margin: EdgeInsets.only(left: 16.0,bottom: 8.0, right: 16.0),
               child: Text(
+                overflow: TextOverflow.ellipsis,
                 paragraph.title,
                 style: const TextStyle(
                   fontSize: 14.0,
