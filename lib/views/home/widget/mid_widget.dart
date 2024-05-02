@@ -54,7 +54,7 @@ class MidWidget extends StatelessWidget {
       InkWell(
         onTap: () {
           Get.to(() =>
-              RealCreateScriptPage()); // Adjust the screen name as necessary
+              RealCreateScriptPage(),preventDuplicates: false); // Adjust the screen name as necessary
         },
         child: Container(
           margin: const EdgeInsets.only(left: 20.0),

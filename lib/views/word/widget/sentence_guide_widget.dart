@@ -1,6 +1,6 @@
 import 'dart:ffi';
 
-import 'package:earlips/utilities/style/color_styles.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:earlips/viewModels/record/record_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -44,7 +44,7 @@ class PronunciationGuidelinesWidget extends StatelessWidget {
               barRods: [
                 BarChartRodData(
                   toY: 100,
-                  color: ColorSystem.main,
+                  color: ColorSystem.primary,
                   width: 40,
                   borderRadius: BorderRadius.circular(5), // Rounded edges
                 ),
@@ -90,7 +90,7 @@ class PronunciationGuidelinesWidget extends StatelessWidget {
           sections: [
             PieChartSectionData(
               value: 100,
-              color: ColorSystem.main,
+              color: ColorSystem.primary,
               title: 'sound_pitch_stability'.tr,
               titleStyle: const TextStyle(
                 fontSize: 14,

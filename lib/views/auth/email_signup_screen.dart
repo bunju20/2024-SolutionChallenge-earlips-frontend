@@ -14,33 +14,36 @@ class EmailSignupScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("email_signup".tr),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          // 키 값을 ViewModel에서 가져옴
-          key: controller.formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                // 이메일 메소드 호출
-                controller: controller.emailController,
-                decoration: InputDecoration(hintText: 'email'.tr),
-                validator: (value) => controller.emailValidator(value),
-              ),
-              TextFormField(
-                // 비밀번호 메소드 호출
-                controller: controller.passwordController,
-                obscureText: true,
-                decoration: InputDecoration(hintText: 'password'.tr),
-                validator: (value) => controller.passwordValidator(value),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                // 회원가입 메소드 호출
-                onPressed: controller.registerWithEmailAndPassword,
-                child: Text('signup'.tr),
-              ),
-            ],
+      body: Container(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            // 키 값을 ViewModel에서 가져옴
+            key: controller.formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  // 이메일 메소드 호출
+                  controller: controller.emailController,
+                  decoration: InputDecoration(hintText: 'email'.tr),
+                  validator: (value) => controller.emailValidator(value),
+                ),
+                TextFormField(
+                  // 비밀번호 메소드 호출
+                  controller: controller.passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(hintText: 'password'.tr),
+                  validator: (value) => controller.passwordValidator(value),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  // 회원가입 메소드 호출
+                  onPressed: controller.registerWithEmailAndPassword,
+                  child: Text('signup'.tr),
+                ),
+              ],
+            ),
           ),
         ),
       ),

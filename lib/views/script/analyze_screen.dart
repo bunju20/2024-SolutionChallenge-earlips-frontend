@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:earlips/utilities/style/color_styles.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:earlips/views/base/default_back_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -175,7 +175,7 @@ class _TopText extends StatelessWidget {
                 TextSpan(
                   text: 'analyze_exmaple_content'.tr,
                   style: const TextStyle(
-                      color: ColorSystem.red,
+                      color: ColorSystem.accent,
                       fontSize: 16,
                       fontWeight: FontWeight.w500),
                 ),

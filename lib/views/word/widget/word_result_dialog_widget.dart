@@ -1,4 +1,4 @@
-import 'package:earlips/utilities/style/color_styles.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:earlips/viewModels/record/record_viewmodel.dart';
 import 'package:earlips/viewModels/word/word_viewmodel.dart';
 import 'package:earlips/views/word/widget/fail_word_dialog_widget.dart';

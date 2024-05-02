@@ -2,7 +2,9 @@ import 'package:earlips/viewModels/user/user_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'dart:math';
 
 class AppColors {
   static const Color contentColorCyan = Color(0xff23b6e6);
@@ -70,9 +72,14 @@ class _LineChartSample2State extends State<LineChartSample2> {
 
   @override
   Widget build(BuildContext context) {
-    final startDate = DateTime.now().subtract(const Duration(days: 30));
+
+
+    final startDate = DateTime.now().subtract( Duration(days: 30));
     final endDate = DateTime.now();
-    return SizedBox(
+    return  Obx(() => viewModel.isLoading.value ? Center(
+      heightFactor: Get.height * 0.20,
+        child: SpinKitFadingCircle(color: Colors.blue, size: 50.0)) :
+    SizedBox(
       height: Get.height * 0.20,
       width: Get.width * 0.75,
       child: LineChartComponent(
@@ -82,6 +89,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
         startDate: startDate,
         endDate: endDate,
       ),
+    ),
     );
   }
 }
@@ -117,7 +125,7 @@ class LineChartComponent extends StatelessWidget {
 
   LineChartData mainData() {
     return LineChartData(
-      gridData: const FlGridData(
+      gridData:  FlGridData(
           // Grid 설정은 이전과 동일하게 유지
           ),
       titlesData: FlTitlesData(
@@ -141,10 +149,10 @@ class LineChartComponent extends StatelessWidget {
             reservedSize: 42,
           ),
         ),
-        topTitles: const AxisTitles(
+        topTitles:  AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
-        rightTitles: const AxisTitles(
+        rightTitles:  AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
       ),
@@ -166,7 +174,7 @@ class LineChartComponent extends StatelessWidget {
           ),
           barWidth: 5,
           isStrokeCapRound: true,
-          dotData: const FlDotData(
+          dotData:  FlDotData(
             show: false,
           ),
           belowBarData: BarAreaData(

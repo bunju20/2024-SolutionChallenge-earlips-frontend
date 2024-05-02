@@ -121,7 +121,7 @@ class CreateScriptViewModel extends ChangeNotifier {
     if (handDone) return;
     if (status == 'done') {
       stopListening();
-      Future.delayed(const Duration(milliseconds: 100), () {
+      Future.delayed(Duration(milliseconds: 100), () {
         startListening();
       });
     }
@@ -151,12 +151,13 @@ class CreateScriptViewModel extends ChangeNotifier {
     speechToText.listen(
       onResult: (result) {
         if (result.finalResult) {
-          voicedTextController.text += "${result.recognizedWords} ";
+          voicedTextController.text += result.recognizedWords + " ";
+          print(voicedTextController.text);
           notifyListeners();
         }
       },
-      listenFor: const Duration(minutes: 5),
-      pauseFor: const Duration(seconds: 3),
+      listenFor:  Duration(minutes: 5),
+      pauseFor:  Duration(seconds: 3),
     );
   }
 

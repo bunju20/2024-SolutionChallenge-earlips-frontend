@@ -1,5 +1,5 @@
 import 'package:earlips/models/word_data_model.dart';
-import 'package:earlips/utilities/style/color_styles.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:earlips/viewModels/word/word_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -90,13 +90,13 @@ class _WordListState extends State<WordList> {
                                   ),
                                   const Icon(
                                     Icons.check_circle_rounded,
-                                    color: ColorSystem.green,
+                                    color: ColorSystem.success,
                                   ),
                                 ],
                               )
                             : const Icon(
                                 Icons.check_circle_outline_rounded,
-                                color: ColorSystem.green2,
+                                color: ColorSystem.success,
                               ),
                       ],
                     ),

@@ -1,4 +1,4 @@
-import 'package:earlips/utilities/style/color_styles.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:earlips/viewModels/user/user_viewmodel.dart';
 import 'package:earlips/views/home/home_head_widget.dart';
 import 'package:earlips/views/home/widget/bottom_widget.dart';
@@ -20,32 +20,36 @@ class HomeScreen extends BaseScreen<HomeViewModel> {
   Widget buildBody(BuildContext context) {
     final viewModel = Get.put(UserViewModel());
     return Scaffold(
+
       backgroundColor: ColorSystem.background,
-      body: SafeArea(
-        top: true,
-        child: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            viewModel.onInit();
-            final bool isLoggedIn = snapshot.hasData;
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 15),
-                  HomeHeaderWidget(isLoggedIn: isLoggedIn, vm: viewModel),
-                  TopWidget(
-                    isLoggedIn: isLoggedIn,
-                    vm: viewModel,
-                  ),
-                  const MidWidget(),
-                  // 로그인 상태에 따라 _Bottom 클래스의 컨테이너 색상을 변경
-                  BottomWidget(isLoggedIn: isLoggedIn),
-                ],
-              ),
-            );
-          },
+      body: Container(
+        child: SafeArea(
+          top: true,
+          child: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              viewModel.onInit();
+              final bool isLoggedIn = snapshot.hasData;
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 15),
+                    HomeHeaderWidget(isLoggedIn: isLoggedIn, vm: viewModel),
+                    TopWidget(
+                      isLoggedIn: isLoggedIn,
+                      vm: viewModel,
+                    ),
+                    MidWidget(),
+                    // 로그인 상태에 따라 _Bottom 클래스의 컨테이너 색상을 변경
+                    BottomWidget(isLoggedIn: isLoggedIn),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
   }
+
 }

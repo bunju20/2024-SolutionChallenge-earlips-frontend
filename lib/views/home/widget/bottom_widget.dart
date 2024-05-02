@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:earlips/views/home/widget/study_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:earlips/viewModels/user/user_viewmodel.dart';
 
 class BottomWidget extends StatelessWidget {
   final bool isLoggedIn;
@@ -36,7 +37,7 @@ class BottomWidget extends StatelessWidget {
                 Container(
                     alignment: Alignment.centerLeft,
                     margin: const EdgeInsets.only(left: 15.0),
-                    child: const LineChartSample2()),
+                    child: LineChartSample2()),
               ],
             ),
           ),

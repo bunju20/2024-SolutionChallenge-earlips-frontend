@@ -28,6 +28,6 @@ void main() async {
       useOnlyLangCode: true,
       supportedLocales: const [Locale('en'), Locale('ko')],
       path: 'assets/translations',
-      fallbackLocale: const Locale('en'),
+      fallbackLocale: const Locale('ko'),
       child: const MainApp(initialRoute: "/")));
 }

@@ -1,8 +1,11 @@
 // ignore_for_file: constant_identifier_names
+import 'package:earlips/bindings/language_binding.dart';
+import 'package:earlips/bindings/root_binding.dart';
 import 'package:earlips/views/home/home_screen.dart';
 import 'package:earlips/views/profile/profile_account/profile_account_screen.dart';
 import 'package:earlips/views/profile/profile_language_setting/profile_language_setting.dart';
 import 'package:earlips/views/profile/profile_screen.dart';
+import 'package:earlips/views/root/root_screen.dart';
 import 'package:earlips/views/study/study_main.dart';
 import 'package:get/get.dart';
 
@@ -17,6 +20,11 @@ abstract class Routes {
   static const STUDY = '/study';
 
   static final routes = [
+    GetPage(
+      name: ROOT,
+      page: () => const RootScreen(),
+      binding: RootBinding(),
+    ),
     GetPage(
       name: HOME,
       page: () => HomeScreen(),
@@ -36,7 +44,7 @@ abstract class Routes {
     GetPage(
       name: PROFILE_LANGUAGE_SETTING,
       page: () => const ProfileLanguageScreen(),
+      binding: LanguageBinding(),
     ),
-    // 다른 라우트들도 이곳에 추가할 수 있습니다.
   ];
 }

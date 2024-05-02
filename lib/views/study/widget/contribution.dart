@@ -1,4 +1,4 @@
-import 'package:earlips/utilities/style/color_styles.dart';
+import 'package:earlips/utilities/style/color_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_week/flutter_calendar_week.dart';
 import 'package:intl/intl.dart';
@@ -44,7 +44,7 @@ class _ContributeState extends State<Contribute> {
               fontSize: 16,
               color: ColorSystem.white,
             ),
-            todayBackgroundColor: ColorSystem.main,
+            todayBackgroundColor: ColorSystem.primary,
             pressedDateStyle: const TextStyle(
               fontSize: 16,
               color: ColorSystem.black,
