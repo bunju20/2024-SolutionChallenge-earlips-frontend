@@ -101,52 +101,51 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
   }
 
   Widget _buildParagraphContainer(Paragraph paragraph) {
-    return Container(
-      width: Get.width * 0.9,
-      height: 94.0,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.05),
-            spreadRadius: 0.1,
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(left: 16.0,top: 16.0,bottom: 8.0),
-                child: Text(
-                  paragraph.dateFormat == "Example" ? "script example" : "${DateFormat('yyyy년 MM월 dd일 ').format(DateFormat('yyyy/MM/dd').parse(paragraph.dateFormat!))}진행한 학습",
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: Color(0xFF6E6A7C),
+    return InkWell(
+      onTap: () {
+        Get.to(() => CreateScriptPage(
+            title: paragraph.title, text: paragraph.text));
+      },
+      child: Container(
+        width: Get.width * 0.9,
+        height: 100.0,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.05),
+              spreadRadius: 0.1,
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(left: 16.0,top: 16.0,bottom: 8.0),
+                  child: Text(
+                    paragraph.dateFormat == "Example" ? "script example" : "${DateFormat('yyyy년 MM월 dd일 ').format(DateFormat('yyyy/MM/dd').parse(paragraph.dateFormat!))}진행한 학습",
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Color(0xFF6E6A7C),
+                    ),
                   ),
                 ),
-              ),
 
-              Container(
-                margin: const EdgeInsets.only(right: 12.0, top: 12.0),
-                child: SvgPicture.asset("assets/icons/book.svg",
-                    width: 24, height: 24),
-              )
-            ],
-          ),
-
-          InkWell(
-            onTap: () {
-              Get.to(() => CreateScriptPage(
-                  title: paragraph.title, text: paragraph.text));
-            },
-            child: Container(
+                Container(
+                  margin: const EdgeInsets.only(right: 12.0, top: 12.0),
+                  child: SvgPicture.asset("assets/icons/book.svg",
+                      width: 24, height: 24),
+                )
+              ],
+            ),
+            Container(
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(left: 16.0,bottom: 8.0, right: 16.0),
               child: Text(
@@ -158,34 +157,34 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                 ),
               ),
             ),
-          ),
 
-          Container(
-            margin: const EdgeInsets.only(left: 16, right: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    SvgPicture.asset("assets/icons/TimeCircle.svg",
-                        width: 14,
-                        color: const Color(0xFF5EC4E5)),
-                    const SizedBox(width: 4),
-                    Text(
-                      paragraph.timeFormat!,
-                      style: const TextStyle(
-                        fontSize: 11,
-                        color: Color(0xFF5EC4E5),
-                        fontWeight: FontWeight.bold,
+            Container(
+              margin: const EdgeInsets.only(left: 16, right: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset("assets/icons/TimeCircle.svg",
+                          width: 14,
+                          color: const Color(0xFFC4C4D9)),
+                      const SizedBox(width: 4),
+                      Text(
+                        paragraph.timeFormat!,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Color(0xFFAAAABB),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                _tagText(paragraph.text.length.toString()),
-              ],
+                    ],
+                  ),
+                  _tagText(paragraph.text.length.toString()),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

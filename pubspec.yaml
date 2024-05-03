@@ -58,6 +58,8 @@ flutter:
         - assets/data/
         - assets/images/home/
         - assets/images/study/
+        - assets/images/output-onlinegiftools.gif
+        - assets/images/sound_wave.gif
     #        - assets/sounds/speech_to_text_listening.m4r
     #        - assets/sounds/speech_to_text_cancel.m4r
     #        - assets/sounds/speech_to_text_stop.m4r
