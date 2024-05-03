@@ -6,6 +6,7 @@ import 'package:earlips/views/word/widget/sentence_guide_widget.dart';
 import 'package:earlips/views/word/widget/word_result_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Import GetX library
+import 'package:earlips/views/word/widget/word_vibration_widget.dart';
 
 class WordSentenceWidget extends StatelessWidget {
   final List<WordData> wordDataList;
@@ -29,56 +30,50 @@ class WordSentenceWidget extends StatelessWidget {
         return Center(
           child: Column(
             children: [
-              type == 2
-                  ? const Column(
-                      children: [
-                        PronunciationGuidelinesWidget(
-                          loudness: 50,
-                          variance: 1,
+              if(type!= 0)Container(
+                  child: WordVibrationWidget()
+              ),
+              Container(
+                margin: type != 0 ? EdgeInsets.only(top: Get.height * 0.1) : EdgeInsets.zero,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 0),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        color: model.isRecording.value ? Colors.red : Colors.blue,
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(40),
+                        onTap: () async {
+                          if (model.isRecording.value) {
+                            await model.sendTextAndAudio(
+                                wordDataList[wordViewModel.currentIndex.value]
+                                    .wordCard
+                                    .word,
+                                type);
+                            if (type != 0) {
+                              // 타입이 2일 경우, 문장 교정 정보를 보여주는 대화상자를 표시
+                              SentenceAlertWidget(
+                                  model, wordViewModel, pageController);
+                            } else {
+                              WordResultDialogWidget(
+                                  model, wordViewModel, pageController);
+                            }
+                          } else {
+                            // 녹음 시작
+                            model.sendTextAndAudio('content', 0);
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Icon(
+                            model.isRecording.value ? Icons.stop : Icons.mic,
+                            size: 30,
+                            color: Colors.white,
+                          ),
                         ),
-                        SizedBox(
-                          height: 60,
-                        ),
-                      ],
-                    )
-                  : const SizedBox(
-                      height: 20,
-                    ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Ink(
-                  decoration: BoxDecoration(
-                    color: model.isRecording.value ? Colors.red : Colors.blue,
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(40),
-                    onTap: () async {
-                      if (model.isRecording.value) {
-                        await model.sendTextAndAudio(
-                            wordDataList[wordViewModel.currentIndex.value]
-                                .wordCard
-                                .word,
-                            type);
-                        if (type == 2) {
-                          // 타입이 2일 경우, 문장 교정 정보를 보여주는 대화상자를 표시
-                          SentenceAlertWidget(
-                              model, wordViewModel, pageController);
-                        } else {
-                          WordResultDialogWidget(
-                              model, wordViewModel, pageController);
-                        }
-                      } else {
-                        // 녹음 시작
-                        model.sendTextAndAudio('content', 0);
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Icon(
-                        model.isRecording.value ? Icons.stop : Icons.mic,
-                        size: 30,
-                        color: Colors.white,
                       ),
                     ),
                   ),

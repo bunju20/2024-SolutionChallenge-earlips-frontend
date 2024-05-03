@@ -3,6 +3,7 @@ import 'package:earlips/viewModels/word/word_viewmodel.dart';
 import 'package:earlips/views/word/widget/blue_back_appbar.dart';
 import 'package:earlips/views/word/widget/word_list_widget.dart';
 import 'package:earlips/views/word/widget/word_sentence_widget.dart';
+import 'package:earlips/views/word/widget/word_vibration_widget.dart';
 import 'package:earlips/views/word/widget/word_youtube_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -77,13 +78,13 @@ class WordScreen extends StatelessWidget {
             // wordViewModel   final String video로 영상 유튜브 링크를 바로 볼 수 있게 하기
             GetBuilder<WordViewModel>(
               builder: (controller) {
-                if (controller.type < 2) {
+                if (controller.type <= 2) {
                   return Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
                         const YoutubeWordPlayer(),
-                        const SizedBox(
+                        if(controller.type == 0)SizedBox(
                           height: 100,
                         ),
                         WordSentenceWidget(
@@ -91,26 +92,15 @@ class WordScreen extends StatelessWidget {
                           wordDataList: controller.wordList,
                           type: controller.type,
                         ),
+
                         const SizedBox(
-                          height: 40,
+                          height: 30,
                         ),
                       ],
                     ),
                   );
-                } else if (controller.type == 2) {
-                  return Column(
-                    children: [
-                      WordSentenceWidget(
-                        pageController: pageController,
-                        wordDataList: controller.wordList,
-                        type: controller.type,
-                      ),
-                      const SizedBox(
-                        height: 60,
-                      ),
-                    ],
-                  );
-                } else {
+                }
+                else {
                   return LearningSessionScreen(isStudyMode: true);
                 }
               },
