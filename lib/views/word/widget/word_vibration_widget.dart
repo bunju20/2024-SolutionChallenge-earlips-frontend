@@ -1,43 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
-
+import 'package:earlips/viewModels/word/word_viewmodel.dart';
 
 class WordVibrationWidget extends StatelessWidget {
-  const WordVibrationWidget({super.key, this.pattern, this.intensities});
+  const WordVibrationWidget({super.key, this.externalPattern, this.externalIntensities});
 
-final List<int>? pattern;
-final List<int>? intensities;
+  final List<int>? externalPattern;
+  final List<int>? externalIntensities;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.topLeft,
-      margin: const EdgeInsets.only(top: 10),
-      //정렬,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    ElevatedButton(
-                      child: Container(
-                        width: Get.width * 0.33,
-                        child: Row(
-                          children: [
-                            Text('진동으로 들어보기'),
-                            const SizedBox(width: 10),
-                        Icon(Icons.vibration),
-                          ],
-                        ),
-                      ),
-                      onPressed: () {
-                        Vibration.vibrate(
-                          pattern: [50, 1000, 10, 2000, 500, 3000, 500, 500],
-                          intensities: [0, 128, 0, 255, 0, 64, 0, 255],
-                        );
-                      },
-                    ),
-                  ],
+    final wordViewModel = Get.find<WordViewModel>();
+
+    return Obx(() {
+      if (wordViewModel.currentIndex.value >= 0 && wordViewModel.currentIndex.value < wordViewModel.wordList.length) {
+        final currentWordCard = wordViewModel.wordList[wordViewModel.currentIndex.value].wordCard;
+        final List<int> pattern = currentWordCard.pattern;
+        final List<int> intensities = currentWordCard.intensities;
+        print('pattern: $pattern');
+        print('intensities: $intensities');
+
+        return Container(
+          alignment: Alignment.topLeft,
+          margin: const EdgeInsets.only(top: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(
+                child: Container(
+                  width: Get.width * 0.33,
+                  child: Row(
+                    children: [
+                      Text('진동으로 들어보기'),
+                      const SizedBox(width: 10),
+                      Icon(Icons.vibration),
+                    ],
+                  ),
                 ),
-    );
+                onPressed: () {
+                  Vibration.vibrate(
+                    pattern: pattern,
+                    intensities: intensities,
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      } else {
+        return Center(child: Text('Invalid index or word list empty'));
+      }
+    });
   }
 }
