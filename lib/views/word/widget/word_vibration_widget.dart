@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:vibration/vibration.dart';
 import 'package:earlips/viewModels/word/word_viewmodel.dart';
 
+
 class WordVibrationWidget extends StatelessWidget {
   const WordVibrationWidget({super.key, this.externalPattern, this.externalIntensities});
 
@@ -16,8 +17,10 @@ class WordVibrationWidget extends StatelessWidget {
     return Obx(() {
       if (wordViewModel.currentIndex.value >= 0 && wordViewModel.currentIndex.value < wordViewModel.wordList.length) {
         final currentWordCard = wordViewModel.wordList[wordViewModel.currentIndex.value].wordCard;
-        final List<int> pattern = currentWordCard.pattern;
-        final List<int> intensities = currentWordCard.intensities;
+        final List<int>? pattern = externalPattern != null ? externalPattern : currentWordCard.pattern;
+        final List<int>? intensities = externalIntensities != null ? externalIntensities : currentWordCard.intensities;
+
+
         print('pattern: $pattern');
         print('intensities: $intensities');
 
@@ -40,8 +43,8 @@ class WordVibrationWidget extends StatelessWidget {
                 ),
                 onPressed: () {
                   Vibration.vibrate(
-                    pattern: pattern,
-                    intensities: intensities,
+                    pattern: pattern!,
+                    intensities: intensities!,
                   );
                 },
               ),

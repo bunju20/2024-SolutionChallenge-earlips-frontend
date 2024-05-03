@@ -4,6 +4,7 @@ import 'package:earlips/viewModels/word/word_viewmodel.dart';
 import 'package:earlips/views/word/widget/highlight_mistake_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:earlips/views/word/widget/word_vibration_widget.dart';
 
 Future<dynamic> SentenceAlertWidget(RecordViewModel model,
     WordViewModel wordViewModel, PageController pageController) {
@@ -137,7 +138,10 @@ Future<dynamic> SentenceAlertWidget(RecordViewModel model,
                     fontSize: 14,
                   ),
                 ),
+                WordVibrationWidget(),
+                WordVibrationWidget(),
               ],
+
             )
           ],
         ),

@@ -5,6 +5,7 @@ import 'package:earlips/views/word/widget/fail_word_dialog_widget.dart';
 import 'package:earlips/views/word/widget/sucess_word_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:earlips/views/word/widget/word_vibration_widget.dart';
 
 Future<dynamic> WordResultDialogWidget(RecordViewModel model,
     WordViewModel wordViewModel, PageController pageController) {
@@ -48,6 +49,7 @@ Future<dynamic> WordResultDialogWidget(RecordViewModel model,
                     color: ColorSystem.black,
                     fontSize: 16,
                   )),
+
             ],
           ),
         ),
