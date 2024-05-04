@@ -28,7 +28,10 @@ class VowelsWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              Get.to(() => PhonemeDetailScreen(phoneme: phonemes[index]));
+              Get.to(() => PhonemeDetailScreen(
+                    phoneme: phonemes[index],
+                    realString: phonemes[index].symbol,
+                  ));
             },
             child: Card(
               child: Center(

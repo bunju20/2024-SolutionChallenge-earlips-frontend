@@ -9,8 +9,10 @@ import 'package:get/get.dart';
 
 class PhonemeDetailScreen extends StatelessWidget {
   final Phoneme phoneme;
+  final String realString;
 
-  PhonemeDetailScreen({super.key, required this.phoneme});
+  PhonemeDetailScreen(
+      {super.key, required this.phoneme, required this.realString});
 
   final wordViewModel = Get.find<WordViewModel>();
 
@@ -38,7 +40,10 @@ class PhonemeDetailScreen extends StatelessWidget {
                 children: [
                   const SizedBox(height: 20),
                   // --------------------------- 발음 카드
-                  PhonemeListWidget(phoneme: phoneme),
+                  PhonemeListWidget(
+                    phoneme: phoneme,
+                    realString: realString,
+                  ),
                   SizedBox(
                     height: 70,
                     child: Column(

@@ -63,7 +63,8 @@ class PhoneticButtons extends StatelessWidget {
                       // Navigate to a detail page for the phoneme
                       Get.to(() => PhonemeDetailScreen(
                           phoneme: Phoneme(
-                              symbol: phoneme, description: '', imageSrc: '')));
+                              symbol: phoneme, description: '', imageSrc: ''),
+                          realString: realString));
                     },
                     child: Text(phoneme,
                         style: const TextStyle(
@@ -88,7 +89,8 @@ class PhoneticButtons extends StatelessWidget {
                           phoneme: Phoneme(
                               symbol: phoneme,
                               description: description,
-                              imageSrc: '')));
+                              imageSrc: ''),
+                          realString: realString));
                     },
                     child: Text(phoneme,
                         style: const TextStyle(
