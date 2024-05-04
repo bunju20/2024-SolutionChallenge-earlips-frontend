@@ -1,5 +1,6 @@
 import 'package:earlips/models/phoneme_model.dart';
 import 'package:earlips/utilities/style/color_system.dart';
+import 'package:earlips/viewModels/word/word_viewmodel.dart';
 import 'package:earlips/views/phoneme/widget/phoneme_list_widget.dart';
 import 'package:earlips/views/word/widget/blue_back_appbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,11 +10,17 @@ import 'package:get/get.dart';
 
 class PhonemeDetailScreen extends StatelessWidget {
   final Phoneme phoneme;
+  final String realString;
 
-  const PhonemeDetailScreen({super.key, required this.phoneme});
+  PhonemeDetailScreen(
+      {super.key, required this.phoneme, required this.realString});
+
+  final wordViewModel = Get.find<WordViewModel>();
 
   @override
   Widget build(BuildContext context) {
+    wordViewModel.generateDescription(phoneme.symbol);
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -31,36 +38,37 @@ class PhonemeDetailScreen extends StatelessWidget {
                     bottomRight: Radius.circular(24),
                   ),
                 ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    // --------------------------- 발음 카드
-                    PhonemeListWidget(phoneme: phoneme),
-                    SizedBox(
-                      height: 70,
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          // --------------------------- 발음 안내
-                          Text(
-                            "word_type_12_height".tr,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: ColorSystem.white,
-                            ),
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  // --------------------------- 발음 카드
+                  PhonemeListWidget(
+                    phoneme: phoneme,
+                    realString: realString,
+                  ),
+                  SizedBox(
+                    height: 70,
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        // --------------------------- 발음 안내
+                        Text(
+                          "word_type_12_height".tr,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: ColorSystem.white,
                           ),
                         ],
                       ),
                     ),
                   ],
                 ),
-              ),
-        
+              ),        
               // --------------------------- 발음 세부 내용 기입
-        // image
               const Padding(
                 padding: EdgeInsets.all(20),
                 child: Column(
@@ -87,28 +95,56 @@ class _BottomBox extends StatelessWidget {
 
   final Phoneme phoneme;
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Image.asset(
-          phoneme.imageSrc,
-          width: Get.width * 0.50,
-        ),
-        const SizedBox(height: 25),
-        Container(
-          padding: const EdgeInsets.all(20.0),
-          width: Get.width - 40,
-          margin: EdgeInsets.only(bottom: 40),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15.0),
-            color: Color(0x80FFFFFF),  // 80은 50%
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 0,
-                blurRadius: 20,
-                offset: const Offset(0, 4),
+// <<<<<<< feature/gemini
+            // --------------------------- 발음 세부 내용 기입
+// image
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  Obx(() {
+                    // isLoading이 true이면 로딩 인디케이터를 보여줌
+                    if (wordViewModel.isLoadingGemini.value) {
+                      return const Center(
+                        child: CircularProgressIndicator(), // 로딩 인디케이터
+                      );
+                    } else {
+                      // isLoading이 false이면 설명 텍스트를 보여줌
+                      return Text(
+                        wordViewModel.description.value,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black, // ColorSystem.black으로 가정
+                        ),
+                      );
+                    }
+                  }),
+                ],
+// =======
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: [
+//         Image.asset(
+//           phoneme.imageSrc,
+//           width: Get.width * 0.50,
+//         ),
+//         const SizedBox(height: 25),
+//         Container(
+//           padding: const EdgeInsets.all(20.0),
+//           width: Get.width - 40,
+//           margin: EdgeInsets.only(bottom: 40),
+//           decoration: BoxDecoration(
+//             borderRadius: BorderRadius.circular(15.0),
+//             color: Color(0x80FFFFFF),  // 80은 50%
+//             boxShadow: [
+//               BoxShadow(
+//                 color: Colors.black.withOpacity(0.1),
+//                 spreadRadius: 0,
+//                 blurRadius: 20,
+//                 offset: const Offset(0, 4),
+// >>>>>>> develop
               ),
             ],
           ),
@@ -118,7 +154,8 @@ class _BottomBox extends StatelessWidget {
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
-          ),
+            const Spacer(),
+          ],
         ),
       ],
     );

@@ -10,7 +10,7 @@ import 'package:intl/intl.dart'; // DateFormat을 사용하기 위해 추가
 
 class LearningSessionScreen extends StatefulWidget {
   final bool isStudyMode; // 스터디 모드 여부를 결정하는 변수
-  const LearningSessionScreen({super.key,this.isStudyMode = false});
+  const LearningSessionScreen({super.key, this.isStudyMode = false});
 
   @override
   State<LearningSessionScreen> createState() => _LearningSessionScreenState();
@@ -37,7 +37,8 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var title = widget.isStudyMode ? 'study_main_title_4'.tr : 'home_script_title'.tr;
+    var title =
+        widget.isStudyMode ? 'study_main_title_4'.tr : 'home_script_title'.tr;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -93,18 +94,20 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
         }
       }),
       //여기에 조건문 넣고싶어
-      floatingActionButton: !widget.isStudyMode ? FloatingActionButton(
-        onPressed: () => Get.to(() => const CreateScriptPage()),
-        child: const Icon(Icons.add),
-      ) : null, // widget.isStudyMode가 true일 때는 null을 반환
+      floatingActionButton: !widget.isStudyMode
+          ? FloatingActionButton(
+              onPressed: () => Get.to(() => const CreateScriptPage()),
+              child: const Icon(Icons.add),
+            )
+          : null, // widget.isStudyMode가 true일 때는 null을 반환
     );
   }
 
   Widget _buildParagraphContainer(Paragraph paragraph) {
     return InkWell(
       onTap: () {
-        Get.to(() => CreateScriptPage(
-            title: paragraph.title, text: paragraph.text));
+        Get.to(() =>
+            CreateScriptPage(title: paragraph.title, text: paragraph.text));
       },
       child: Container(
         width: Get.width * 0.9,
@@ -128,16 +131,18 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
               children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.only(left: 16.0,top: 16.0,bottom: 8.0),
+                  margin:
+                      const EdgeInsets.only(left: 16.0, top: 16.0, bottom: 8.0),
                   child: Text(
-                    paragraph.dateFormat == "Example" ? "script example" : "${DateFormat('yyyy년 MM월 dd일 ').format(DateFormat('yyyy/MM/dd').parse(paragraph.dateFormat!))}진행한 학습",
-                    style: TextStyle(
+                    paragraph.dateFormat == "Example"
+                        ? "script example"
+                        : "${DateFormat('yyyy년 MM월 dd일 ').format(DateFormat('yyyy/MM/dd').parse(paragraph.dateFormat!))}진행한 학습",
+                    style: const TextStyle(
                       fontSize: 11,
                       color: Color(0xFF6E6A7C),
                     ),
                   ),
                 ),
-
                 Container(
                   margin: const EdgeInsets.only(right: 12.0, top: 12.0),
                   child: SvgPicture.asset("assets/icons/book.svg",
@@ -147,7 +152,8 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
             ),
             Container(
               alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(left: 16.0,bottom: 8.0, right: 16.0),
+              margin:
+                  const EdgeInsets.only(left: 16.0, bottom: 8.0, right: 16.0),
               child: Text(
                 overflow: TextOverflow.ellipsis,
                 paragraph.title,
@@ -157,7 +163,6 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                 ),
               ),
             ),
-
             Container(
               margin: const EdgeInsets.only(left: 16, right: 12),
               child: Row(
@@ -166,8 +171,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
                   Row(
                     children: [
                       SvgPicture.asset("assets/icons/TimeCircle.svg",
-                          width: 14,
-                          color: const Color(0xFFC4C4D9)),
+                          width: 14, color: const Color(0xFFC4C4D9)),
                       const SizedBox(width: 4),
                       Text(
                         paragraph.timeFormat!,
@@ -199,7 +203,7 @@ class _LearningSessionScreenState extends State<LearningSessionScreen> {
       alignment: Alignment.center,
       height: 17,
       child: Text(
-        '대본의 총 글자수 : ${text}',
+        '대본의 총 글자수 : $text',
         style: const TextStyle(
           color: Color(0xFF34AF20),
           fontSize: 9,

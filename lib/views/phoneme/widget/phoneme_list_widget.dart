@@ -7,8 +7,10 @@ import 'package:get/get.dart';
 
 class PhonemeListWidget extends StatelessWidget {
   final Phoneme phoneme;
+  final String realString;
 
-  const PhonemeListWidget({super.key, required this.phoneme});
+  const PhonemeListWidget(
+      {super.key, required this.phoneme, required this.realString});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class PhonemeListWidget extends StatelessWidget {
             ListTile(
               tileColor: Colors.white,
               title: Text(
-                phoneme.symbol,
+                realString,
                 style: const TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.w600,

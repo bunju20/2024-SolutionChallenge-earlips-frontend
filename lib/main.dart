@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:earlips/main_app.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +23,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  // gemini
+  Gemini.init(apiKey: dotenv.env['GEMINI_API_KEY']!);
   runApp(EasyLocalization(
       // 지원 언어 리스트
       saveLocale: true,
