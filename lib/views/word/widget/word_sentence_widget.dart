@@ -30,18 +30,16 @@ class WordSentenceWidget extends StatelessWidget {
         return Center(
           child: Column(
             children: [
-              if(type!= 0)Container(
-                  child: WordVibrationWidget()
-              ),
               Container(
-                margin: type != 0 ? EdgeInsets.only(top: Get.height * 0.1) : EdgeInsets.zero,
+                margin: const EdgeInsets.only(top: 30),
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 0),
+                    margin: const EdgeInsets.only(bottom: 0),
                     child: Ink(
                       decoration: BoxDecoration(
-                        color: model.isRecording.value ? Colors.red : Colors.blue,
+                        color:
+                            model.isRecording.value ? Colors.red : Colors.blue,
                         borderRadius: BorderRadius.circular(40),
                       ),
                       child: InkWell(
