@@ -97,7 +97,8 @@ class WordScreen extends StatelessWidget {
                             const SizedBox(
                               height: 10,
                             ),
-                            const YoutubeWordPlayer(),
+                            Image.asset("assets/images/word.gif",
+                              width: Get.width * 0.8,),
                             //
                             // Text(
                             //   controller.wordList[0].wordCard.speaker,
@@ -136,7 +137,8 @@ class WordScreen extends StatelessWidget {
                               height: 10,
                             ),
                             // 유투브 영상
-                            const YoutubeWordPlayer(),
+                            Image.asset("assets/images/sentance.gif",
+                            width: Get.width * 0.8,),
                             const SizedBox(height: 20),
                             // 단어 분리
                             PhoneticButtons(

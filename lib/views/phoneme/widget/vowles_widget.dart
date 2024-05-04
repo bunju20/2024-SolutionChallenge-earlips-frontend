@@ -3,6 +3,8 @@ import 'package:earlips/views/phoneme/phoneme_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../vowel_datail_screen.dart';
+
 class VowelsWidget extends StatelessWidget {
   final int type; // 0 for vowels, 1 for consonants, 2 for R-Controlled Vowels
   const VowelsWidget({
@@ -28,7 +30,7 @@ class VowelsWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              Get.to(() => PhonemeDetailScreen(
+              Get.to(() => VowelDetailScreen(
                     phoneme: phonemes[index],
                     realString: phonemes[index].symbol,
                   ));
