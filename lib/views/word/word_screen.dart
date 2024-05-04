@@ -1,5 +1,7 @@
+import 'package:earlips/models/phoneme_model.dart';
 import 'package:earlips/utilities/style/color_system.dart';
 import 'package:earlips/viewModels/word/word_viewmodel.dart';
+import 'package:earlips/views/phoneme/phoneme_detail_Screen.dart';
 import 'package:earlips/views/word/widget/blue_back_appbar.dart';
 import 'package:earlips/views/word/widget/word_list_widget.dart';
 import 'package:earlips/views/word/widget/word_sentence_widget.dart';
@@ -7,6 +9,69 @@ import 'package:earlips/views/word/widget/word_youtube_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:earlips/views/script/learning_session_screen.dart';
+
+class PhoneticButtons extends StatelessWidget {
+  final String phoneticString;
+
+  const PhoneticButtons({super.key, required this.phoneticString});
+
+  @override
+  Widget build(BuildContext context) {
+    // Splitting the phonetic string into components
+    List<String> phonemes1 = phoneticString.replaceAll('/', '').split('.');
+    List<String> phonemes2 = 'b.juː.t.ɪ.f.ə.l'.split('.');
+
+    return Column(
+      children: [
+        const Text("Split Phonemes",
+            style: TextStyle(
+                fontSize: 16,
+                color: ColorSystem.black,
+                fontWeight: FontWeight.w500)),
+        const SizedBox(height: 10),
+        Wrap(
+          spacing: 8.0, // Space between buttons
+          children: phonemes1
+              .map((phoneme) => ElevatedButton(
+                    onPressed: () {
+                      // Navigate to a detail page for the phoneme
+                      Get.to(() => PhonemeDetailScreen(
+                          phoneme: Phoneme(
+                              symbol: phoneme, description: '', imageSrc: '')));
+                    },
+                    child: Text(phoneme,
+                        style: const TextStyle(
+                            fontSize: 16, color: ColorSystem.black)),
+                  ))
+              .toList(),
+        ),
+        const SizedBox(height: 20),
+        const Text("More Detail",
+            style: TextStyle(
+                fontSize: 16,
+                color: ColorSystem.black,
+                fontWeight: FontWeight.w500)),
+        const SizedBox(height: 10),
+        Wrap(
+          spacing: 8.0, // Space between buttons
+          children: phonemes2
+              .map((phoneme) => ElevatedButton(
+                    onPressed: () {
+                      // Navigate to a detail page for the phoneme
+                      Get.to(() => PhonemeDetailScreen(
+                          phoneme: Phoneme(
+                              symbol: phoneme, description: '', imageSrc: '')));
+                    },
+                    child: Text(phoneme,
+                        style: const TextStyle(
+                            fontSize: 16, color: ColorSystem.black)),
+                  ))
+              .toList(),
+        ),
+      ],
+    );
+  }
+}
 
 class WordScreen extends StatelessWidget {
   final String title;
@@ -77,14 +142,58 @@ class WordScreen extends StatelessWidget {
             // wordViewModel   final String video로 영상 유튜브 링크를 바로 볼 수 있게 하기
             GetBuilder<WordViewModel>(
               builder: (controller) {
-                if (controller.type < 2) {
+                if (controller.wordList.isEmpty) {
+                  return const Center(child: Text("No data available"));
+                }
+                // ----------------------------------- 음소 교정
+                if (controller.type == 0) {
+                  // --- 한글일때..
                   return Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
+                        // 유투브 영상 나옴
                         const YoutubeWordPlayer(),
+                        //
                         const SizedBox(
                           height: 100,
+                        ),
+                        WordSentenceWidget(
+                          pageController: pageController,
+                          wordDataList: controller.wordList,
+                          type: controller.type,
+                        ),
+                        const SizedBox(
+                          height: 40,
+                        ),
+                      ],
+                    ),
+                  );
+                } else if (controller.type == 1) {
+                  // ----------------------------------- 단어 교정
+                  return Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        // 유투브 영상 나옴
+                        // const YoutubeWordPlayer(),
+                        //
+                        // Text(
+                        //   controller.wordList[0].wordCard.speaker,
+                        //   style: const TextStyle(
+                        //     fontSize: 16,
+                        //     fontWeight: FontWeight.w600,
+                        //     color: ColorSystem.black,
+                        //   ),
+                        // ),
+                        const SizedBox(height: 20),
+                        PhoneticButtons(
+                            phoneticString:
+                                controller.wordList[0].wordCard.speaker),
+
+                        //
+                        const SizedBox(
+                          height: 50,
                         ),
                         WordSentenceWidget(
                           pageController: pageController,
@@ -111,7 +220,7 @@ class WordScreen extends StatelessWidget {
                     ],
                   );
                 } else {
-                  return LearningSessionScreen(isStudyMode: true);
+                  return const LearningSessionScreen(isStudyMode: true);
                 }
               },
             ),

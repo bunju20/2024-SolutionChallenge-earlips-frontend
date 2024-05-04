@@ -99,7 +99,7 @@ class ColorSystem {
   }) {
     return createColorScheme(
       brightness: Brightness.light,
-      primary: primary,
+      primary: Colors.white,
       primaryVariant: primaryVariant,
       secondary: secondary,
       secondaryVariant: secondaryVariant,
