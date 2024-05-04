@@ -3,6 +3,7 @@ import 'package:earlips/models/user_word_model.dart';
 import 'package:earlips/models/word_card_model.dart';
 import 'package:earlips/models/word_data_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -14,7 +15,9 @@ class WordViewModel extends GetxController {
   RxList<WordData> wordList = RxList<WordData>([]);
   RxInt currentIndex = 0.obs;
   // loading
+  RxString description = ''.obs;
   RxBool isLoading = true.obs;
+  RxBool isLoadingGemini = true.obs; // 로딩 상태를 관리하기 위한 변수
 
   WordViewModel({required this.type});
 
@@ -27,6 +30,26 @@ class WordViewModel extends GetxController {
 
   void updateCurrentIndex(int index) {
     currentIndex.value = index;
+  }
+
+  // Gemini API 호출을 위한 메서드 정의
+  Future<void> generateDescription(String speaker) async {
+    isLoadingGemini.value = true;
+    final gemini = Gemini.instance;
+
+    // Gemini API를 호출하여 결과를 처리합니다.
+    await gemini
+        .text(
+            "If you pronounce it, it's $speaker, tell me in detail in English, not in Korean, so that the deaf can visually see and pronounce it ** Don't use boulders like this and tell me within 150 characters! Never Use Bold and **, Never Over 150 characters if u over this limit, it will be cut off!, never Use Bold and **, never over 150 characters if u over this limit, it will be cut off!")
+        .then((value) {
+      // 성공적으로 결과를 받았을 때 출력 및 상태 업데이트
+      description.value = value?.output ?? "";
+      print(value?.output); // output이 정확한 필드인지 확인하세요. API 응답에 따라 다를 수 있습니다.
+    }).catchError((error) {
+      // 에러 처리
+      print('Error occurred: $error');
+    });
+    isLoadingGemini.value = false;
   }
 
   // 단어 데이터 가져오기
@@ -50,6 +73,7 @@ class WordViewModel extends GetxController {
           .doc(uid)
           .collection('words')
           .get();
+      // 사용자의 단어 데이터를 UserWord로 변환
       final userWords = userWordsQuery.docs
           .map((doc) => UserWord.fromDocument(doc.data()))
           .toList();
@@ -68,6 +92,8 @@ class WordViewModel extends GetxController {
       isLoading.value = false;
     }
   }
+
+  // 단어 AI 생성 Description 가져오기, wordList[0]
 
   // 단어 완료 처리
   Future<void> markWordAsDone(WordCard word) async {
