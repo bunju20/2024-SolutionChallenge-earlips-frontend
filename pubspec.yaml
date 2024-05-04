@@ -63,6 +63,8 @@ flutter:
         - assets/images/phoneme/
         - assets/images/output-onlinegiftools.gif
         - assets/images/sound_wave.gif
+        - assets/images/sentance.gif
+        - assets/images/word.gif
     #        - assets/sounds/speech_to_text_listening.m4r
     #        - assets/sounds/speech_to_text_cancel.m4r
     #        - assets/sounds/speech_to_text_stop.m4r
