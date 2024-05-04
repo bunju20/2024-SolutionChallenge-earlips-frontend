@@ -141,6 +141,9 @@ class Languages extends Translations {
           'password_input_2': '비밀번호는 10자리 이상이어야 합니다.',
           'password_input_3': '비밀번호는 문자와 숫자가 섞여있어야 합니다.',
           'study_main_title_5': '문단 교정',
+          // bottomNavigationBar
+          'navi_learning': '학습페이지',
+          'navi_mypage': '마이페이지',
         },
         'en_US': {
           // ---------------------- HOME ----------------------
@@ -270,10 +273,10 @@ class Languages extends Translations {
           'study_main_subtitle_1': 'Phoneme Correction Test',
           'study_main_title_2': 'Word',
           'study_main_subtitle_2': 'Word Correction Test',
-          'study_main_title_3': 'Sentence Correction',
+          'study_main_title_3': 'Sentence',
           'study_main_subtitle_3': 'Sentence Correction Test',
-          'study_main_title_4': 'Paragraph Correction',
-          'study_main_subtitle_4': 'Script Test',
+          'study_main_title_4': 'Paragraph',
+          'study_main_subtitle_4': 'Script Correction Test',
           'row_card_badge_1': 'Phoneme',
           'row_card_badge_2': 'Word',
           'row_card_badge_3': 'Sentence',
@@ -295,6 +298,9 @@ class Languages extends Translations {
           'password_input_3':
               'Password must contain a mix of letters and numbers.',
           'study_main_title_5': 'Paragraph Correction',
+          // navi
+          'navi_learning': 'Learning',
+          'navi_mypage': 'Profile',
         },
       };
 }

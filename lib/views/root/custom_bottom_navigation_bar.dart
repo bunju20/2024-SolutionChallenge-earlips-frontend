@@ -17,26 +17,28 @@ class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
         ),
         child: BottomAppBar(
           elevation: 0,
-          padding: const EdgeInsets.all(0),
           shape: const CircularNotchedRectangle(),
           notchMargin: 6.0,
           clipBehavior: Clip.antiAlias,
           child: Container(
-            height: 65,
+            height: 75,
             color: const Color(0xFFFFFFFF),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _buildBottomNavigationBarItem(
                   index: 1,
-                  size: 60,
+                  size: 30,
                   svgPath: 'assets/icons/learning.svg',
+                  text: 'navi_learning'.tr,
                 ),
                 const SizedBox(width: 70),
                 _buildBottomNavigationBarItem(
                   index: 2,
-                  size: 60,
+                  size: 30,
                   svgPath: 'assets/icons/mypage.svg',
+                  text: 'navi_mypage'.tr,
                 ),
               ],
             ),
@@ -50,16 +52,33 @@ class CustomBottomNavigationBar extends BaseWidget<RootViewModel> {
     required int index,
     required double size,
     required String svgPath,
+    required String text,
   }) =>
       Expanded(
         child: InkWell(
           onTap: () => viewModel.changeIndex(index),
-          child: SvgPicture.asset(
-            svgPath,
-            width: size,
-            colorFilter: viewModel.selectedIndex == index
-                ? const ColorFilter.mode(Color(0xFF1FA9DC), BlendMode.srcATop)
-                : const ColorFilter.mode(Color(0xFF67686D), BlendMode.srcATop),
+          child: Column(
+            children: [
+              SvgPicture.asset(
+                svgPath,
+                width: size,
+                colorFilter: viewModel.selectedIndex == index
+                    ? const ColorFilter.mode(
+                        Color(0xFF1FA9DC), BlendMode.srcATop)
+                    : const ColorFilter.mode(
+                        Color(0xFF67686D), BlendMode.srcATop),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                text,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: viewModel.selectedIndex == index
+                      ? const Color(0xFF1FA9DC)
+                      : const Color(0xFF67686D),
+                ),
+              ),
+            ],
           ),
         ),
       );

@@ -1,4 +1,6 @@
 import 'package:earlips/utilities/style/color_system.dart';
+import 'package:earlips/viewModels/user/user_viewmodel.dart';
+import 'package:earlips/views/phoneme/phoneme_screen.dart';
 import 'package:earlips/views/study/widget/study_card_widget.dart';
 import 'package:earlips/views/word/word_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,8 @@ class StudyNainBodyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserViewModel viewModel = Get.put(UserViewModel()); // viewModel 인스턴스화
+
     return Container(
       color: ColorSystem.background,
       child: Column(
@@ -33,10 +37,15 @@ class StudyNainBodyWidget extends StatelessWidget {
                         subtitle: "study_main_subtitle_1".tr,
                         imagePath: "assets/images/study/1.png",
                         onTap: () {
-                          Get.to(() => WordScreen(
-                                title: "study_main_title_1".tr,
-                                type: 0,
-                              ));
+                          viewModel.learningLanguage.value == "English"
+                              ? Get.to(() => PhonemeScreen(
+                                    title: "study_main_title_1".tr,
+                                    type: 0,
+                                  ))
+                              : Get.to(() => WordScreen(
+                                    title: "study_main_title_1".tr,
+                                    type: 0,
+                                  ));
                         },
                         imgSize: 85,
                       ),
@@ -78,7 +87,8 @@ class StudyNainBodyWidget extends StatelessWidget {
                         subtitle: "study_main_subtitle_4".tr,
                         imagePath: "assets/images/study/4.png",
                         onTap: () {
-                          Get.to(() => const LearningSessionScreen(isStudyMode: true));
+                          Get.to(() =>
+                              const LearningSessionScreen(isStudyMode: true));
                         },
                         imgSize: 85,
                       ),
