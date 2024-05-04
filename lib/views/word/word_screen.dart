@@ -5,6 +5,7 @@ import 'package:earlips/views/phoneme/phoneme_detail_Screen.dart';
 import 'package:earlips/views/word/widget/blue_back_appbar.dart';
 import 'package:earlips/views/word/widget/word_list_widget.dart';
 import 'package:earlips/views/word/widget/word_sentence_widget.dart';
+import 'package:earlips/views/word/widget/word_vibration_widget.dart';
 import 'package:earlips/views/word/widget/word_youtube_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -142,20 +143,15 @@ class WordScreen extends StatelessWidget {
             // wordViewModel   final String video로 영상 유튜브 링크를 바로 볼 수 있게 하기
             GetBuilder<WordViewModel>(
               builder: (controller) {
-                if (controller.wordList.isEmpty) {
-                  return const Center(child: Text("No data available"));
-                }
-                // ----------------------------------- 음소 교정
-                if (controller.type == 0) {
-                  // --- 한글일때..
+                if (controller.type <= 2) {
+
                   return Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
                         // 유투브 영상 나옴
                         const YoutubeWordPlayer(),
-                        //
-                        const SizedBox(
+                        if(controller.type == 0)SizedBox(
                           height: 100,
                         ),
                         WordSentenceWidget(
@@ -163,64 +159,17 @@ class WordScreen extends StatelessWidget {
                           wordDataList: controller.wordList,
                           type: controller.type,
                         ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                      ],
-                    ),
-                  );
-                } else if (controller.type == 1) {
-                  // ----------------------------------- 단어 교정
-                  return Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        // 유투브 영상 나옴
-                        // const YoutubeWordPlayer(),
-                        //
-                        // Text(
-                        //   controller.wordList[0].wordCard.speaker,
-                        //   style: const TextStyle(
-                        //     fontSize: 16,
-                        //     fontWeight: FontWeight.w600,
-                        //     color: ColorSystem.black,
-                        //   ),
-                        // ),
-                        const SizedBox(height: 20),
-                        PhoneticButtons(
-                            phoneticString:
-                                controller.wordList[0].wordCard.speaker),
 
-                        //
                         const SizedBox(
-                          height: 50,
-                        ),
-                        WordSentenceWidget(
-                          pageController: pageController,
-                          wordDataList: controller.wordList,
-                          type: controller.type,
-                        ),
-                        const SizedBox(
-                          height: 40,
+                          height: 30,
                         ),
                       ],
                     ),
                   );
-                } else if (controller.type == 2) {
-                  return Column(
-                    children: [
-                      WordSentenceWidget(
-                        pageController: pageController,
-                        wordDataList: controller.wordList,
-                        type: controller.type,
-                      ),
-                      const SizedBox(
-                        height: 60,
-                      ),
-                    ],
-                  );
-                } else {
-                  return const LearningSessionScreen(isStudyMode: true);
+                }
+                else {
+                  return LearningSessionScreen(isStudyMode: true);
+
                 }
               },
             ),

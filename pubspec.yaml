@@ -39,6 +39,7 @@ dependencies:
     video_player: ^2.8.2
     youtube_player_flutter: ^8.1.2
     flutter_spinkit: ^5.2.1
+    vibration: ^1.8.4
 
 dev_dependencies:
     flutter_test:
@@ -58,6 +59,8 @@ flutter:
         - assets/data/
         - assets/images/home/
         - assets/images/study/
+        - assets/images/output-onlinegiftools.gif
+        - assets/images/sound_wave.gif
     #        - assets/sounds/speech_to_text_listening.m4r
     #        - assets/sounds/speech_to_text_cancel.m4r
     #        - assets/sounds/speech_to_text_stop.m4r
