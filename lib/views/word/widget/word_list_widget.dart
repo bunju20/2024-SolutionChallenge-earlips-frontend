@@ -72,7 +72,6 @@ class _WordListState extends State<WordList> {
                                 color: ColorSystem.gray5,
                               ),
                             )),
-
                         // isDone 여부에 따라 다른 체크박스 아이콘을 표시합니다.
                         isDone
                             ? Row(
@@ -106,7 +105,7 @@ class _WordListState extends State<WordList> {
                     title: Text(
                       wordData.wordCard.word,
                       style: TextStyle(
-                        fontSize: widget.type == 2 ? 19 : 24,
+                        fontSize: widget.type == 2 ? 19 : 22,
                         fontWeight: FontWeight.w600,
                         color: ColorSystem.black,
                       ),
@@ -115,7 +114,7 @@ class _WordListState extends State<WordList> {
                     subtitle: Text(
                       wordData.wordCard.speaker,
                       style: TextStyle(
-                        fontSize: widget.type == 2 ? 16 : 20,
+                        fontSize: widget.type == 2 ? 16 : 18,
                         fontWeight: FontWeight.w600,
                         color: ColorSystem.gray4,
                       ),
