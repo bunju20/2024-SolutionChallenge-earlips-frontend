@@ -1,5 +1,6 @@
 import 'package:earlips/models/phoneme_model.dart';
 import 'package:earlips/utilities/style/color_system.dart';
+import 'package:earlips/viewModels/word/word_viewmodel.dart';
 import 'package:earlips/views/phoneme/widget/phoneme_list_widget.dart';
 import 'package:earlips/views/word/widget/blue_back_appbar.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +10,14 @@ import 'package:get/get.dart';
 class PhonemeDetailScreen extends StatelessWidget {
   final Phoneme phoneme;
 
-  const PhonemeDetailScreen({super.key, required this.phoneme});
+  PhonemeDetailScreen({super.key, required this.phoneme});
+
+  final wordViewModel = Get.find<WordViewModel>();
 
   @override
   Widget build(BuildContext context) {
+    wordViewModel.generateDescription(phoneme.symbol);
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -59,19 +64,32 @@ class PhonemeDetailScreen extends StatelessWidget {
 
             // --------------------------- 발음 세부 내용 기입
 // image
-            const Padding(
-              padding: EdgeInsets.all(20),
+            Padding(
+              padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
-                  // SvgPicture.asset(
-                  //   'assets/images/phoneme/vowels_1.svg',
-                  //   width: 90,
-                  //   height: 90,
-                  // ),
+                  Obx(() {
+                    // isLoading이 true이면 로딩 인디케이터를 보여줌
+                    if (wordViewModel.isLoadingGemini.value) {
+                      return const Center(
+                        child: CircularProgressIndicator(), // 로딩 인디케이터
+                      );
+                    } else {
+                      // isLoading이 false이면 설명 텍스트를 보여줌
+                      return Text(
+                        wordViewModel.description.value,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black, // ColorSystem.black으로 가정
+                        ),
+                      );
+                    }
+                  }),
                 ],
               ),
             ),
-            Text(phoneme.description),
+
             const Spacer(),
           ],
         ),
