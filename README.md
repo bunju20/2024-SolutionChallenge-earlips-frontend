@@ -1,7 +1,7 @@
- <div><img src="https://capsule-render.vercel.app/api?type=waving&color=0:1FA9DC,100:D5E9AA&text=Earlips" /></div>
-
-
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FGDSC-DGU%2F2024-SolutionChallenge-earlips-frontend&count_bg=%238B8B8B&title_bg=%231FA9DC&icon=wechat.svg&icon_color=%23E7E7E7&title=Connecting+your+ears+to+your+lips%2C+Earlips&edge_flat=false)](https://hits.seeyoufarm.com)
+
+ <div><img src="https://capsule-render.vercel.app/api?type=waving&height=200&color=0:1FA9DC,100:D5E9AA&text=Earlips&descAlignY=100&descAlign=62&textBg=false&fontColor=FFFFFF&fontSize=70&animation=fadeIn&rotate=0&strokeWidth=0&descSize=20" /></div>
+
 
 
 # 👋 introduce team member
@@ -77,12 +77,24 @@ https://youtu.be/DLwqB820kL8
 
 
 ### ✨ Screen
-| Title         | Img                                   | Title         | Img                                   |
-| ------------ | ---------------------------------------- | ------------ | ---------------------------------------- |
-| Study Screen    | ![Screenshot_20240222_062040](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/78739194/1b55af36-eb6a-43ab-befb-f70625d52dae) | Home Screen  | ![Screenshot_20240222_062034](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/78739194/e9665bab-7466-468d-a3a3-4d87e7b39166) |
-| Script Study    | ![Screenshot_20240222_062105](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/78739194/8f6f42e0-1425-48fa-b6f4-a2288c64e0ce) | Study-word    | ![Screenshot_20240222_062221](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/78739194/14058380-1516-4a36-b24e-0df5ee81fad7) |
-|  word study result | ![Screenshot_20240222_062230](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/78739194/e7cab7e7-06ac-4b6e-b1a0-15413966fcd8) | Sentence Study   | ![Screenshot_20240222_062239](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/78739194/b3bcc778-bbc6-4b40-b5f8-c2ea6fe2c63e) |
 
+| Home Screen | Learning Screen | Phoneme Screen | Word Screen |
+|-------------|-----------------|----------------|-------------|
+| ![Home Screen](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/85238126/2cd6880c-c41e-40cf-9083-3123bbe650e6) | ![학습페이지](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/85238126/751e16d6-2652-4fad-94d7-96b732635370) | ![발음기호](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/85238126/bbd023dc-556c-4a8d-b965-ac1ce5c6e174) | ![단어학습하기](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/85238126/a3c3a348-2b66-4927-abb0-06132f2a4015) |
+
+**Home Screen** : Pronunciation score and daily learning graphs   
+**Learning Screen**: Learning logs by date   
+**Phoneme Screen** : Visuals and guides for phoneme articulation   
+**Word Screen** : Features *sound-to-vibration buttons* , GIFs for pronunciation practice, interactive phoneme guides with Google's Gemini, detailed phoneme explanations, and *voice recording with result review*
+
+| Sentance Screen | Paragraph Screen | Script Screen | live Screen |
+|-------------|-----------------|----------------|-------------|
+| ![Home Screen](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/85238126/2cd6880c-c41e-40cf-9083-3123bbe650e6) |![문단학습하기](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/9ddaf06b-a493-45d5-83f7-655770ab6db4) | ![대본만들고결과값](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/1b1d506e-4b53-4c53-bce9-1eaab7a5dc10) |![메인화면](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/a4acfd99-3339-4120-ab11-1bc6cd53d5d4) |
+
+**Home Screen** : Pronunciation score and daily learning graphs   
+**Learning Screen**: Learning logs by date   
+**Phoneme Screen** : Visuals and guides for phoneme articulation   
+**Word Screen** : Features *sound-to-vibration buttons* , GIFs for pronunciation practice, interactive phoneme guides with Google's Gemini, detailed phoneme explanations, and *voice recording with result review*
 
 ---
 
