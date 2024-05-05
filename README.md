@@ -87,14 +87,14 @@ https://youtu.be/DLwqB820kL8
 **Phoneme Screen** : Visuals and guides for phoneme articulation   
 **Word Screen** : Features *sound-to-vibration buttons* , GIFs for pronunciation practice, interactive phoneme guides with Google's Gemini, detailed phoneme explanations, and *voice recording with result review*
 
-| Sentance Screen | Paragraph Screen | Script Screen | live Screen |
+| Sentance Screen(fix) | Paragraph Screen | Script Screen | live Screen(fix) |
 |-------------|-----------------|----------------|-------------|
-| ![Home Screen](https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/85238126/2cd6880c-c41e-40cf-9083-3123bbe650e6) |![문단학습하기](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/9ddaf06b-a493-45d5-83f7-655770ab6db4) | ![대본만들고결과값](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/1b1d506e-4b53-4c53-bce9-1eaab7a5dc10) |![메인화면](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/a4acfd99-3339-4120-ab11-1bc6cd53d5d4) |
+| ![문장학습](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/2c4b86d8-7e27-48d9-9f56-86e5c3e1ea51) |![문단학습하기](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/9ddaf06b-a493-45d5-83f7-655770ab6db4) | ![대본만들고결과값](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/1b1d506e-4b53-4c53-bce9-1eaab7a5dc10) |![메인화면](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/a4acfd99-3339-4120-ab11-1bc6cd53d5d4) |
 
-**Home Screen** : Pronunciation score and daily learning graphs   
-**Learning Screen**: Learning logs by date   
-**Phoneme Screen** : Visuals and guides for phoneme articulation   
-**Word Screen** : Features *sound-to-vibration buttons* , GIFs for pronunciation practice, interactive phoneme guides with Google's Gemini, detailed phoneme explanations, and *voice recording with result review*
+**Sentence Screen**: Same layout as the Word Screen.   
+**Paragraph Screen**: Allows users to record their voice for a given script and receive feedback.   
+**Script Screen**: Users can write their own scripts and record their voice for feedback.   
+**Live Screen**: Displays the user's pronunciation in real time.   
 
 ---
 
