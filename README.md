@@ -36,10 +36,6 @@ Our approach aligns with promoting inclusive education (SDG 4) and reducing ineq
 <img width="100%" alt="image" src="https://github.com/GDSC-DGU/2024-SolutionChallenge-earlips-frontend/assets/85238126/20616201-352f-4983-8266-4f2298200275">
 
 
-### 🛠️ Tech
-| Frameworks                                        |Server        |Stack  |
-| -------------------------------------------- | -------------- | ------ |
-| ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white) ![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white) | ![Google Cloud](https://img.shields.io/badge/Google%20Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white) ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black) | ![http](https://img.shields.io/badge/http-0.13.6-red?style=for-the-badge) ![uuid](https://img.shields.io/badge/uuid-3.0.7-blue?style=for-the-badge) ![PyMySQL](https://img.shields.io/badge/PyMySQL-1.0.3-374da9?style=for-the-badge) ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.2.1-orange?style=for-the-badge) |
 
 # ✨ Demo
 
@@ -92,6 +88,7 @@ video : 링크생기면 여기에 추가!
 | 🗃      | :card_file_box             | Database-related modifications   |
 
 
+
 ## Flutter Project Build Instructions
 ```
 flutter pub get
@@ -119,3 +116,6 @@ flutter clean
 flutter pub get
 flutter run
 ```
+
+### 🛠️ Tech
+![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white) ![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)  ![Google Cloud](https://img.shields.io/badge/Google%20Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white) ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)  ![http](https://img.shields.io/badge/http-0.13.6-red?style=for-the-badge) ![uuid](https://img.shields.io/badge/uuid-3.0.7-blue?style=for-the-badge) ![PyMySQL](https://img.shields.io/badge/PyMySQL-1.0.3-374da9?style=for-the-badge) ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.2.1-orange?style=for-the-badge) 
