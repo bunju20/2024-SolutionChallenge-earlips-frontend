@@ -89,7 +89,7 @@ https://youtu.be/DLwqB820kL8
 
 | Sentance Screen(fix) | Paragraph Screen | Script Screen | live Screen(fix) |
 |-------------|-----------------|----------------|-------------|
-| ![문장학습](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/2c4b86d8-7e27-48d9-9f56-86e5c3e1ea51) |![문단학습하기](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/9ddaf06b-a493-45d5-83f7-655770ab6db4) | ![대본만들고결과값](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/1b1d506e-4b53-4c53-bce9-1eaab7a5dc10) |![메인화면](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/a4acfd99-3339-4120-ab11-1bc6cd53d5d4) |
+| ![문장학습](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/2c4b86d8-7e27-48d9-9f56-86e5c3e1ea51) |![문단학습하기](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/9ddaf06b-a493-45d5-83f7-655770ab6db4) | ![대본만들고결과값](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/1b1d506e-4b53-4c53-bce9-1eaab7a5dc10) | ![라이브](https://github.com/bunju20/2024-SolutionChallenge-earlips-frontend/assets/85238126/d8b06861-7395-4c2d-8f7d-58fe6ccd8847) |
 
 **Sentence Screen**: Same layout as the Word Screen.   
 **Paragraph Screen**: Allows users to record their voice for a given script and receive feedback.   
